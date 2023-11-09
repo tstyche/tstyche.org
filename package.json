@@ -1,0 +1,40 @@
+{
+  "name": "tstyche.org",
+  "version": "1.0.0",
+  "description": "TSTyche Documentation Website.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "yarn lint:cspell && yarn lint:prettier",
+    "lint:cspell": "cspell --cache --config cspell.config.json --quiet",
+    "lint:prettier": "prettier ./ --cache --check",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@carbon/icons-react": "^11.29.2",
+    "next": "^14.0.1",
+    "nextra": "^2.13.2",
+    "nextra-theme-docs": "^2.13.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.9.0",
+    "autoprefixer": "10.4.16",
+    "cspell": "8.0.0",
+    "postcss": "8.4.31",
+    "prettier": "3.0.3",
+    "prettier-plugin-tailwindcss": "0.5.7",
+    "tailwindcss": "3.3.5",
+    "typescript": "5.2.2"
+  },
+  "packageManager": "yarn@4.0.1",
+  "postcss": {
+    "plugins": {
+      "tailwindcss": {},
+      "autoprefixer": {}
+    }
+  }
+}

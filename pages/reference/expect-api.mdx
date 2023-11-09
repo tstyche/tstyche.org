@@ -1,0 +1,412 @@
+import { Note, Tip, Warning } from "@/components/Advice";
+
+# Expect API
+
+TSTyche includes the `expect` flavoured assertions to compare types.
+
+## Type Inference Caveats
+
+If an expression is passed as the target or the source of an assertion, TSTyche will use the TypeScript's type checker to infer its type. This section is a reminder of some aspects of the inference process (like type widening or excess property checks) that may be misinterpreted.
+
+<Tip>
+
+TSTyche sees exactly the same types which you see in code editor's hover messages. To learn more, see the [Project Structure](../guide/project-structure.mdx) page.
+
+</Tip>
+
+### Type Widening
+
+In mutable context a [literal type is inferred](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#literal-inference) as its base type:
+
+```ts
+import { expect } from "tstyche";
+
+const one = 1;
+//    ^^^ The type is '1'
+
+expect(1).type.toEqual<1>();
+
+const two = { a: 2, b: [3, 3] };
+//    ^^^ The type is '{ a: number; b: number[] }'
+
+expect({ a: 2, b: [3, 3] }).type.toEqual<{ a: number; b: number[] }>();
+```
+
+To tell to the type checker that a type should not be widened, use [type assertions](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions):
+
+```ts
+import { expect } from "tstyche";
+
+const six = { a: 6 as const, b: [9, 9] as 9[] };
+//    ^^^ The type is '{ a: 6; b: 9[] }'
+
+expect({ a: 6 as const, b: [9, 9] as 9[] }).type.toEqual<{ a: 6; b: 9[] }>();
+```
+
+<Note>
+
+It is also possible to use the `const` type assertion to convert the entire object, but in this case a different type is created:
+
+```ts
+import { expect } from "tstyche";
+
+const ten = { a: 6, b: [9, 9] } as const;
+//    ^^^ The type is '{ readonly a: 6; readonly b: readonly [9, 9] }'
+
+expect({ a: 6, b: [9, 9] } as const).type.toEqual<{
+  readonly a: 6;
+  readonly b: readonly [9, 9];
+}>();
+```
+
+</Note>
+
+### Excess Property Checks
+
+If passed as arguments, the object literals undergo the [excess property checks](https://www.typescriptlang.org/docs/handbook/2/objects.html#excess-property-checks):
+
+```ts
+import { expect } from "tstyche";
+
+let config: { timeout?: number } = {};
+
+config = { silent: true, timeout: 800 };
+//         ~~~~~~ Error: Type '{ silent: boolean; timeout: number; }'
+//                is not assignable to type '{ timeout: number; }'.
+
+// Just like above, object literals may only specify known properties
+expect.fail<{ timeout: number }>().type.toBeAssignable({ silent: true, timeout: 800 });
+expect.fail({ silent: true, timeout: 800 }).type.toMatch<{ timeout: number }>();
+
+// But object types are allowed to have excess properties
+expect<{ timeout: number }>().type.toBeAssignable<{ silent: true; timeout: 800 }>();
+expect<{ silent: true; timeout: 800 }>().type.toMatch<{ timeout: number }>();
+```
+
+Generally these failures prevent outdated assertions hanging around in your tests. If the excess property checks is not what you need, follow the above link to learn how to get around them. For example, you can pass a reference instead of an object literal:
+
+```ts
+import { expect } from "tstyche";
+
+let configSample = { silent: true, timeout: 800 };
+
+expect<{ timeout: number }>().type.toBeAssignable(configSample);
+expect(configSample).type.toMatch<{ timeout: number }>();
+```
+
+## `expect()`
+
+The `expect()` function builds an assertion. It must be followed by the `.type` modifier and a [matcher](#matchers). Optionally a [run mode flag](#run-mode-flag) can be appended. `expect()` can be nested inside code.
+
+---
+
+**Signatures.** The source type can be passed as a type argument or inferred from an expression:
+
+```ts
+expect<Source>()
+expect(source: unknown)
+```
+
+## Run Mode Flags
+
+To select assertions to run, append the run mode flags to the [`expect()`](#expect) function. The flags are inherited from the parent.
+
+### `.fail`
+
+Marks an assertion as supposed to fail. The test runner will make sure that the assertion actually fails. If it is passing, an error will be raised.
+
+Use `.only.fail` to focus on or `.skip.fail` to skip a supposed to fail assertion.
+
+### `.only`
+
+Marks an assertion as focused. When there are focused groups, tests or assertions in a file, only those will run.
+
+### `.skip`
+
+Marks an assertion as skipped. The test runner will ignore anything skipped and will suppress any type errors raised by the expressions or types passed to the `expect()` or a matcher function.
+
+{/* ## Modifiers */}
+
+{/* ### `.type` */}
+
+{/* Passes the source type to the matcher. */}
+
+{/* ### `.parametersType` */}
+
+{/* Checks if the source type is callable, extracts its parameters type and passes it to the matcher. */}
+
+{/* ### `.constructorParametersType` */}
+
+{/* Checks if the source type is constructable, extracts its constructor parameters type and passes it to the matcher. */}
+
+{/* ### `.returnType` */}
+
+{/* Checks if the source type is callable, extracts its return type and passes it to the matcher. */}
+
+{/* ### `.instanceType` */}
+
+{/* Checks if the source type is constructable, extracts its instance type and passes it to the matcher. */}
+
+{/* ### `.thisParameterType` */}
+
+{/* Checks if the source type is callable, extracts its `this` parameter type and passes it to the matcher. */}
+
+## Matchers
+
+A matcher is the last element of the assertion chain. It holds an assumption to check.
+
+To negate the condition, prepend `.not` before the matcher:
+
+```ts
+import { expect } from "tstyche";
+
+expect<string>().type.toBeString();
+expect<number>().type.not.toBeString();
+```
+
+### `.toBeAssignable()` [#to-be-assignable]
+
+Checks if the target type is assignable to the source type.
+
+```ts
+import { expect, test } from "tstyche";
+
+interface Options {
+  locale?: Array<"en" | "de">;
+  rootDir?: string;
+}
+
+test("is assignable?", () => {
+  expect<Options>().type.toBeAssignable({});
+
+  expect<Options>().type.toBeAssignable({
+    locale: ["en" as const, "de" as const],
+    root: "./",
+  });
+});
+```
+
+---
+
+**Signatures.** The target type can be passed as a type argument or inferred from an expression:
+
+```ts
+.toBeAssignable<Target>()
+.toBeAssignable(target: unknown)
+```
+
+### `.toEqual()` [#to-equal]
+
+Checks if the target type is identical to the source type.
+
+```ts
+import { expect, test } from "tstyche";
+
+type MethodLikeKeys<T> = keyof {
+  [K in keyof T as Required<T>[K] extends MethodLike ? K : never]: T[K];
+};
+
+interface Sample {
+  description: string;
+  getLength: () => number;
+  getWidth?: () => number;
+}
+
+test("is equal?", () => {
+  expect<MethodLikeKeys<Sample>>().type.toEqual<"getLength" | "getWidth">();
+});
+```
+
+---
+
+**Signatures.** The target type can be passed as a type argument or inferred from an expression:
+
+```ts
+.toEqual<Target>()
+.toEqual(target: unknown)
+```
+
+### `.toMatch()` [#to-match]
+
+Checks if the target type is a subtype of the source type.
+
+```ts
+import { expect, test } from "tstyche";
+
+interface Options {
+  environment?: string;
+  timers?: "fake" | "real";
+}
+
+const options: Options = {};
+
+test("is a match?", () => {
+  expect(options).type.toMatch<{ environment?: string }>();
+  expect(options).type.toMatch<{ timers?: "fake" | "real" }>();
+});
+```
+
+In TypeScript, a type is assignable to its subtype. This means that [`.toBeAssignable()`](#to-be-assignable) and `.toMatch()` are the opposites:
+
+```ts
+import { expect } from "tstyche";
+
+expect<"fake" | "real">().type.toBeAssignable<"fake">();
+// But type '"fake" | "real"' is not assignable to type '"fake"'
+expect<"fake" | "real">().type.not.toMatch<"fake">();
+
+expect<string>().type.toBeAssignable<"node">();
+// But type 'string' is not assignable to type '"node"'
+expect<string>().type.not.toMatch<"node">();
+```
+
+Although there are several exceptions:
+
+```ts
+import { expect } from "tstyche";
+
+enum Direction {
+  Up = 1,
+  Down,
+}
+
+// The 'any' type is assignable to, but is not a subtype of all types
+expect<string>().type.toBeAssignable<any>();
+expect<any>().type.not.toMatch<string>();
+
+// A number is assignable to, but is not a subtype of an enum type
+expect<Direction>().type.toBeAssignable<number>();
+expect<number>().type.not.toMatch<Direction>();
+
+// An object type without a particular property is assignable to,
+// but is not a subtype of an object type in which that property is optional
+expect<{ a: string; b?: number }>().type.toBeAssignable<{ a: string }>();
+expect<{ a: string }>().type.not.toMatch<{ a: string; b?: number }>();
+```
+
+---
+
+**Signatures.** The target type can be passed as a type argument or inferred from an expression:
+
+```ts
+.toMatch<Target>()
+.toMatch(target: unknown)
+```
+
+### `.toRaiseError()` [#to-raise-error]
+
+Checks if the source type raises an error.
+
+```ts
+import { expect, test } from "tstyche";
+
+interface Matchers<R, T = unknown> {
+  [key: string]: (expected: T) => R;
+}
+
+test("Matchers", () => {
+  expect<Matchers<void, string>>().type.not.toRaiseError();
+
+  expect<Matchers<void>>().type.not.toRaiseError();
+
+  expect<Matchers>().type.toRaiseError("requires between 1 and 2 type arguments");
+});
+```
+
+It is recommended to pass a substring of an error message to the matcher. Alternatively a numeric error code can be provided. If the source type raises several errors, the matcher will require an argument for each of them.
+
+<Warning>
+
+Avoid the `// @ts-expect-error` comments in your type tests, instead always use `.toRaiseError()`. The comment suppresses syntax errors, hence it turns typos into falsy passing tests. For example, the following is passing despite two syntax errors:
+
+```ts
+interface Matchers<R, T = unknown> {
+  [key: string]: (expected: T) => R;
+}
+
+// @ts-expect-error: requires a type argument
+type M = Matcher<>;
+```
+
+</Warning>
+
+---
+
+**Signature.** The `target` argument is optional. It can be one or more substrings or numeric codes:
+
+```ts
+.toRaiseError(...target: Array<string | number>)
+```
+
+{/* **Note:** `.toRaiseError()` is only available with the `.type` modifier. */}
+
+## Primitive Type Matchers
+
+The primitive type matchers are shorthands which make your tests easier to read:
+
+```ts
+import { expect, test } from "tstyche";
+
+test("is any?", () => {
+  expect<any>().type.toBeAny();
+  // Equivalent to '.toEqual<any>()'
+});
+
+test("is string?", () => {
+  expect<string>().type.toBeString();
+  // Equivalent to '.toEqual<string>()'
+});
+
+test("is number?", () => {
+  expect<number>().type.toBeNumber();
+  // Equivalent to '.toEqual<number>()'
+});
+```
+
+### `.toBeAny()` [#to-be-any]
+
+Checks if the source type is `any`.
+
+### `.toBeBigInt()` [#to-be-big-int]
+
+Checks if the source type is `bigint`.
+
+### `.toBeBoolean()` [#to-be-boolean]
+
+Checks if the source type is `boolean`.
+
+### `.toBeNever()` [#to-be-never]
+
+Checks if the source type is `never`.
+
+### `.toBeNull()` [#to-be-null]
+
+Checks if the source type is `null`.
+
+### `.toBeNumber()` [#to-be-number]
+
+Checks if the source type is `number`.
+
+### `.toBeString()` [#to-be-string]
+
+Checks if the source type is `string`.
+
+### `.toBeSymbol()` [#to-be-symbol]
+
+Checks if the source type is `symbol`.
+
+### `.toBeUndefined()` [#to-be-undefined]
+
+Checks if the source type is `undefined`.
+
+### `.toBeUniqueSymbol()` [#to-be-unique-symbol]
+
+Checks if the source type is `unique symbol`.
+
+### `.toBeUnknown()` [#to-be-unknown]
+
+Checks if the source type is `unknown`.
+
+### `.toBeVoid()` [#to-be-void]
+
+Checks if the source type is `void`.

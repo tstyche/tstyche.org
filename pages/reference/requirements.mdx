@@ -1,0 +1,17 @@
+# System Requirements
+
+TSTyche requires Node.js and internet connection.
+
+## TypeScript
+
+TypeScript `4.x` and `5.x` can be used for testing.
+
+## Node.js
+
+The minimum required Node.js version is `^16.14`, or `18.x`, or `20.x`. It is recommended to use the most recent [Active LTS version](https://github.com/nodejs/release#release-schedule).
+
+## Internet Connection
+
+TSTyche uses `npm` registry and command to install requested versions of the `typescript` package. Therefor to run tests on not yet used TypeScript version requires internet connection.
+
+From time to time the runner fetches the latest metadata from the registry to update the manifest. This makes sure that tags like `latest` resolve correctly.

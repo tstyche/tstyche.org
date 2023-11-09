@@ -1,0 +1,21 @@
+{
+  "cSpell.enableFiletypes": ["mdx"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.formatOnSave": true,
+  "editor.rulers": [80, 120],
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "mdx.experimentalLanguageServer": true,
+  "typescript.preferences.importModuleSpecifierEnding": "js",
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "[mdx]": {
+    "editor.wordWrap": "on"
+  }
+}

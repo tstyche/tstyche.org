@@ -1,0 +1,144 @@
+import { Tip } from "@/components/Advice";
+
+# Command Line
+
+TSTyche ships with the `tstyche` command and a set of useful options.
+
+## Usage
+
+When called without arguments, the `tstyche` command runs all test files matched by the [`testFileMatch`](./config-file.mdx#test-file-match) patterns. To select particular files, pass one or more arguments:
+
+```shell
+# Run all tests
+tstyche
+
+# Only run the test files with matching path
+tstyche path/to/first.test.ts
+```
+
+Only the files matched by the [`testFileMatch`](./config-file.mdx#test-file-match) patterns can be selected. The search strings are matched with the portion of the path relative to the current directory.
+
+<Tip>
+
+If [glob patterns](<https://en.wikipedia.org/wiki/Glob_(programming)>) are supported in your shell, you can use them as well.
+
+</Tip>
+
+## Options
+
+Options passed through the command line override the ones from the [configuration file](./config-file.mdx).
+
+An option does not take a value, if its type is not specified. Otherwise, the parsing logic of the option value depends on its type:
+
+- **boolean** is interpreted as `true`, if the value is omitted or set to `true`; or as `false`, if set to `false`,
+- **string** as expected, is simply a string.
+
+To provide a **list** of values: pass a comma separated list of values, `--target 4.8,latest`.
+
+<Tip>
+
+Use the [`--showConfig`](#show-config) command line option to inspect the resolved configuration.
+
+</Tip>
+
+### `--allowNoTestFiles` [#allow-no-test-files]
+
+- Type: boolean
+
+Do not raise an error, if no test files are selected.
+
+### `--config` [#config]
+
+- Type: string
+
+The path to a TSTyche configuration file. Relative path is resolved relative to the current directory.
+
+```shell
+tstyche --config config/tstyche.json
+```
+
+### `--failFast` [#fail-fast]
+
+- Type: boolean
+
+Stop running tests after the first failure.
+
+### `--help` [#help]
+
+Print the list of CLI options with brief descriptions and exit.
+
+### `--install` [#install]
+
+Install specified versions of the `typescript` package and exit.
+
+By default, versions listed in the [`target`](./config-file.mdx#target) array are installed. Use the [`--target`](#target) option to install specific versions:
+
+```shell
+# Installs TypeScript 4.8.4
+tstyche --install --target 4.8
+```
+
+### `--listFiles` [#list-files]
+
+Print the list of the selected test files and exit.
+
+### `--only` [#only]
+
+- Type: string
+
+Only run tests with matching name. The given string is matched against the name of every `test()` or `describe()` entry.
+
+`--only` does not override the [`.skip`](./expect-api.mdx#skip) run mode flag. If both `--only` and [`--skip`](#skip) filters select a test, it gets skipped.
+
+```shell
+tstyche --only external
+```
+
+### `--prune` [#prune]
+
+Remove all installed versions the `typescript` package and exit.
+
+### `--showConfig` [#show-config]
+
+Print the resolved configuration and exit.
+
+### `--skip` [#skip]
+
+- Type: string
+
+Skip tests with matching name. The given string is matched against the name of every `test()` or `describe()` entry.
+
+`--skip` overrides the [`.only`](./expect-api.mdx#only) run mode flag. If both `--skip` and [`--only`](#only) filters select a test, it gets skipped.
+
+```shell
+tstyche --skip internal
+```
+
+### `--target` [#target]
+
+- Type: list of strings
+
+The list of TypeScript versions to be tested on.
+
+You can target minor `x.y` or patch `x.y.z` releases. The `x.y` tag format resolves to the latest version in that serries (e.g. passing `4.9` runs type tests on TypeScript 4.9.5). The `beta`, `latest`, `next` and `rc` tags are also supported.
+
+```shell
+# Run tests using TypeScript 4.9.5
+tstyche --target 4.9
+
+# Run tests using TypeScript 5.0.4
+tstyche --target 5.0.4
+
+# Test on all specified versions of TypeScript
+tstyche --target 4.7,4.8,latest
+```
+
+### `--update` [#update]
+
+Fetch the `typescript` package metadata from the registry and exit.
+
+The list of available TypeScript versions is updated every two hours. Use this option, if you want to force the update.
+
+### `--version` [#version]
+
+Print the TSTyche version number and exit.

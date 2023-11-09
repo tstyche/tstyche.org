@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  code,
+  pre {
+    font-family: var(--font-ibm-plex-mono), monospace;
+  }
+
+  main {
+    font-family: var(--font-ibm-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  }
+}
+
+.dark pre,
+.light pre {
+  @apply rounded-md bg-gray-200/30;
+}

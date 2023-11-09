@@ -1,0 +1,147 @@
+import { FileTree } from "nextra/components";
+import { Tip } from "@/components/Advice";
+
+# Project Structure
+
+An important step in type testing is take care that any accidental typings do not leak into test files. Guidelines on this page help to ensure isolation of your tests.
+
+## Compiler Configuration
+
+To retrieve the type information and diagnostics TSTyche wraps around TypeScript's `ProjectService`. The same API is used by code editors like Visual Studio Code via the [`tsserver`](<https://github.com/microsoft/TypeScript-wiki/blob/main/Standalone-Server-(tsserver).md>) executable. This means that TSTyche sees exactly the same types which you see in hover messages.
+
+For each test file the service loads the compiler configuration from the nearest `tsconfig.json` which includes the file in question. If a test file is not included in any `tsconfig.json` found in enclosing directories, a warning will be logged and the default compiler options will be used.
+
+<Tip>
+
+The TSTyche test runner always prints the path to the TSConfig file. To inspect the compiler configuration, copy the path and pass it to `tsc` together with the `--showConfig` option:
+
+```shell
+tsc --project ./typetests/tsconfig.json --showConfig
+```
+
+</Tip>
+
+## Dedicated Directory
+
+It is recommended to keep type test files in a dedicated directory. For instance, you can name it `typetests` or `__typetests__`:
+
+<FileTree>
+  <FileTree.Folder name="src" defaultOpen>
+    <FileTree.Folder name="__typetests__" defaultOpen>
+      <FileTree.File name="MethodLikeKeys.tst.ts" />
+      <FileTree.File name="tsconfig.json" />
+    </FileTree.Folder>
+    <FileTree.File name="MethodLikeKeys.ts" />
+  </FileTree.Folder>
+  <FileTree.File name="package.json" />
+  <FileTree.File name="tsconfig.json" />
+</FileTree>
+
+Here the root `tsconfig.json` specifies the compiler configuration of the project. Extend from it and reuse the configuration for type testing:
+
+```json filename="./src/__typetests__/tsconfig.json"
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "strict": true,
+    "types": []
+  },
+  "include": ["./"],
+  "exclude": []
+}
+```
+
+The above configuration prevents loading global scope typings from `@types/*` packages and makes it easy to include only the files you need for type testing.
+
+<Tip>
+
+By convention it is recommended to suffix the functional tests with `.test.*` and the type tests with `.tst.*`. The latter ones are only statically analyzed and are not meant to be executed, hence the missing `e` in the suffix.
+
+</Tip>
+
+## Shared Directory
+
+It is also possible to keep functional and type tests in a single shared directory:
+
+<FileTree>
+  <FileTree.Folder name="src" defaultOpen>
+    <FileTree.Folder name="__tests__" defaultOpen>
+      <FileTree.File name="MethodLikeKeys.tst.ts" />
+      <FileTree.File name="secondItem.test.ts" />
+      <FileTree.File name="tsconfig.json" />
+    </FileTree.Folder>
+    <FileTree.File name="MethodLikeKeys.ts" />
+    <FileTree.File name="secondItem.ts" />
+  </FileTree.Folder>
+  <FileTree.File name="package.json" />
+  <FileTree.File name="tsconfig.json" />
+  <FileTree.File name="tstyche.config.json" />
+</FileTree>
+
+Remember to specify the `types` list of the `compilerOptions`. Keep it as minimal as possible to avoid any global typings leaking into your type tests:
+
+```json filename="./src/__tests__/tsconfig.json"
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "strict": true,
+    "types": [] // prefer explicitly importing testing APIs
+  },
+  "include": ["./"],
+  "exclude": []
+}
+```
+
+To use type testing assertions in [functional tests](./test-runner.mdx#functional-tests) as well, configure TSTyche to include them in the test run:
+
+```json filename="./tstyche.config.json"
+{
+  "testFileMatch": ["**/*.test.ts", "**/*.tst.ts"]
+}
+```
+
+## Next to Source Files
+
+Isolation of type tests placed next to source files is complicated, but not impossible. A hypothetical project could look like this:
+
+<FileTree>
+  <FileTree.Folder name="src" defaultOpen>
+    <FileTree.File name="MethodLikeKeys.ts" />
+    <FileTree.File name="MethodLikeKeys.tst.ts" />
+    <FileTree.File name="secondItem.ts" />
+    <FileTree.File name="secondItem.test.ts" />
+  </FileTree.Folder>
+  <FileTree.File name="package.json" />
+  <FileTree.File name="tsconfig.json" />
+  <FileTree.File name="tsconfig.test.json" />
+  <FileTree.File name="tstyche.config.json" />
+</FileTree>
+
+The `references` field could be used to define the project in the root `tsconfig.json`:
+
+```json filename="./tsconfig.json"
+{
+  "compilerOptions": {
+    // ...
+    "composite": true
+  },
+  "include": ["./src"],
+  "exclude": ["**/*.test.*", "**/*.tst.*"],
+  "references": [{ "path": "./tsconfig.test.json" }]
+}
+```
+
+And `tsconfig.test.json` can extend it like this:
+
+```json filename="./tsconfig.test.json"
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "types": [] // prefer explicitly importing testing APIs
+  },
+  "exclude": []
+}
+```

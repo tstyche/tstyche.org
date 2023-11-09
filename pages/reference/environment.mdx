@@ -1,0 +1,48 @@
+import { Tip, Warning } from "@/components/Advice";
+
+# Environment Variables
+
+TSTyche must know few details about the environment before starting. These can be set using the environment variables.
+
+## Options
+
+The parsing logic of the option value depends on its type:
+
+- **boolean** is interpreted as `true`, if set to `1`, `on`, `t`, `true`, `y` or `yes`; otherwise `false`,
+- **number** is normalized using the [`Number()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number/Number) constructor,
+- **string** as expected, is simply a string.
+
+<Warning>
+
+Values of the environment variables are not validated, meaning that they are passed around as provided without any additional checks.
+
+</Warning>
+
+<Tip>
+
+Use the [`--showConfig`](./command-line.mdx#show-config) command line option to inspect the resolved configuration.
+
+</Tip>
+
+### `TSTYCHE_NO_COLOR` [#no-color]
+
+- Default: `false`; or `true`, if the [`NO_COLOR`](https://no-color.org) environment variable is set and the value is not an empty string.
+- Type: boolean
+
+Specifies whether color should be disabled in the output.
+
+### `TSTYCHE_STORE_PATH` [#store-path]
+
+- Default: `$HOME/Library/TSTyche` on macOS; or `%LocalAppData%/TSTyche` on Windows, if the `LocalAppData` environment variable is set; or `$XDG_DATA_HOME/TSTyche` on Linux, if the `XDG_DATA_HOME` environment variable is set; otherwise `$HOME/.local/share/TSTyche`.
+- Type: string
+
+The directory where the installed versions of the `typescript` package are stored. Relative path is resolved relative to the current directory.
+
+### `TSTYCHE_TIMEOUT` [#timeout]
+
+- Default: `30`
+- Type: number
+
+The number of seconds to wait before giving up stale operations. The value of `0` disables the timeout.
+
+The timeout value is passed to the request to fetch the `typescript` package metadata from the registry and to the process spanned to run the `npm install` command, which installs the requested version of the package.

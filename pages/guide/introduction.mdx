@@ -1,0 +1,162 @@
+import { Tabs } from "nextra/components";
+import { Note, Tip } from "@/components/Advice";
+
+# Introduction
+
+Get started with TSTyche. The example below shows how a type testing can help to debug a utility type.
+
+## Prerequisites
+
+Make sure you're using Node.js LTS version and internet connection is available. To learn more, see the [System Requirements](../reference/requirements.mdx) page.
+
+## Install TSTyche
+
+Use your favorite package manager to add `tstyche` (and optionally `typescript`) to a project:
+
+<Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
+  <Tabs.Tab>
+
+    ```shell
+    npm add -D tstyche typescript
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+    ```shell
+    yarn add -D tstyche typescript
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+    ```shell
+    pnpm add -D tstyche typescript
+    ```
+
+  </Tabs.Tab>
+</Tabs>
+
+It is recommended to create a [`tsconfig.json`](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file as well. You can run `tsc --init` and TypeScript will generate it.
+
+<Note>
+
+For simplicity this guide assumes that you installed the `typescript` package and added the `tsconfig.json` file.
+
+</Note>
+
+## Define a Type
+
+Create a `MethodLikeKeys.ts` file with the following content:
+
+```ts filename="./MethodLikeKeys.ts"
+type MethodLike = (...args: any) => any;
+
+export type MethodLikeKeys<T> = keyof {
+  [K in keyof T as T[K] extends MethodLike ? K : never]: T[K];
+};
+```
+
+The `MethodLikeKeys` utility should construct a union type by picking up names of method like keys of the `T` type.
+
+## Add a Type Test
+
+Create a `MethodLikeKeys.tst.ts` file in the same directory:
+
+```ts filename="./MethodLikeKeys.tst.ts"
+import { expect } from "tstyche";
+import { MethodLikeKeys } from "../MethodLikeKeys.js";
+
+interface Sample {
+  description: string;
+  getLength: () => number;
+  getWidth?: () => number;
+}
+
+expect<MethodLikeKeys<Sample>>().type.toEqual<"getLength" | "getWidth">();
+```
+
+Here the `expect()` function defines an easy to read assertion. There are two method like keys in the `Sample` interface, hence the resulting type must equal `"getLength" | "getWidth"`.
+
+<Tip>
+
+By convention, it is recommended to suffix the functional tests with `.test.*` and the type tests with `.tst.*`. To learn more, see the [Project Structure](./project-structure.mdx) page.
+
+</Tip>
+
+## Run the Type Test
+
+All is set. Tell TSTyche to run the type test:
+
+<Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
+  <Tabs.Tab>
+
+    ```shell
+    npx tstyche
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+    ```shell
+    yarn tstyche
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+    ```shell
+    pnpm tstyche
+    ```
+
+  </Tabs.Tab>
+</Tabs>
+
+You should see similar report:
+
+```ansi
+[90madds[0m TypeScript 5.2.2[90m to /Users/CandyCat/Library/TSTyche/5.2.2[0m
+[34muses[0m TypeScript 5.2.2[90m with ./tsconfig.json[0m
+
+[31mfail[0m [90m./[0mMethodLikeKeys.tst.ts
+
+[31mError: [0mType '"getLength" | "getWidth"' is not equal to type '"getLength"'.
+
+  [90m 8 | }[0m
+  [90m 9 | [0m
+[31m>[0m 10 [90m|[0m expect<MethodLikeKeys<Sample>>().type.toEqual<"getLength" | "getWidth">();
+     [90m|[0m                                       [31m^[0m
+  [90m11 | [0m
+
+       [90mat[0m [36m./MethodLikeKeys.tst.ts[0m[90m:10:39[0m
+```
+
+The first line tells that the test runner installed the latest version of TypeScript to the store.
+
+On the next line you see the TypeScript version used for this test run. It is followed by a path to the TSConfig file from which the compiler configuration was loaded.
+
+The rest reports that the test has failed and explains the problem.
+
+## Iterate
+
+The `"getWidth"` key is marked as optional and was not picked up by the `MethodLikeKeys` type. Here is the fixed type:
+
+```ts /Required<T>/
+export type MethodLikeKeys<T> = keyof {
+  [K in keyof T as Required<T>[K] extends MethodLike ? K : never]: T[K];
+};
+```
+
+Run the test again and it will pass:
+
+```ansi
+[34muses[0m TypeScript 5.2.2[90m with ./tsconfig.json[0m
+
+[32mpass[0m [90m./[0mMethodLikeKeys.tst.ts
+```
+
+<Note>
+
+Noticed the missing `adds` line in the log? This is because the current version of TypeScript was installed before and for this run it was simply loaded from the store.
+
+</Note>

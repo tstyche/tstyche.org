@@ -1,0 +1,135 @@
+import { FileTree } from "nextra/components";
+import { Note, Tip } from "@/components/Advice";
+
+# Configuration File
+
+The behavior of TSTyche can be customized through a configuration file.
+
+## Usage
+
+To configure TSTyche add `tstyche.config.json` file to the root of the project. Or point to the configuration file using the [`--config`](./command-line.mdx#config) command line option. The defaults will be used if the configuration file is not provided.
+
+The configuration file must contain an object. Comments are allowed:
+
+```json
+{
+  // The list of glob patterns to match the test files
+  "testFileMatch": ["**/*.test.ts", "**/*.tst.ts"]
+}
+```
+
+<Note>
+
+The compiler configuration is loaded from the nearest `tsconfig.json` file. To learn more, see the [Project Structure](../guide/project-structure.mdx) page.
+
+</Note>
+
+## Schema
+
+Code editors should be able to pick up configuration file schema from the [JSON Schema Store](https://github.com/schemastore/schemastore) catalog. If that does not work, add the schema URI explicitly:
+
+```json
+{
+  "$schema": "https://tstyche.org/schemas/config.json"
+  // ...
+}
+```
+
+Or use the pattern below to specify the version of TSTyche:
+
+```json
+{
+  "$schema": "https://tstyche.org/schemas/config-1.0.json"
+  // ...
+}
+```
+
+## Options
+
+Options passed through the [command line](./command-line.mdx) override the ones from the configuration file.
+
+<Tip>
+
+Use the [`--showConfig`](./command-line.mdx#show-config) command line option to inspect the resolved configuration.
+
+</Tip>
+
+### `allowNoTestFiles` [#allow-no-test-files]
+
+- Default: `false`
+- Type: `boolean`
+
+Do not raise an error, if no test files are selected.
+
+### `failFast` [#fail-fast]
+
+- Default: `false`
+- Type: `boolean`
+
+Stop running tests after the first failure.
+
+### `rootPath` [#root-path]
+
+- Default: the path to the directory from which the configuration file was loaded or the current directory
+- Type: `string`
+
+The path to a directory containing files of a test project. Relative path is resolved relative to the configuration file.
+
+To collect the test files, the file tree is walked starting from the `rootPath` directory. Later during the test run, the lookup of `tsconfig.json` for each test file starts at the directory containing the file and ends at the `rootPath`.
+
+This means that all test files to be run and TSConfig files to load the compiler configuration from must be within the `rootPath`.
+
+For instance, if you prefer to keep the TSTyche configuration file in a `./config` directory:
+
+<FileTree>
+  <FileTree.Folder name="config" defaultOpen>
+    <FileTree.File name="tstyche.json" />
+  </FileTree.Folder>
+  <FileTree.Folder name="src">
+    <FileTree.Folder name="__typetests__">
+      <FileTree.File name="MethodLikeKeys.tst.ts" />
+      <FileTree.File name="tsconfig.json" />
+    </FileTree.Folder>
+    <FileTree.File name="MethodLikeKeys.ts" />
+  </FileTree.Folder>
+  <FileTree.File name="package.json" />
+  <FileTree.File name="tsconfig.json" />
+</FileTree>
+
+The `rootPath` should point to the root of the package repository:
+
+```json filename="./config/tstyche.json"
+{
+  "rootPath": "../"
+}
+```
+
+### `target` [#target]
+
+- Default: `["latest"]`
+- Type: `Array<string>`
+
+The list of TypeScript versions to be tested on.
+
+You can target minor `"x.y"` or patch `"x.y.z"` releases. The `"x.y"` tag resolves to the latest version in the serries (e.g. passing `"4.9"` resolves to version 4.9.5). The `"beta"`, `"latest"`, `"next"` and `"rc"` tags are supported.
+
+### `testFileMatch` [#test-file-match]
+
+- Default: `["**/*.tst.*", "**/__typetests__/*.test.*", "**/typetests/*.test.*"]`
+- Type: `Array<string>`
+
+The list of glob patterns to match the test files. The patterns are matched relative to the [`rootPath`](#root-path) directory.
+
+The following wildcards can be used:
+
+- `*` matches zero or more characters (excluding directory separators),
+- `?` matches any one character (excluding directory separators),
+- `**/` matches any directory nested to any level.
+
+If the last segment in a pattern does not contain a file extension or wildcard character, it is treated as a directory and all files inside that directory are selected.
+
+<Tip>
+
+Use the [`--listFiles`](./command-line.mdx#list-files) command line option to inspect the list of selected files.
+
+</Tip>

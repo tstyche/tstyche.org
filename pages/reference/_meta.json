@@ -1,0 +1,8 @@
+{
+  "expect-api": "Expect API",
+  "testing-api": "Testing API",
+  "config-file": "Configuration File",
+  "command-line": "Command Line",
+  "environment": "Environment Variables",
+  "requirements": "System Requirements"
+}

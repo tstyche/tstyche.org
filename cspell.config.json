@@ -1,0 +1,16 @@
+{
+  "files": [
+    "**/*.js",
+    "**/*.json",
+    "**/*.md",
+    "**/*.mdx",
+    "**/*.mjs",
+    "**/*.tsx",
+    "components/**/*",
+    "pages/**/*",
+    "public/**/*"
+  ],
+  "language": "en-US",
+  "useGitignore": true,
+  "words": ["nextra", "svgr", "tailwindcss", "tstyche", "typecheck", "typetests"]
+}
