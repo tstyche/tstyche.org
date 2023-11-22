@@ -64,9 +64,7 @@ Wondering about the future version of TypeScript? Specify `beta`, `next` or `rc`
 
 ## Functional Tests
 
-Any file which can be type checked can also be a type test. For instance, these can be usage examples of your library or functional tests.
-
-If needed, the TSTyche assertions can be mixed in the functional tests:
+Any file which can be type checked can also be a type test. For instance, TSTyche assertions can be mixed into a usage examples or a functional tests:
 
 ```ts filename="./src/secondItem.ts"
 export function secondItem<T>(target: Array<T>): T | undefined {
@@ -75,26 +73,32 @@ export function secondItem<T>(target: Array<T>): T | undefined {
 ```
 
 ```ts filename="./src/__tests__/secondItem.test.ts"
-import { describe, expect, it } from "@jest/globals";
+import assert from "node:assert/strict";
+import { test } from "node:test";
 import * as tstyche from "tstyche";
 import { secondItem } from "../secondItem.js";
 
-describe("secondItem", () => {
-  it("should handle numbers", () => {
-    expect(secondItem([1, 2, 3])).toBe(2);
+test("handles numbers", () => {
+  assert.strictEqual(secondItem([1, 2, 3]), 2);
 
-    tstyche.expect(secondItem([1, 2, 3])).type.toEqual<number | undefined>();
+  tstyche.expect(secondItem([1, 2, 3])).type.toEqual<number | undefined>();
   });
 });
 ```
 
-Use the [`testFileMatch`](../reference/config-file.mdx#test-file-match) configuration option to include them in the test run:
+Use the [`testFileMatch`](../reference/config-file.mdx#test-file-match) configuration option to include files in the test run:
 
 ```json filename="./tstyche.config.json"
 {
   "testFileMatch": ["**/*.test.ts", "**/*.tst.ts"]
 }
 ```
+
+<Note>
+
+TSTyche assertions and testing helpers are just empty functions returning `undefined`. They do nothing when invoked by a JavaScript test runner.
+
+</Note>
 
 ## Selecting Test Files
 
