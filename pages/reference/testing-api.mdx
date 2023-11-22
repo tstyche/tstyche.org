@@ -73,32 +73,6 @@ Keep in mind that the runner does not execute the code, therefor the `name` argu
 
 </Warning>
 
-### `context(name, callback)` [#context]
-
-An alias for [`describe()`](#describe). For example, it can help to organize a larger test file:
-
-```ts
-import { context, describe, expect, it } from "tstyche";
-
-function arrayUtil<T>(target: Array<T>): T | undefined {
-  // ...
-}
-
-describe("arrayUtil", () => {
-  context("when called with a list of strings", () => {
-    it("should return a string", () => {
-      expect(arrayUtil(["a", "b", "c"])).type.toEqual<string | undefined>();
-    });
-  });
-
-  context("when called with a list of number", () => {
-    it("should return a number", () => {
-      expect(arrayUtil([1, 2, 3])).type.toEqual<number | undefined>();
-    });
-  });
-});
-```
-
 ### `describe(name, callback)` [#describe]
 
 - `name`: `string` The name of the group.
