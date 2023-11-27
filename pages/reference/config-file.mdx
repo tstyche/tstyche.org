@@ -111,7 +111,15 @@ The `rootPath` should point to the root of the package repository:
 
 The list of TypeScript versions to be tested on.
 
-You can target minor `"x.y"` or patch `"x.y.z"` releases. The `"x.y"` tag resolves to the latest version in the serries (e.g. passing `"4.9"` resolves to version 4.9.5). The `"beta"`, `"latest"`, `"next"` and `"rc"` tags are supported.
+You can target minor `"x.y"` or patch `"x.y.z"` releases. The `"x.y"` tag resolves to the latest version in the serries (e.g. passing `"4.9"` resolves to version 4.9.5).
+
+The `"beta"`, `"latest"`, `"next"` and `"rc"` tags are supported. To run tests on the currently installed version of TypeScript version, pass `"current"`:
+
+```json
+{
+  "target": ["4.9", "current"]
+}
+```
 
 ### `testFileMatch` [#test-file-match]
 

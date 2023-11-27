@@ -122,17 +122,19 @@ tstyche --skip internal
 
 The list of TypeScript versions to be tested on.
 
-You can target minor `x.y` or patch `x.y.z` releases. The `x.y` tag format resolves to the latest version in that serries (e.g. passing `4.9` runs type tests on TypeScript 4.9.5). The `beta`, `latest`, `next` and `rc` tags are also supported.
+You can target minor `x.y` or patch `x.y.z` releases. The `x.y` tag format resolves to the latest version in that serries (e.g. passing `4.9` runs type tests on TypeScript 4.9.5).
+
+The `"beta"`, `"latest"`, `"next"` and `"rc"` tags are supported. To run tests on the currently installed version of TypeScript version, pass `"current"`:
 
 ```shell
 # Run tests using TypeScript 4.9.5
 tstyche --target 4.9
 
-# Run tests using TypeScript 5.0.4
-tstyche --target 5.0.4
+# Run tests using the currently installed version of TypeScript
+tstyche --target current
 
 # Test on all specified versions of TypeScript
-tstyche --target 4.7,4.8,latest
+tstyche --target 4.7,5.0.4,latest
 ```
 
 ### `--update` [#update]
