@@ -1,17 +1,16 @@
 {
   "cSpell.enableFiletypes": ["mdx"],
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": "explicit"
   },
   "editor.formatOnSave": true,
-  "editor.rulers": [80, 120],
   "editor.quickSuggestions": {
     "strings": "on"
   },
+  "editor.rulers": [80, 120],
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "mdx.experimentalLanguageServer": true,
   "typescript.preferences.importModuleSpecifierEnding": "js",
   "typescript.tsdk": "node_modules/typescript/lib",
 
