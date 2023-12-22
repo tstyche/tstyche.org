@@ -26,7 +26,7 @@ The compiler configuration is loaded from the nearest `tsconfig.json` file. To l
 
 ## Schema
 
-Code editors should be able to pick up configuration file schema from the [JSON Schema Store](https://github.com/schemastore/schemastore) catalog. If that does not work, add the schema URI explicitly:
+In-editor validation can be enabled by adding the `$schema` key to the configuration file:
 
 ```json
 {
@@ -35,7 +35,7 @@ Code editors should be able to pick up configuration file schema from the [JSON 
 }
 ```
 
-Or use the pattern below to specify the version of TSTyche:
+The below pattern can be used to specify the version of TSTyche:
 
 ```json
 {
