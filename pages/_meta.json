@@ -23,9 +23,9 @@
         "title": "Test Runner",
         "href": "/guide/test-runner"
       },
-      "project-structure": {
-        "title": "Project Structure",
-        "href": "/guide/project-structure"
+      "project-setup": {
+        "title": "Project Setup",
+        "href": "/guide/project-setup"
       }
     }
   },
