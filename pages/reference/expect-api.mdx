@@ -16,7 +16,7 @@ TSTyche sees exactly the same types which you see in code editor's hover message
 
 ### Type Widening
 
-In mutable context a [literal type is inferred](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#literal-inference) as its base type:
+In mutable context a [literal type is inferred](https://typescriptlang.org/docs/handbook/2/everyday-types.html#literal-inference) as its base type:
 
 ```ts
 import { expect } from "tstyche";
@@ -32,7 +32,7 @@ const two = { a: 2, b: [3, 3] };
 expect({ a: 2, b: [3, 3] }).type.toEqual<{ a: number; b: number[] }>();
 ```
 
-To tell to the type checker that a type should not be widened, use [type assertions](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions):
+To tell to the type checker that a type should not be widened, use [type assertions](https://typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions):
 
 ```ts
 import { expect } from "tstyche";
@@ -63,7 +63,7 @@ expect({ a: 6, b: [9, 9] } as const).type.toEqual<{
 
 ### Excess Property Checks
 
-If passed as arguments, the object literals undergo the [excess property checks](https://www.typescriptlang.org/docs/handbook/2/objects.html#excess-property-checks):
+If passed as arguments, the object literals undergo the [excess property checks](https://typescriptlang.org/docs/handbook/2/objects.html#excess-property-checks):
 
 ```ts
 import { expect } from "tstyche";
