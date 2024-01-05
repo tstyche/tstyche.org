@@ -65,7 +65,7 @@ Create a `MethodLikeKeys.tst.ts` file in the same directory:
 
 ```ts filename="./MethodLikeKeys.tst.ts"
 import { expect } from "tstyche";
-import { MethodLikeKeys } from "../MethodLikeKeys.js";
+import { MethodLikeKeys } from "./MethodLikeKeys.js";
 
 interface Sample {
   description: string;
@@ -139,7 +139,7 @@ The rest reports that the test has failed and explains the problem.
 
 ## Iterate
 
-The `"getWidth"` key is marked as optional and was not picked up by the `MethodLikeKeys` type. Here is the fixed type:
+The `getWidth` key is marked as optional and was not picked up by the `MethodLikeKeys` type. Here is the fixed type:
 
 ```ts /Required<T>/
 export type MethodLikeKeys<T> = keyof {
