@@ -115,8 +115,7 @@ All is set. Tell TSTyche to run the type test:
 You should see similar report:
 
 ```ansi
-[90madds[0m TypeScript 5.2.2[90m to /Users/CandyCat/Library/TSTyche/5.2.2[0m
-[34muses[0m TypeScript 5.2.2[90m with ./tsconfig.json[0m
+[34muses[0m TypeScript 5.3.3[90m with ./tsconfig.json[0m
 
 [31mfail[0m [90m./[0mMethodLikeKeys.tst.ts
 
@@ -131,9 +130,7 @@ You should see similar report:
        [90mat[0m [36m./MethodLikeKeys.tst.ts[0m[90m:10:39[0m
 ```
 
-The first line tells that the test runner installed the latest version of TypeScript to the store.
-
-On the next line you see the TypeScript version used for this test run. It is followed by a path to the TSConfig file from which the compiler configuration was loaded.
+On the first line you see the TypeScript version used for this test run. It is followed by a path to the TSConfig file from which the compiler configuration was loaded.
 
 The rest reports that the test has failed and explains the problem.
 
@@ -154,9 +151,3 @@ Run the test again and it will pass:
 
 [32mpass[0m [90m./[0mMethodLikeKeys.tst.ts
 ```
-
-<Note>
-
-Noticed the missing `adds` line in the log? This is because the current version of TypeScript was installed before and for this run it was simply loaded from the store.
-
-</Note>
