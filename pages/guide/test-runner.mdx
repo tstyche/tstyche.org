@@ -21,21 +21,21 @@ By default, the latest version of TypeScript is used. To specify versions to tes
   <Tabs.Tab>
 
     ```shell
-    npx tstyche --target 4.8,latest
+    npx tstyche --target 4.8,current
     ```
 
   </Tabs.Tab>
   <Tabs.Tab>
 
     ```shell
-    yarn tstyche --target 4.8,latest
+    yarn tstyche --target 4.8,current
     ```
 
   </Tabs.Tab>
   <Tabs.Tab>
 
     ```shell
-    pnpm tstyche --target 4.8,latest
+    pnpm tstyche --target 4.8,current
     ```
 
   </Tabs.Tab>
@@ -54,13 +54,23 @@ If you run this command using the example from the [Introduction](./introduction
 [32mpass[0m [90m./[0mMethodLikeKeys.test.ts
 ```
 
-At this point you can rest assured that typings can be used with TypeScript 4.8 and the latest version.
-
 <Tip>
 
-Wondering about the future version of TypeScript? Specify `beta`, `next` or `rc` as a target tag.
+At this point you can rest assured that typings can be used with TypeScript 4.8 and the currently installed version. Wondering about the future? Specify `beta`, `latest`, `next` or `rc` as the target tag.
 
 </Tip>
+
+## The Store
+
+First line of the above report tells that the requested version of TypeScript was added to the store. The TSTyche store is a tiny package manager which downloads the requested versions of `typescript` package. The packages are kept in the global cache, this means running TSTyche in any project will reuse already installed packages.
+
+To know how to resolve tags like `latest` or `next`, every two hours the store fetches the `typescript` package metadata.
+
+These are the command line options dedicated to the store:
+
+- [`--install`](../reference/command-line.mdx#install) adds the required versions of TypeScript, useful if you are preparing to work offline,
+- [`--prune`](../reference/command-line.mdx#prune) removes the whole cache directory, if you want to free up disk space or to resolve a store issue,
+- [`--update`](../reference/command-line.mdx#update) force updates the `typescript` package metadata from the registry.
 
 ## Functional Tests
 
@@ -238,13 +248,3 @@ function firstItem<T>(target: Array<T>): T | undefined {
 
 expect(firstItem()).type.toRaiseError("Expected 1 argument");
 ```
-
-{/* ## The Store */}
-
-{/* TODO consider moving together with TypeScript Versions section */}
-
-{/* The store is a tiny package manager which installs the requested versions `typescript` package. */}
-
-{/* Use `--install` flag to install the specified versions of TypeScript. */}
-
-{/* Do not ever call `--prune` if you work offline. */}
