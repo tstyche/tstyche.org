@@ -113,14 +113,14 @@ The list of TypeScript versions to be tested on.
 
 The following can be specified:
 
-- `"current"` points the currently installed version of TypeScript,
-- minor `"x.y"` releases, resolves to the latest version in the serries, for example, `"4.9"` resolves to version 4.9.5,
-- patch `"x.y.z"` releases, like `"5.3.2"` or `"4.8.4"`,
+- `"current"` is the version of TypeScript currently installed in the project,
+- minor releases, like `"5.2"` or `"4.9"`, resolves to the latest version in the serries (for example, `"4.9"` resolves to version 4.9.5),
+- patch releases, like `"5.3.2"` or `"4.8.4"`,
 - `"beta"`, `"latest"`, `"next"` or `"rc"` distribution [tags](https://npmjs.com/package/typescript?activeTab=versions) of the `typescript` package.
 
 ```json
 {
-  "target": ["4.9", "current"]
+  "target": ["4.9", "5.3.2", "current"]
 }
 ```
 

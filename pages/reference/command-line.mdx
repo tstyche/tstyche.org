@@ -32,7 +32,7 @@ An option does not take a value, if its type is not specified. Otherwise, the pa
 
 - **boolean** is interpreted as `true`, if the value is omitted or set to `true`; or as `false`, if set to `false`,
 - **string** as expected, is simply a string,
-- **list** can hold one or several values separated by commas: `--target 4.8` or `--target 4.8,latest`.
+- **list** can hold one or several values separated by commas: `--target 4.9` or `--target 4.9,current`.
 
 <Tip>
 
@@ -124,9 +124,9 @@ The list of TypeScript versions to be tested on.
 
 The following can be specified:
 
-- `current` points the currently installed version of TypeScript (default),
-- minor `x.y` releases, resolves to the latest version in the serries, for example, `4.9` resolves to version 4.9.5,
-- patch `x.y.z` releases, like `5.3.2` or `4.8.4`,
+- `current` is the version of TypeScript currently installed in the project,
+- minor releases, like `5.2` or `4.9`, resolves to the latest version in the serries (for example, `4.9` resolves to version 4.9.5),
+- patch releases, like `5.3.2` or `4.8.4`,
 - `beta`, `latest`, `next` or `rc` distribution [tags](https://npmjs.com/package/typescript?activeTab=versions) of the `typescript` package.
 
 ```shell
@@ -137,7 +137,7 @@ tstyche --target 4.9
 tstyche --target latest
 
 # Test on all specified versions of TypeScript
-tstyche --target 4.7,5.3.2,current
+tstyche --target 4.9,5.3.2,current
 ```
 
 ### `--update` [#update]
