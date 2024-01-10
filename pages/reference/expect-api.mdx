@@ -202,6 +202,8 @@ Checks if the target type is identical to the source type.
 ```ts
 import { expect, test } from "tstyche";
 
+type MethodLike = (...args: any) => any;
+
 type MethodLikeKeys<T> = keyof {
   [K in keyof T as Required<T>[K] extends MethodLike ? K : never]: T[K];
 };
