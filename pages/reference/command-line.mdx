@@ -31,7 +31,7 @@ Options passed through the command line override the ones from the [configuratio
 An option does not take a value, if its type is not specified. Otherwise, the parsing logic of the option value depends on its type:
 
 - **boolean** is interpreted as `true`, if the value is omitted or set to `true`; or as `false`, if set to `false`,
-- **string** as expected, is simply a string,
+- **string** is simply a string,
 - **list** can hold one or several values separated by commas: `--target 4.9` or `--target 4.9,current`.
 
 <Tip>
