@@ -16,7 +16,7 @@ tstyche
 tstyche path/to/first.test.ts
 ```
 
-Only the files matched by the [`testFileMatch`](./config-file.mdx#test-file-match) patterns can be selected. The search strings are matched with the portion of the path relative to the current directory.
+Only the files matched by the [`testFileMatch`](./config-file.mdx#test-file-match) patterns can be selected. The search strings are matched with the portion of the path relative to the current directory. The matching is case insensitive.
 
 <Tip>
 
@@ -88,7 +88,7 @@ Print the list of the selected test files and exit.
 
 - Type: string
 
-Only run tests with matching name. The given string is matched against the name of every `test()` or `describe()` entry.
+Only run tests with matching name. The given string is matched against the name of every `test()` or `describe()` entry. The matching is case insensitive.
 
 `--only` does not override the [`.skip`](./expect-api.mdx#skip) run mode flag. If both `--only` and [`--skip`](#skip) filters select a test, it gets skipped.
 
@@ -108,7 +108,7 @@ Print the resolved configuration and exit.
 
 - Type: string
 
-Skip tests with matching name. The given string is matched against the name of every `test()` or `describe()` entry.
+Skip tests with matching name. The given string is matched against the name of every `test()` or `describe()` entry. The matching is case insensitive.
 
 `--skip` overrides the [`.only`](./expect-api.mdx#only) run mode flag. If both `--skip` and [`--only`](#only) filters select a test, it gets skipped.
 
