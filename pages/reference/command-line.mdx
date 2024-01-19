@@ -70,14 +70,14 @@ Print the list of command line options with brief descriptions and exit.
 
 Install specified versions of the `typescript` package and exit.
 
-By default, the `latest` version is installed; or the versions listed in the [`target`](./config-file.mdx#target) array in the configuration file, if the option is set; or the versions specified via the [`--target`](#target) command line option, if it is provided.
+`--install` must be used together with the [`target`](./config-file.mdx#target) configuration option or the [`--target`](#target) command line option. The versions specified via the [`--target`](#target) command line option are added, if it is provided; otherwise the versions listed in the [`target`](./config-file.mdx#target) array in the configuration file are added.
 
 ```shell
 # Install TypeScript 4.9.5
-tstyche --install 4.9
+tstyche --install --target 4.9
 
 # Install the specified versions of TypeScript
-tstyche --install 4.7,latest
+tstyche --install --target 4.7,latest
 ```
 
 ### `--listFiles` [#list-files]
