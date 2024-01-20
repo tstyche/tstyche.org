@@ -6,10 +6,11 @@
   "type": "module",
   "scripts": {
     "build": "next build",
+    "check:formatting": "dprint check",
+    "check:spelling": "cspell --cache --config cspell.config.json --quiet",
     "dev": "next dev",
+    "format": "dprint fmt",
     "lint": "yarn lint:cspell && yarn lint:prettier",
-    "lint:cspell": "cspell --cache --config cspell.config.json --quiet",
-    "lint:prettier": "prettier ./ --cache --check",
     "start": "next start"
   },
   "dependencies": {
@@ -24,9 +25,8 @@
     "@types/node": "20.10.5",
     "autoprefixer": "10.4.16",
     "cspell": "8.2.3",
+    "dprint": "0.45.0",
     "postcss": "8.4.32",
-    "prettier": "3.1.1",
-    "prettier-plugin-tailwindcss": "0.5.9",
     "tailwindcss": "3.4.0",
     "typescript": "5.3.3"
   },

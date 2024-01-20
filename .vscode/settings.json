@@ -9,10 +9,11 @@
   },
   "editor.rulers": [80, 120],
   "files.associations": {
+    "dprint.json": "jsonc",
     "*.css": "tailwindcss"
   },
   "typescript.preferences.importModuleSpecifierEnding": "js",
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsdk": "./node_modules/typescript/lib",
 
   "[mdx]": {
     "editor.wordWrap": "on"

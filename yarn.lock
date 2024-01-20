@@ -513,6 +513,55 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dprint/darwin-arm64@npm:0.45.0":
+  version: 0.45.0
+  resolution: "@dprint/darwin-arm64@npm:0.45.0"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@dprint/darwin-x64@npm:0.45.0":
+  version: 0.45.0
+  resolution: "@dprint/darwin-x64@npm:0.45.0"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@dprint/linux-arm64-glibc@npm:0.45.0":
+  version: 0.45.0
+  resolution: "@dprint/linux-arm64-glibc@npm:0.45.0"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@dprint/linux-arm64-musl@npm:0.45.0":
+  version: 0.45.0
+  resolution: "@dprint/linux-arm64-musl@npm:0.45.0"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@dprint/linux-x64-glibc@npm:0.45.0":
+  version: 0.45.0
+  resolution: "@dprint/linux-x64-glibc@npm:0.45.0"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@dprint/linux-x64-musl@npm:0.45.0":
+  version: 0.45.0
+  resolution: "@dprint/linux-x64-musl@npm:0.45.0"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@dprint/win32-x64@npm:0.45.0":
+  version: 0.45.0
+  resolution: "@dprint/win32-x64@npm:0.45.0"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
 "@headlessui/react@npm:^1.7.10":
   version: 1.7.17
   resolution: "@headlessui/react@npm:1.7.17"
@@ -2276,6 +2325,38 @@ __metadata:
   dependencies:
     is-obj: "npm:^2.0.0"
   checksum: 30e51ec6408978a6951b21e7bc4938aad01a86f2fdf779efe52330205c6bb8a8ea12f35925c2029d6dc9d1df22f916f32f828ce1e9b259b1371c580541c22b5a
+  languageName: node
+  linkType: hard
+
+"dprint@npm:0.45.0":
+  version: 0.45.0
+  resolution: "dprint@npm:0.45.0"
+  dependencies:
+    "@dprint/darwin-arm64": "npm:0.45.0"
+    "@dprint/darwin-x64": "npm:0.45.0"
+    "@dprint/linux-arm64-glibc": "npm:0.45.0"
+    "@dprint/linux-arm64-musl": "npm:0.45.0"
+    "@dprint/linux-x64-glibc": "npm:0.45.0"
+    "@dprint/linux-x64-musl": "npm:0.45.0"
+    "@dprint/win32-x64": "npm:0.45.0"
+  dependenciesMeta:
+    "@dprint/darwin-arm64":
+      optional: true
+    "@dprint/darwin-x64":
+      optional: true
+    "@dprint/linux-arm64-glibc":
+      optional: true
+    "@dprint/linux-arm64-musl":
+      optional: true
+    "@dprint/linux-x64-glibc":
+      optional: true
+    "@dprint/linux-x64-musl":
+      optional: true
+    "@dprint/win32-x64":
+      optional: true
+  bin:
+    dprint: bin.js
+  checksum: 4eb9eca4d300e7ebb3f9b7ed3b730fbbd727fe1cfe8efe71a16e79394693e00cfca396b4acb5774028b479055eb8a67b96849468d99aabc565ca280cc5daaaf1
   languageName: node
   linkType: hard
 
@@ -4924,66 +5005,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-tailwindcss@npm:0.5.9":
-  version: 0.5.9
-  resolution: "prettier-plugin-tailwindcss@npm:0.5.9"
-  peerDependencies:
-    "@ianvs/prettier-plugin-sort-imports": "*"
-    "@prettier/plugin-pug": "*"
-    "@shopify/prettier-plugin-liquid": "*"
-    "@trivago/prettier-plugin-sort-imports": "*"
-    prettier: ^3.0
-    prettier-plugin-astro: "*"
-    prettier-plugin-css-order: "*"
-    prettier-plugin-import-sort: "*"
-    prettier-plugin-jsdoc: "*"
-    prettier-plugin-marko: "*"
-    prettier-plugin-organize-attributes: "*"
-    prettier-plugin-organize-imports: "*"
-    prettier-plugin-style-order: "*"
-    prettier-plugin-svelte: "*"
-  peerDependenciesMeta:
-    "@ianvs/prettier-plugin-sort-imports":
-      optional: true
-    "@prettier/plugin-pug":
-      optional: true
-    "@shopify/prettier-plugin-liquid":
-      optional: true
-    "@trivago/prettier-plugin-sort-imports":
-      optional: true
-    prettier-plugin-astro:
-      optional: true
-    prettier-plugin-css-order:
-      optional: true
-    prettier-plugin-import-sort:
-      optional: true
-    prettier-plugin-jsdoc:
-      optional: true
-    prettier-plugin-marko:
-      optional: true
-    prettier-plugin-organize-attributes:
-      optional: true
-    prettier-plugin-organize-imports:
-      optional: true
-    prettier-plugin-style-order:
-      optional: true
-    prettier-plugin-svelte:
-      optional: true
-    prettier-plugin-twig-melody:
-      optional: true
-  checksum: 6f2827214adf169de80ce4e2c278b94bb4d06d2a432204ef86a609c4e4c517e2b1281e70a0777762b0916927599e7dba6ad45802f55509f93a1ca393dc3265cb
-  languageName: node
-  linkType: hard
-
-"prettier@npm:3.1.1":
-  version: 3.1.1
-  resolution: "prettier@npm:3.1.1"
-  bin:
-    prettier: bin/prettier.cjs
-  checksum: facc944ba20e194ff4db765e830ffbcb642803381f0d2033ed397e79904fa4ccc877dc25ad68f42d36985c01d051c990ca1b905fb83d2d7d65fe69e4386fa1a3
-  languageName: node
-  linkType: hard
-
 "proc-log@npm:^3.0.0":
   version: 3.0.0
   resolution: "proc-log@npm:3.0.0"
@@ -5779,12 +5800,11 @@ __metadata:
     "@types/node": "npm:20.10.5"
     autoprefixer: "npm:10.4.16"
     cspell: "npm:8.2.3"
+    dprint: "npm:0.45.0"
     next: "npm:^14.0.4"
     nextra: "npm:^2.13.2"
     nextra-theme-docs: "npm:^2.13.2"
     postcss: "npm:8.4.32"
-    prettier: "npm:3.1.1"
-    prettier-plugin-tailwindcss: "npm:0.5.9"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     tailwindcss: "npm:3.4.0"

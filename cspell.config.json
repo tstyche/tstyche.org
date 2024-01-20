@@ -12,5 +12,12 @@
   ],
   "language": "en-US",
   "useGitignore": true,
-  "words": ["nextra", "svgr", "tailwindcss", "tstyche", "typecheck", "typetests"]
+  "words": [
+    "dprint",
+    "nextra",
+    "tailwindcss",
+    "tstyche",
+    "typecheck",
+    "typetests"
+  ]
 }

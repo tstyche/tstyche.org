@@ -1,5 +1,5 @@
 import { Idea as TipIcon, Information as NoteIcon, Warning as WarningIcon } from "@carbon/icons-react";
-import type { ReactElement, ComponentProps } from "react";
+import type { ComponentProps, ReactElement } from "react";
 
 export function Note({ children }: ComponentProps<"div">): ReactElement {
   return (
