@@ -2,7 +2,6 @@
   "recommendations": [
     "dbaeumer.vscode-eslint",
     "dprint.dprint",
-    "streetsidesoftware.code-spell-checker",
-    "unifiedjs.vscode-mdx"
+    "streetsidesoftware.code-spell-checker"
   ]
 }
