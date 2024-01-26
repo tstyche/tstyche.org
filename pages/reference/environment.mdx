@@ -8,7 +8,7 @@ TSTyche must know few details about the environment before starting. These can b
 
 The parsing logic of the option value depends on its type:
 
-- **boolean** is interpreted as `true`, if set to `1`, `on`, `t`, `true`, `y` or `yes`; otherwise `false`,
+- **boolean** is interpreted as `true`, if the value is not an empty string; otherwise `false`,
 - **number** is normalized using the [`Number()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number/Number) constructor,
 - **string** is simply a string.
 
@@ -30,6 +30,13 @@ Use the [`--showConfig`](./command-line.mdx#show-config) command line option to 
 - Type: boolean
 
 Specifies whether color should be disabled in the output.
+
+### `TSTYCHE_NO_INTERACTIVE` [#no-interactive]
+
+- Default: `!process.stdout.isTTY`
+- Type: boolean
+
+Specifies whether interactive elements should be disabled in the output.
 
 ### `TSTYCHE_STORE_PATH` [#store-path]
 
