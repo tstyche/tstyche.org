@@ -46,3 +46,12 @@ The directory where the installed versions of the `typescript` package are store
 The number of seconds to wait before giving up stale operations. The value of `0` disables the timeout.
 
 The timeout value is passed to the request to fetch the `typescript` package metadata from the registry and to the process spanned to run the `npm install` command, which installs the requested version of the package.
+
+### `TSTYCHE_TYPESCRIPT_PATH` [#typescript-path]
+
+- Default: `typescript`
+- Type: string
+
+The module name or path to be used as the currently installed TypeScript module. The value is resolved using the [`require.resolve()`](https://nodejs.org/docs/latest/api/modules.html#requireresolverequest-options) function.
+
+By default, TSTyche runs type tests using TypeScript currently installed in the project. Or, if the path does not resolve, the `latest` version is used. To learn more, see the [`target`](./config-file.mdx#target) option documentation.
