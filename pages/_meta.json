@@ -23,9 +23,13 @@
         "title": "Test Runner",
         "href": "/guide/test-runner"
       },
-      "project-setup": {
-        "title": "Project Setup",
-        "href": "/guide/project-setup"
+      "javascript-project": {
+        "title": "JavaScript Project",
+        "href": "/guide/javascript-project"
+      },
+      "typescript-project": {
+        "title": "TypeScript Project",
+        "href": "/guide/typescript-project"
       }
     }
   },

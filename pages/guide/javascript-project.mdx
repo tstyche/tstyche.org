@@ -1,0 +1,45 @@
+import { Note, Tip } from "@/components/Advice";
+
+# JavaScript Project
+
+A project without a TSConfig file and TypeScript installed in this guide is referred as a JavaScript project.
+
+This can be a JavaScript library which ships with hand crafted type definitions. To make testing the definitions a breeze, TSTyche sets sensible default compiler options and provides the `typescript` package.
+
+<Tip>
+
+If your project includes TSConfig file and TypeScript is installed, you should follow the [TypeScript Project](./typescript-project.mdx) guide.
+
+</Tip>
+
+## Default Compiler Options
+
+If a project does not have a `tsconfig.json` or a particular test file is not included in any of TSConfig files found in enclosing directories, TSTyche will set the following compiler options:
+
+```jsonc
+{
+  "allowImportingTsExtensions": true, // not set for TypeScript 4.x
+  "allowJs": true,
+  "checkJs": true,
+  "esModuleInterop": true,
+  "jsx": "preserve",
+  "module": "esnext",
+  "moduleResolution": "bundler", // "node" for TypeScript 4.x
+  "resolveJsonModule": true,
+  "strictFunctionTypes": true,
+  "strictNullChecks": true,
+  "target": "esnext"
+}
+```
+
+<Note>
+
+Your code editor may have set different default compiler options. This is the reason why TSTyche might see typings different than the editor. If that is an issue, add a `tsconfig.json` file to a project and it will be used by both TSTyche and the editor.
+
+</Note>
+
+## TypeScript Version
+
+If TypeScript is not installed in a project, TSTyche will add the `latest` version of the `typescript` package to [the store](./test-runner.mdx#the-store) and will use it for type testing.
+
+To specify other version of TypeScript to test on, pass the [`--target`](../reference/command-line.mdx#target) command line option or use the [`target`](../reference/config-file.mdx#target) configuration option.

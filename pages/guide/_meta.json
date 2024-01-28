@@ -1,5 +1,6 @@
 {
   "introduction": "Introduction",
   "test-runner": "Test Runner",
-  "project-setup": "Project Setup"
+  "javascript-project": "JavaScript Project",
+  "typescript-project": "TypeScript Project"
 }

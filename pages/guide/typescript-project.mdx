@@ -1,15 +1,17 @@
 import { FileTree, Tabs } from "nextra/components";
-import { Tip } from "@/components/Advice";
+import { Note, Tip } from "@/components/Advice";
 
-# Project Setup
+# TypeScript Project
 
-An important step in type testing is take care that any accidental typings do not leak into test files. Guidelines on this page help to ensure isolation of your tests.
+A project with a TSConfig file and TypeScript installed in this guide is referred as a TypeScript project.
 
-## Compiler Configuration
+TSTyche is build to test projects of any size and complexity. To retrieve the type information it wraps around TypeScript's `ProjectService`. The same API which is used by code editors like Visual Studio Code via the [`tsserver`](https://github.com/microsoft/TypeScript-wiki/blob/main/Standalone-Server-(tsserver).md) executable.
 
-To retrieve the type information and diagnostics TSTyche wraps around TypeScript's `ProjectService`. The same API is used by code editors like Visual Studio Code via the [`tsserver`](<https://github.com/microsoft/TypeScript-wiki/blob/main/Standalone-Server-(tsserver).md>) executable. This means that TSTyche sees exactly the same types which you see in hover messages.
+## TSConfig File
 
-For each test file the service loads the compiler configuration from the nearest `tsconfig.json` which includes the file in question. If a test file is not included in any `tsconfig.json` found in enclosing directories, a warning will be logged and the default compiler options will be used.
+For each test file the service loads the compiler configuration from the nearest `tsconfig.json` which includes the file in question. This means that TSTyche sees exactly the same types which you see in hover messages.
+
+If a particular test file is not included in any of TSConfig files found in enclosing directories, the [default compiler options](./javascript-project.mdx#default-compiler-options) will be set.
 
 <Tip>
 
@@ -23,29 +25,29 @@ tsc --project ./typetests/tsconfig.json --showConfig
 
 ### Language Service Plugins
 
-To work smoothly with Svelte, Vue or similar projects a code editor needs an extension. Usually the extension provides a TypeScript [language service plugin](https://github.com/microsoft/TypeScript/wiki/Writing-a-Language-Service-Plugin), which help the editor to reason about typings of a project.
+To work smoothly with Svelte, Vue or similar projects a code editor needs an additional extension to be installed. Usually the extension provides a TypeScript [language service plugin](https://github.com/microsoft/TypeScript/wiki/Writing-a-Language-Service-Plugin), which helps the editor to reason about typings of a project.
 
-TSTyche makes sure the plugins are loaded by the TypeScript's project service, but they must be installed and explicitly listed in a TSConfig file. For example, if your type tests import from `.vue` files, install the `typescript-vue-plugin` package:
+TSTyche makes sure the plugins are loaded by the TypeScript's project service, but they must be installed and explicitly listed in a TSConfig file. For example, if your type tests import from `.svelte` files, install the `typescript-svelte-plugin` package:
 
 <Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
 <Tabs.Tab>
 
 ```shell
-npm add -D typescript-vue-plugin
+npm add -D typescript-svelte-plugin
 ```
 
 </Tabs.Tab>
 <Tabs.Tab>
 
 ```shell
-yarn add -D typescript-vue-plugin
+yarn add -D typescript-svelte-plugin
 ```
 
 </Tabs.Tab>
 <Tabs.Tab>
 
 ```shell
-pnpm add -D typescript-vue-plugin
+pnpm add -D typescript-svelte-plugin
 ```
 
 </Tabs.Tab>
@@ -53,17 +55,21 @@ pnpm add -D typescript-vue-plugin
 
 And add it to the language service [`plugins`](https://typescriptlang.org/tsconfig#plugins) list of the `tsconfig.json` nearest to type test files:
 
-```json
+```jsonc
 {
   "compilerOptions": {
-    "plugins": [{ "name": "typescript-vue-plugin" }]
+    "plugins": [{ "name": "typescript-svelte-plugin" }]
   }
 }
 ```
 
-## Dedicated Directory
+## File Structure
 
-It is recommended to keep type test files in a dedicated directory. For instance, you can name it `typetests` or `__typetests__`:
+An important step in type testing is take care that any accidental typings do not leak into test files. The following strategies help to ensure isolation of your tests.
+
+### Dedicated Directory
+
+It is recommended to keep type test files in a dedicated directory. For instance, you can name it `__typetests__`:
 
 <FileTree>
   <FileTree.Folder name="src" defaultOpen>
@@ -79,7 +85,7 @@ It is recommended to keep type test files in a dedicated directory. For instance
 
 Here the root `tsconfig.json` specifies the compiler configuration of the project. Extend from it and reuse the configuration for type testing:
 
-```json filename="./src/__typetests__/tsconfig.json"
+```jsonc filename="./src/__typetests__/tsconfig.json"
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
@@ -100,7 +106,7 @@ By convention it is recommended to suffix the functional tests with `.test.*` an
 
 </Tip>
 
-## Shared Directory
+### Shared Directory
 
 It is also possible to keep functional and type tests in a single shared directory:
 
@@ -121,7 +127,7 @@ It is also possible to keep functional and type tests in a single shared directo
 
 Remember to specify the `types` list of the `compilerOptions`. Keep it as minimal as possible to avoid any global typings leaking into your type tests:
 
-```json filename="./src/__tests__/tsconfig.json"
+```jsonc filename="./src/__tests__/tsconfig.json"
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
@@ -136,13 +142,13 @@ Remember to specify the `types` list of the `compilerOptions`. Keep it as minima
 
 To use type testing assertions in [functional tests](./test-runner.mdx#functional-tests) as well, configure TSTyche to include them in the test run:
 
-```json filename="./tstyche.config.json"
+```jsonc filename="./tstyche.config.json"
 {
   "testFileMatch": ["**/*.test.ts", "**/*.tst.ts"]
 }
 ```
 
-## Next to Source Files
+### Next to Source Files
 
 Isolation of type tests placed next to source files is complicated, but not impossible. A hypothetical project could look like this:
 
@@ -161,7 +167,7 @@ Isolation of type tests placed next to source files is complicated, but not impo
 
 The `references` field could be used to define the project in the root `tsconfig.json`:
 
-```json filename="./tsconfig.json"
+```jsonc filename="./tsconfig.json"
 {
   "compilerOptions": {
     // ...
@@ -175,7 +181,7 @@ The `references` field could be used to define the project in the root `tsconfig
 
 And `tsconfig.test.json` can extend it like this:
 
-```json filename="./tsconfig.test.json"
+```jsonc filename="./tsconfig.test.json"
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
