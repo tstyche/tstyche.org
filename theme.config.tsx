@@ -6,6 +6,7 @@ import { TSTyche } from "@/components/TSTyche";
 const config: DocsThemeConfig = {
   components: { code: Code },
 
+  chat: { link: "https://discord.gg/gCSasd3QJq" },
   docsRepositoryBase: "https://github.com/tstyche/tstyche.org/tree/main",
   feedback: { content: null },
   footer: { text: `Copyright © ${new Date().getFullYear()} TSTyche` },
