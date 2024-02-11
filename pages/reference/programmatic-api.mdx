@@ -1,0 +1,25 @@
+import { Note, Warning } from "@/components/Advice";
+
+# Programmatic API
+
+The programmatic API allows integrating TSTyche with other tools like code editors or Git providers.
+
+<Warning>
+
+This is a **preview feature** and it is not recommended for production usage. Breaking changes will ship between minor versions.
+
+</Warning>
+
+## Requirements
+
+If you plan to use TypeScript, the lowest support version is `5.x`. The `module` and `moduleResolution` compiler options must be set to `"node16"`.
+
+## Usage
+
+The programmatic APIs can be imported from the `tstyche/tstyche` entry point (available only in ESM):
+
+```ts
+import * as tstyche from "tstyche/tstyche";
+
+console.log(tstyche.TSTyche.version);
+```
