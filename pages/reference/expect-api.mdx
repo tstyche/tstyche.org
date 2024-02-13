@@ -125,32 +125,6 @@ Marks an assertion as focused. When there are focused groups, tests or assertion
 
 Marks an assertion as skipped. The test runner will ignore anything skipped and will suppress any type errors raised by the expressions or types passed to the `expect()` or a matcher function.
 
-{/* ## Modifiers */}
-
-{/* ### `.type` */}
-
-{/* Passes the source type to the matcher. */}
-
-{/* ### `.parametersType` */}
-
-{/* Checks if the source type is callable, extracts its parameters type and passes it to the matcher. */}
-
-{/* ### `.constructorParametersType` */}
-
-{/* Checks if the source type is constructable, extracts its constructor parameters type and passes it to the matcher. */}
-
-{/* ### `.returnType` */}
-
-{/* Checks if the source type is callable, extracts its return type and passes it to the matcher. */}
-
-{/* ### `.instanceType` */}
-
-{/* Checks if the source type is constructable, extracts its instance type and passes it to the matcher. */}
-
-{/* ### `.thisParameterType` */}
-
-{/* Checks if the source type is callable, extracts its `this` parameter type and passes it to the matcher. */}
-
 ## Matchers
 
 A matcher is the last element of the assertion chain. It holds an assumption to check.
@@ -381,8 +355,6 @@ type M = Matcher<>;
 ```ts
 .toRaiseError(...target: Array<string | number>)
 ```
-
-{/* **Note:** `.toRaiseError()` is only available with the `.type` modifier. */}
 
 ## Primitive Type Matchers
 
