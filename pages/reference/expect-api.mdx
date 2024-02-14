@@ -252,14 +252,14 @@ Checks if the target type is a subtype of the source type.
 import { expect, test } from "tstyche";
 
 interface Options {
-  environment?: string;
+  readonly environment?: string;
   timers?: "fake" | "real";
 }
 
 const options: Options = {};
 
 test("is a match?", () => {
-  expect(options).type.toMatch<{ environment?: string }>();
+  expect(options).type.toMatch<{ readonly environment?: string }>();
   expect(options).type.toMatch<{ timers?: "fake" | "real" }>();
 });
 ```
@@ -300,6 +300,11 @@ expect<{ a: string; b?: number }>().type.toBeAssignable<{ a: string }>();
 // But an object type with an optional property is not a subtype
 // of the same object type without that particular property
 expect<{ a: string }>().type.not.toMatch<{ a: string; b?: number }>();
+
+expect<{ a: string }>().type.toBeAssignable<{ readonly a: string }>();
+// But an object type with a particular property is not a subtype
+// of the same object type with that property marked 'readonly'
+expect<{ readonly a: string }>().type.not.toMatch<{ a: string }>();
 ```
 
 ---
