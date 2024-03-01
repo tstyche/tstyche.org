@@ -129,7 +129,9 @@ Marks an assertion as skipped. The test runner will ignore anything skipped and 
 
 A matcher is the last element of the assertion chain. It holds an assumption to check.
 
-To negate the condition, prepend `.not` before the matcher:
+### `.not` [#not]
+
+To negate the condition, prepend `.not` before any matcher:
 
 ```ts
 import { expect } from "tstyche";
