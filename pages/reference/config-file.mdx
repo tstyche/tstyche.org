@@ -122,15 +122,26 @@ The following can be specified:
 - Default: `["**/*.tst.*", "**/__typetests__/*.test.*", "**/typetests/*.test.*"]`
 - Type: `Array<string>`
 
-The list of glob patterns to match the test files. The patterns are matched relative to the [`rootPath`](#root-path) directory.
+The list of glob patterns to match the test files. The patterns are matched with the portion of the path relative to the [`rootPath`](#root-path) directory. The matching is case insensitive.
 
-The following wildcards can be used:
+The following rules are used when matching the patterns:
 
-- `*` matches zero or more characters (excluding directory separators),
-- `?` matches any one character (excluding directory separators),
-- `**/` matches any directory nested to any level.
+- `/` matches a path separator,
+- `?` matches any single character excluding path separators,
+- `*` matches zero or more characters excluding path separators,
+- `**` matches zero or more characters including path separators.
 
-If the last segment in a pattern does not contain a file extension or wildcard character, it is treated as a directory and all files inside that directory are selected.
+Usage examples:
+
+- `?` can be used to select files or directories that differ in their name by only a character: `typetests/?at.tst.ts` would match `typetests/bat.tst.ts` or `typetests/cat.tst.ts`, but not `typetests/at.tst.ts`,
+- `*` can be used to select files within a directory: `*.tst.ts` would match `Options.tst.ts`, but not `Options.test.ts` or `json/Options.tst.ts`,
+- `**` can be used to select files within nested directories: `packages/**/typetests/*.test.ts` would match `packages/typetests/api.test.ts`, `packages/core/typetests/awaitable.test.ts` or `packages/parsers/json/typetests/JsonObject.test.ts`.
+
+<Note>
+
+The `?`, `*` and `**` wildcards do not match any path segments that start with the `.` and do not select files within the `node_modules` directories. These files or directories can only be matched, if specified explicitly: `**/.generated/*.tst.*` or `node_modules/**/*.tst.*`.
+
+</Note>
 
 <Tip>
 
