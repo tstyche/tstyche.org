@@ -67,5 +67,11 @@
         "href": "/reference/programmatic-usage"
       }
     }
+  },
+
+  "release-notes": {
+    "title": "What’s New",
+    "href": "/release-notes",
+    "type": "page"
   }
 }

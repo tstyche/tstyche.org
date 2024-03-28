@@ -1,0 +1,103 @@
+import { Tabs } from "nextra/components";
+import { Note, Tip, Warning } from "@/components/Advice";
+
+# Release Notes
+
+This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from previous version.
+
+<Note>
+
+The detailed changelog can be found in [TSTyche repository on GitHub](https://github.com/tstyche/tstyche/blob/main/CHANGELOG.md).
+
+</Note>
+
+## TSTyche 2.0 (beta)  [#tstyche-2-0]
+
+TSTyche 2.0 ships with more matchers, performance refinements and the watch mode.
+
+<Warning>
+
+Keep in mind that TSTyche 2.0 is still in beta. More breaking changes may be introduced before the stable version is release. To install the latest beta version, use the `next` distribution tag:
+
+<Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
+<Tabs.Tab>
+
+```shell
+npm add -D tstyche@next
+```
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+```shell
+yarn add -D tstyche@next
+```
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+```shell
+pnpm add -D tstyche@next
+```
+
+</Tabs.Tab>
+</Tabs>
+
+</Warning>
+
+### `.toBe()` [#to-be]
+
+`.toBe()` is the new name of `.toEqual()`.
+
+```diff
+import { expect } from "tstyche";
+
+- expect<{ a: string }>().type.toEqual<{ a: string }>();
++ expect<{ a: string }>().type.toBe<{ a: string }>();
+
+- expect<{ a: string }>().type.not.toEqual<{ b: number }>();
++ expect<{ a: string }>().type.not.toBe<{ b: number }>();
+```
+
+The new name simplifies swapping between the [primitive type matchers](../reference/expect-api.mdx#primitive-type-matchers) and `.toBe()`. For example, replacing `.toBeString()` with `.toBe<string | undefined>()` looks more clear than before.
+
+### `.toBeAssignableTo()` [#to-be-assignable-to]
+
+`.toBeAssignableTo()` is a new matcher, it checks if the source type is assignable to the target type. The opposite of [`.toBeAssignableWith()`](#to-be-assignable-with).
+
+```ts
+import { expect } from "tstyche";
+
+expect<{ a: string; b: number }>().type.toBeAssignableTo<{ a: string }>();
+expect<{ a: string }>().type.not.toBeAssignableTo<{ a: string; b: number }>();
+```
+
+### `.toBeAssignableWith()` [#to-be-assignable-with]
+
+`.toBeAssignableWith()` is the new name of `.toBeAssignable()`, it checks if the source type is assignable with the target type. The opposite of [`.toBeAssignableTo()`](#to-be-assignable-to).
+
+```diff
+import { expect } from "tstyche";
+
+- expect<{ a: string }>().type.toBeAssignable<{ a: string; b: number }>();
++ expect<{ a: string }>().type.toBeAssignableWith<{ a: string; b: number }>();
+
+- expect<{ a: string; b: number }>().type.not.toBeAssignable<{ a: string }>();
++ expect<{ a: string; b: number }>().type.not.toBeAssignableWith<{ a: string }>();
+```
+
+The `.toBeAssignableTo()` and `.toBeAssignableWith()` matchers allow checking assignability both ways and make it easier to understand what is being tested.
+
+<Tip>
+
+Which one to use? It depends on what you are testing. A good rule of thumb is to keep the type under test on the left hand side of the assertion.
+
+</Tip>
+
+### The Watch Mode  [#watch-mode]
+
+The watch mode is added. Current implementation is watching the test files for changes and reruns them.
+
+```shell
+tstyche --watch
+```
