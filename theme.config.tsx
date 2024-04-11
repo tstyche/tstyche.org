@@ -10,6 +10,7 @@ const config: DocsThemeConfig = {
   docsRepositoryBase: "https://github.com/tstyche/tstyche.org/tree/main",
   feedback: { content: null },
   footer: { text: `Copyright © ${new Date().getFullYear()} TSTyche` },
+  head: null,
   logo: TSTyche,
   primaryHue: { dark: 206, light: 216 },
   project: { link: "https://github.com/tstyche/tstyche" },
