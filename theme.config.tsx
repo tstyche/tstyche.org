@@ -18,12 +18,16 @@ const config: DocsThemeConfig = {
 
   useNextSeoProps() {
     const { asPath } = useRouter();
+    const openGraph = { images: [{ url: "https://tstyche.org/images/og.png" }] };
+
     if (asPath === "/") {
       return {
+        openGraph,
         title: "TSTyche — The Essential Type Testing Tool",
       };
     }
     return {
+      openGraph,
       titleTemplate: "%s — TSTyche",
     };
   },
