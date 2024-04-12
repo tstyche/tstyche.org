@@ -5,13 +5,13 @@ This documentation website is build using [Next.js](https://nextjs.org) and [Nex
 ## Setup
 
 ```shell
-yarn
+npm install
 ```
 
 ## Develop
 
 ```shell
-yarn dev
+npm run dev
 ```
 
 The command starts a local development server. Most changes are reflected live without having to restart the server.
@@ -19,7 +19,7 @@ The command starts a local development server. Most changes are reflected live w
 ## Build
 
 ```shell
-yarn build
+npm run build
 ```
 
 The command generates static content into the `.next` directory and can be served using any static contents hosting service.
