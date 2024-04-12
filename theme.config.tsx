@@ -18,15 +18,22 @@ const config: DocsThemeConfig = {
 
   useNextSeoProps() {
     const { asPath } = useRouter();
+
+    const additionalLinkTags = [
+      { rel: "icon", href: "https://tstyche.org/images/favicon.svg" },
+      { rel: "apple-touch-icon", href: "https://tstyche.org/images/apple-touch-icon.png" },
+    ];
     const openGraph = { images: [{ url: "https://tstyche.org/images/og.png" }] };
 
     if (asPath === "/") {
       return {
+        additionalLinkTags,
         openGraph,
         title: "TSTyche — The Essential Type Testing Tool",
       };
     }
     return {
+      additionalLinkTags,
       openGraph,
       titleTemplate: "%s — TSTyche",
     };
