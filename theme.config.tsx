@@ -20,9 +20,9 @@ const config: DocsThemeConfig = {
     const { asPath } = useRouter();
 
     const additionalLinkTags = [
-      { rel: "icon", href: "https://tstyche.org/images/favicon.png", type: "image/png" },
-      { rel: "icon", href: "https://tstyche.org/images/favicon.svg", type: "image/svg+xml" },
-      { rel: "apple-touch-icon", href: "https://tstyche.org/images/apple-touch-icon.png" },
+      { rel: "icon", href: "/images/favicon.png", type: "image/png" },
+      { rel: "icon", href: "/images/favicon.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/images/apple-touch-icon.png" },
     ];
     const openGraph = { images: [{ url: "https://tstyche.org/images/og.png" }] };
 
