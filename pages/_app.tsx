@@ -1,4 +1,4 @@
-import { ibmPlexSans, ibmPlexMono } from "@/styles/fonts";
+import { ibmPlexMono, ibmPlexSans } from "@/styles/fonts";
 import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
