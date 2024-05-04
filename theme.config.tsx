@@ -33,6 +33,7 @@ const config: DocsThemeConfig = {
         title: "TSTyche — The Essential Type Testing Tool",
       };
     }
+
     return {
       additionalLinkTags,
       openGraph,
