@@ -2,3 +2,4 @@
 
 /guide/project-structure   /guide/typescript-project
 /guide/project-setup       /guide/typescript-project
+/release-notes/*           /releases/:splat

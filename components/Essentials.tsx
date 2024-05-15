@@ -6,7 +6,7 @@ export function Essentials() {
   return (
     <>
       <div className="rounded-md text-center border text-blaze-orange-700 border-blaze-orange-700 py-2 dark:text-blaze-orange-500 dark:border-blaze-orange-500">
-        <Link href="/release-notes/tstyche-2">
+        <Link href="/releases/tstyche-2">
           Try out TSTyche 2.0 (beta)
           <ArrowRight className="inline pl-1 align-bottom" size={22} />
         </Link>
