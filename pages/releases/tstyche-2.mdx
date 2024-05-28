@@ -1,4 +1,4 @@
-import { Tabs } from "nextra/components";
+import { FileTree, Tabs } from "nextra/components";
 import { Note, Tip, Warning } from "@/components/Advice";
 
 # Release Notes
@@ -51,7 +51,32 @@ The minimum required Node.js version is `16.14`. It is recommended to use the la
 
 Testing on specific version of TypeScript requires Node.js 18 or later. The global [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/fetch) method is now used to fetch the `typescript` package metadata from the registry.
 
-### Command Line
+### Configuration
+
+#### `testFileMatch` [#test-file-match]
+
+The logic of glob pattern matching is reworked. All matching paths in a directory are selected, because of that file extensions must be always specified. For example, to avoid selecting the `tsconfig.json` file within the `__tests__` directory:
+
+<FileTree>
+  <FileTree.Folder name="__tests__" defaultOpen>
+    <FileTree.File name="Emitter.ts" />
+    <FileTree.File name="Semaphore.ts" />
+    <FileTree.File name="tsconfig.json" />
+  </FileTree.Folder>
+  <FileTree.File name="package.json" />
+  <FileTree.File name="tstyche.config.json" />
+</FileTree>
+
+A `*.ts` must be added to the pattern:
+
+```diff filename="./tstyche.config.json"
+{
+- "testFileMatch": ["__tests__"]
++ "testFileMatch": ["__tests__/*.ts"]
+}
+```
+
+### Test Runner
 
 #### `--watch` [#watch]
 
