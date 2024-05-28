@@ -13,7 +13,6 @@
   "language": "en-US",
   "useGitignore": true,
   "words": [
-    "dprint",
     "nextra",
     "tailwindcss",
     "tstyche",

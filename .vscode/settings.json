@@ -9,7 +9,6 @@
   },
   "editor.rulers": [80, 120],
   "files.associations": {
-    "dprint.json": "jsonc",
     "*.css": "tailwindcss"
   },
   "typescript.preferences.importModuleSpecifierEnding": "js",
