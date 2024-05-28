@@ -65,6 +65,12 @@ tstyche --watch
 
 Files are watched recursively using the [`fs.watch()`](https://nodejs.org/docs/latest/api/fs.html#fswatchfilename-options-listener) method that relies on file system events.
 
+<Note>
+
+In some cases this feature is [not available](https://nodejs.org/docs/latest/api/fs.html#availability). For example, it does not work on network file systems. Also note that recursive watch support was added for the Linux systems only since Node.js 20.
+
+</Note>
+
 ### Matchers
 
 #### `.toBe()` [#to-be]
