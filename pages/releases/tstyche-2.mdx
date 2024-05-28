@@ -45,7 +45,29 @@ pnpm add -D tstyche@next
 
 </Warning>
 
-### `.toBe()` [#to-be]
+### Requirements
+
+The minimum required Node.js version is `16.14`. It is recommended to use the latest Long Term Support (LTS) release.
+
+### Configuration
+
+#### `target`, `--target` [#target]
+
+Testing on specific versions of TypeScript requires Node.js 18 or later. The global [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/fetch) method is now used to fetch the `typescript` package metadata from the registry.
+
+#### `--watch` [#watch]
+
+The watch mode is added. Current implementation is watching the TSTyche configuration file and the test files for changes and reruns them.
+
+```shell
+tstyche --watch
+```
+
+Files are watched recursively using the [`fs.watch()`](https://nodejs.org/docs/latest/api/fs.html#fswatchfilename-options-listener) method that relies on file system events.
+
+### Matchers
+
+#### `.toBe()` [#to-be]
 
 `.toBe()` is the new name of `.toEqual()`.
 
@@ -61,7 +83,7 @@ import { expect } from "tstyche";
 
 The new name simplifies swapping between the [primitive type matchers](../reference/expect-api.mdx#primitive-type-matchers) and `.toBe()`. For example, replacing `.toBeString()` with `.toBe<string | undefined>()` looks more clear than before.
 
-### `.toBeAssignableTo()` [#to-be-assignable-to]
+#### `.toBeAssignableTo()` [#to-be-assignable-to]
 
 `.toBeAssignableTo()` is a new matcher, it checks if the source type is assignable to the target type. The opposite of [`.toBeAssignableWith()`](#to-be-assignable-with).
 
@@ -72,7 +94,7 @@ expect<{ a: string; b: number }>().type.toBeAssignableTo<{ a: string }>();
 expect<{ a: string }>().type.not.toBeAssignableTo<{ a: string; b: number }>();
 ```
 
-### `.toBeAssignableWith()` [#to-be-assignable-with]
+#### `.toBeAssignableWith()` [#to-be-assignable-with]
 
 `.toBeAssignableWith()` is the new name of `.toBeAssignable()`, it checks if the source type is assignable with the target type. The opposite of [`.toBeAssignableTo()`](#to-be-assignable-to).
 
@@ -93,11 +115,3 @@ The `.toBeAssignableTo()` and `.toBeAssignableWith()` matchers allow checking as
 Which one to use? It depends on what you are testing. A good rule of thumb is to keep the type under test on the left hand side of the assertion.
 
 </Tip>
-
-### The Watch Mode  [#watch-mode]
-
-The watch mode is added. Current implementation is watching the test files for changes and reruns them.
-
-```shell
-tstyche --watch
-```
