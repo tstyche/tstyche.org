@@ -13,6 +13,7 @@
   "language": "en-US",
   "useGitignore": true,
   "words": [
+    "fontsource",
     "nextra",
     "tailwindcss",
     "tstyche",

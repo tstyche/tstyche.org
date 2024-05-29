@@ -5,11 +5,11 @@
 @layer base {
   code,
   pre {
-    font-family: var(--font-ibm-plex-mono), monospace;
+    font-family: "IBM Plex Mono", monospace;
   }
 
   main {
-    font-family: var(--font-ibm-plex-sans), ui-sans-serif, system-ui, sans-serif;
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   }
 }
 

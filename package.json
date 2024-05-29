@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@carbon/icons-react": "^11.42.0",
+    "@fontsource/ibm-plex-mono": "^5.0.13",
+    "@fontsource/ibm-plex-sans": "^5.0.20",
     "next": "^14.2.3",
     "nextra": "^2.13.4",
     "nextra-theme-docs": "^2.13.4",
