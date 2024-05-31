@@ -55,7 +55,9 @@ Testing on specific version of TypeScript requires Node.js 18 or later. The glob
 
 #### `testFileMatch` [#test-file-match]
 
-The logic of glob pattern matching is reworked. All matching paths in a directory are selected, because of that file extensions must be always specified. For example, to avoid selecting the `tsconfig.json` file within the `__tests__` directory:
+The logic of glob pattern matching is reworked. Current implementation allows selecting all matching paths including `.json` or `.mdx` files.
+
+For instance, to avoid selecting the `__tests__/tsconfig.json` as a test file:
 
 <FileTree>
   <FileTree.Folder name="__tests__" defaultOpen>
