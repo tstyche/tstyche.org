@@ -1,5 +1,5 @@
 import { FileTree, Tabs } from "nextra/components";
-import { Note, Tip, Warning } from "@/components/Advice";
+import { Note, Tip } from "@/components/Advice";
 
 # Release Notes
 
@@ -11,13 +11,13 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 </Note>
 
-## TSTyche 2.0 (beta)  [#tstyche-2-0]
+## TSTyche 2.0  [#tstyche-2-0]
 
 TSTyche 2.0 ships with more matchers, performance refinements and the watch mode.
 
-<Warning>
+<Tip>
 
-Keep in mind that TSTyche 2.0 is still in beta. More breaking changes may be introduced before the stable version is release. To install the latest beta version, use the `next` distribution tag:
+TSTyche 2.0 is available as a release candidate. It is production-ready and no further breaking changes will be introduced before the stable version. To install the most recent release candidate, use the `next` distribution tag:
 
 <Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
 <Tabs.Tab>
@@ -43,7 +43,7 @@ pnpm add -D tstyche@next
 </Tabs.Tab>
 </Tabs>
 
-</Warning>
+</Tip>
 
 ### Requirements
 

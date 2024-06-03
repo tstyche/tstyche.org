@@ -5,9 +5,9 @@ import { Code } from "./Code";
 export function Essentials() {
   return (
     <>
-      <div className="rounded-md text-center border text-blaze-orange-700 border-blaze-orange-700 py-2 dark:text-blaze-orange-500 dark:border-blaze-orange-500">
+      <div className="rounded-md text-center border text-blue-ribbon-700 border-blue-ribbon-700 py-2 dark:text-blue-ribbon-500 dark:border-blue-ribbon-500">
         <Link href="/releases/tstyche-2">
-          Try out TSTyche 2.0 (beta)
+          TSTyche 2 is now available
           <ArrowRight className="inline pl-1 align-bottom" size={22} />
         </Link>
       </div>
