@@ -73,10 +73,10 @@ interface Sample {
   getWidth?: () => number;
 }
 
-expect<MethodLikeKeys<Sample>>().type.toEqual<"getLength" | "getWidth">();
+expect<MethodLikeKeys<Sample>>().type.toBe<"getLength" | "getWidth">();
 ```
 
-Here the `expect()` function defines an easy to read assertion. There are two method like keys in the `Sample` interface, hence the resulting type must equal `"getLength" | "getWidth"`.
+Here the `expect()` function defines an easy to read assertion. There are two method like keys in the `Sample` interface, hence the resulting type must be `"getLength" | "getWidth"`.
 
 <Tip>
 
@@ -119,11 +119,11 @@ You should see similar report:
 
 [31mfail[0m [90m./[0mMethodLikeKeys.tst.ts
 
-[31mError: [0mType '"getLength" | "getWidth"' is not equal to type '"getLength"'.
+[31mError: [0mType '"getLength"' is not identical to type '"getLength" | "getWidth"'.
 
   [90m 8 | }[0m
   [90m 9 | [0m
-[31m>[0m 10 [90m|[0m expect<MethodLikeKeys<Sample>>().type.toEqual<"getLength" | "getWidth">();
+[31m>[0m 10 [90m|[0m expect<MethodLikeKeys<Sample>>().type.toBe<"getLength" | "getWidth">();
      [90m|[0m                                       [31m^[0m
   [90m11 | [0m
 

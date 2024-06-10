@@ -1,4 +1,4 @@
-import { Tip } from "@/components/Advice";
+import { Note, Tip } from "@/components/Advice";
 
 # Command Line
 
@@ -143,3 +143,13 @@ The list of available TypeScript versions is updated every two hours. Use this o
 ### `--version` [#version]
 
 Print the TSTyche version number and exit.
+
+### `--watch` [#watch]
+
+Watch for changes and rerun related test files. Current implementation is watching the TSTyche configuration file and the test files for changes.
+
+<Note>
+
+Files are watched recursively using the [`fs.watch()`](https://nodejs.org/docs/latest/api/fs.html#fswatchfilename-options-listener) method that relies on file system events. In some cases this feature is [not available](https://nodejs.org/docs/latest/api/fs.html#availability). For example, it does not work on network file systems. Also note that recursive watch support was added for the Linux systems only since Node.js 20.
+
+</Note>

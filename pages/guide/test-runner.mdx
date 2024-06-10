@@ -91,7 +91,7 @@ import { secondItem } from "../secondItem.js";
 test("handles numbers", () => {
   assert.strictEqual(secondItem([1, 2, 3]), 2);
 
-  tstyche.expect(secondItem([1, 2, 3])).type.toEqual<number | undefined>();
+  tstyche.expect(secondItem([1, 2, 3])).type.toBe<number | undefined>();
   });
 });
 ```

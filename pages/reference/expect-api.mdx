@@ -24,12 +24,12 @@ import { expect } from "tstyche";
 const one = 1;
 //    ^^^ The type is '1'
 
-expect(1).type.toEqual<1>();
+expect(1).type.toBe<1>();
 
 const two = { a: 2, b: [3, 3] };
 //    ^^^ The type is '{ a: number; b: number[] }'
 
-expect({ a: 2, b: [3, 3] }).type.toEqual<{ a: number; b: number[] }>();
+expect({ a: 2, b: [3, 3] }).type.toBe<{ a: number; b: number[] }>();
 ```
 
 To tell to the type checker that a type should not be widened, use [type assertions](https://typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions):
@@ -40,7 +40,7 @@ import { expect } from "tstyche";
 const six = { a: 6 as const, b: [9, 9] as 9[] };
 //    ^^^ The type is '{ a: 6; b: 9[] }'
 
-expect({ a: 6 as const, b: [9, 9] as 9[] }).type.toEqual<{ a: 6; b: 9[] }>();
+expect({ a: 6 as const, b: [9, 9] as 9[] }).type.toBe<{ a: 6; b: 9[] }>();
 ```
 
 <Note>
@@ -53,7 +53,7 @@ import { expect } from "tstyche";
 const ten = { a: 6, b: [9, 9] } as const;
 //    ^^^ The type is '{ readonly a: 6; readonly b: readonly [9, 9] }'
 
-expect({ a: 6, b: [9, 9] } as const).type.toEqual<{
+expect({ a: 6, b: [9, 9] } as const).type.toBe<{
   readonly a: 6;
   readonly b: readonly [9, 9];
 }>();
@@ -75,11 +75,11 @@ config = { silent: true, timeout: 800 };
 //                is not assignable to type '{ timeout: number; }'.
 
 // Just like above, object literals may only specify known properties
-expect.fail<{ timeout: number }>().type.toBeAssignable({ silent: true, timeout: 800 });
+expect.fail<{ timeout: number }>().type.toBeAssignableWith({ silent: true, timeout: 800 });
 expect.fail({ silent: true, timeout: 800 }).type.toMatch<{ timeout: number }>();
 
 // But object types are allowed to have excess properties
-expect<{ timeout: number }>().type.toBeAssignable<{ silent: true; timeout: 800 }>();
+expect<{ timeout: number }>().type.toBeAssignableWith<{ silent: true; timeout: 800 }>();
 expect<{ silent: true; timeout: 800 }>().type.toMatch<{ timeout: number }>();
 ```
 
@@ -90,7 +90,7 @@ import { expect } from "tstyche";
 
 let configSample = { silent: true, timeout: 800 };
 
-expect<{ timeout: number }>().type.toBeAssignable(configSample);
+expect<{ timeout: number }>().type.toBeAssignableWith(configSample);
 expect(configSample).type.toMatch<{ timeout: number }>();
 ```
 
@@ -140,40 +140,10 @@ expect<string>().type.toBeString();
 expect<number>().type.not.toBeString();
 ```
 
-### `.toBeAssignable()` [#to-be-assignable]
 
-Checks if the target type is assignable to the source type.
+### `.toBe()` [#to-be]
 
-```ts
-import { expect, test } from "tstyche";
-
-interface Options {
-  locale?: Array<"en" | "de">;
-  root?: string;
-}
-
-test("is assignable?", () => {
-  expect<Options>().type.toBeAssignable({});
-
-  expect<Options>().type.toBeAssignable({
-    locale: ["en" as const, "de" as const],
-    root: "./",
-  });
-});
-```
-
----
-
-**Signatures.** The target type can be passed as a type argument or inferred from an expression:
-
-```ts
-.toBeAssignable<Target>()
-.toBeAssignable(target: unknown)
-```
-
-### `.toEqual()` [#to-equal]
-
-Checks if the target type is identical to the source type.
+Checks if the source type is identical to the target type.
 
 ```ts
 import { expect, test } from "tstyche";
@@ -190,8 +160,8 @@ interface Sample {
   getWidth?: () => number;
 }
 
-test("is equal?", () => {
-  expect<MethodLikeKeys<Sample>>().type.toEqual<"getLength" | "getWidth">();
+test("MethodLikeKeys", () => {
+  expect<MethodLikeKeys<Sample>>().type.toBe<"getLength" | "getWidth">();
 });
 ```
 
@@ -200,8 +170,60 @@ test("is equal?", () => {
 **Signatures.** The target type can be passed as a type argument or inferred from an expression:
 
 ```ts
-.toEqual<Target>()
-.toEqual(target: unknown)
+.toBe<Target>()
+.toBe(target: unknown)
+```
+
+### `.toBeAssignableTo()` [#to-be-assignable-to]
+
+Checks if the source type is assignable to the target type. The opposite of the [`.toBeAssignableWith()`](#to-be-assignable-with) matcher.
+
+```ts
+import { expect, test } from "tstyche";
+
+test("Set", () => {
+  expect(new Set(["abc"])).type.toBeAssignableTo<Set<string>>();
+  expect(new Set([123])).type.toBeAssignableTo<Set<number>>();
+
+  expect(new Set([123, "abc"])).type.not.toBeAssignableTo<Set<string>>();
+  expect(new Set([123, "abc"])).type.not.toBeAssignableTo<Set<number>>();
+});
+```
+
+---
+
+**Signatures.** The target type can be passed as a type argument or inferred from an expression:
+
+```ts
+.toBeAssignableTo<Target>()
+.toBeAssignableTo(target: unknown)
+```
+
+### `.toBeAssignableWith()` [#to-be-assignable-with]
+
+Checks if the source type is assignable with the target type. The opposite of the [`.toBeAssignableTo()`](#to-be-assignable-to) matcher.
+
+```ts
+import { expect, test } from "tstyche";
+
+type Awaitable<T> = T | PromiseLike<T>;
+
+test("Awaitable", () => {
+  expect<Awaitable<string>>().type.toBeAssignableWith("abc");
+  expect<Awaitable<string>>().type.toBeAssignableWith(Promise.resolve("abc"));
+
+  expect<Awaitable<string>>().type.not.toBeAssignableWith(123);
+  expect<Awaitable<string>>().type.not.toBeAssignableWith(Promise.resolve(123));
+});
+```
+
+---
+
+**Signatures.** The target type can be passed as a type argument or inferred from an expression:
+
+```ts
+.toBeAssignableWith<Target>()
+.toBeAssignableWith(target: unknown)
 ```
 
 ### `.toHaveProperty()` [#to-have-property]
@@ -222,11 +244,13 @@ interface Sample {
   teardown: () => void;
 }
 
-expect<Worker<Sample>>().type.toHaveProperty("isBusy");
-expect<Worker<Sample>>().type.toHaveProperty("runTest");
+test("Worker", () => {
+  expect<Worker<Sample>>().type.toHaveProperty("isBusy");
+  expect<Worker<Sample>>().type.toHaveProperty("runTest");
 
-expect<Worker<Sample>>().type.not.toHaveProperty("setup");
-expect<Worker<Sample>>().type.not.toHaveProperty("teardown");
+  expect<Worker<Sample>>().type.not.toHaveProperty("setup");
+  expect<Worker<Sample>>().type.not.toHaveProperty("teardown");
+});
 ```
 
 `.toHaveProperty()` requires the source to be of an object type. For example, in TypeScript the `any` type can have any property, but it is not an object:
@@ -248,39 +272,33 @@ expect<any>().type.toHaveProperty("nope");
 
 ### `.toMatch()` [#to-match]
 
-Checks if the target type is a subtype of the source type.
+Checks if the target type is a subtype of the source type. In other words, `.toMatch()` is useful to test partial match in complex types.
+
+For example, recursive types:
 
 ```ts
 import { expect, test } from "tstyche";
 
-interface Options {
-  readonly environment?: string;
-  timers?: "fake" | "real";
+interface Sample {
+  nested: Sample;
+  optional?: string;
+  required: number;
 }
 
-const options: Options = {};
+test("Partial", () => {
+  expect<Partial<Sample>>().type.toMatch<{ nested?: Sample }>();
+  expect<Partial<Sample>>().type.toMatch<{ optional?: string }>();
+  expect<Partial<Sample>>().type.toMatch<{ required?: number }>();
+});
 
-test("is a match?", () => {
-  expect(options).type.toMatch<{ readonly environment?: string }>();
-  expect(options).type.toMatch<{ timers?: "fake" | "real" }>();
+test("Readonly", () => {
+  expect<Readonly<Sample>>().type.toMatch<{ readonly nested: Sample }>();
+  expect<Readonly<Sample>>().type.toMatch<{ readonly optional?: string }>();
+  expect<Readonly<Sample>>().type.toMatch<{ readonly required: number }>();
 });
 ```
 
-In TypeScript, a type is assignable to its subtype. This means that [`.toBeAssignable()`](#to-be-assignable) and `.toMatch()` are the opposites:
-
-```ts
-import { expect } from "tstyche";
-
-expect<"fake" | "real">().type.toBeAssignable<"fake">();
-// But type '"fake" | "real"' is not assignable to type '"fake"'
-expect<"fake" | "real">().type.not.toMatch<"fake">();
-
-expect<string>().type.toBeAssignable<"node">();
-// But type 'string' is not assignable to type '"node"'
-expect<string>().type.not.toMatch<"node">();
-```
-
-Although there are several exceptions:
+`.toMatch()` is similar to [`.toBeAssignableTo()`](#to-be-assignable-to) with several exceptions:
 
 ```ts
 import { expect } from "tstyche";
@@ -290,20 +308,20 @@ enum Direction {
   Down,
 }
 
-expect<string>().type.toBeAssignable<any>();
+expect<any>().type.toBeAssignableTo<string>();
 // But all types are not subtypes of the 'any' type
 expect<any>().type.not.toMatch<string>();
 
-expect<Direction>().type.toBeAssignable<number>();
+expect<number>().type.toBeAssignableTo<Direction>();
 // But an enum type is not a subtype of a number
 expect<number>().type.not.toMatch<Direction>();
 
-expect<{ a: string; b?: number }>().type.toBeAssignable<{ a: string }>();
+expect<{ a: string }>().type.toBeAssignableTo<{ a: string; b?: number }>();
 // But an object type with an optional property is not a subtype
 // of the same object type without that particular property
 expect<{ a: string }>().type.not.toMatch<{ a: string; b?: number }>();
 
-expect<{ a: string }>().type.toBeAssignable<{ readonly a: string }>();
+expect<{ readonly a: string }>().type.toBeAssignableTo<{ a: string }>();
 // But an object type with a particular property is not a subtype
 // of the same object type with that property marked 'readonly'
 expect<{ readonly a: string }>().type.not.toMatch<{ a: string }>();
@@ -372,17 +390,17 @@ import { expect, test } from "tstyche";
 
 test("is any?", () => {
   expect<any>().type.toBeAny();
-  // Equivalent to '.toEqual<any>()'
+  // Equivalent to '.toBe<any>()'
 });
 
 test("is string?", () => {
   expect<string>().type.toBeString();
-  // Equivalent to '.toEqual<string>()'
+  // Equivalent to '.toBe<string>()'
 });
 
 test("is number?", () => {
   expect<number>().type.toBeNumber();
-  // Equivalent to '.toEqual<number>()'
+  // Equivalent to '.toBe<number>()'
 });
 ```
 
