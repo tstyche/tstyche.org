@@ -11,6 +11,14 @@ TSTyche is build to test projects of any size and complexity. It aims to be:
 - predictable
 - scalable
 
+## How It Works
+
+To be able to test types TSTyche loads the `typescript` package installed in your project. It checks types programmatically, but does not require any dependencies to be installed. This is why the install size of TSTyche is just above 200kB.
+
+TSTyche wraps around TypeScript's [language service API](https://github.com/microsoft/TypeScript/wiki/Using-the-Language-Service-API) that is designed to do the absolute minimum work required to answer a query. If only a single test file is selected for a run, there is no need to waste time to type check the whole program.
+
+The language service API is also used by code editors like Visual Studio Code via the [`tsserver`](https://github.com/microsoft/TypeScript-wiki/blob/main/Standalone-Server-(tsserver).md) executable. This means that TSTyche sees exactly the same types which you see in hover messages.
+
 ## The Name
 
 The name of TSTyche is abbreviated from TypeScript **ty**pe **che**ck. In the early stage of development the library was defined as a type checker. Later it became a type test runner, but the name remained.
