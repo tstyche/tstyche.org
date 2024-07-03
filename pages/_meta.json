@@ -19,6 +19,10 @@
         "title": "Introduction",
         "href": "/guide/introduction"
       },
+      "get-started": {
+        "title": "Get Started",
+        "href": "/guide/get-started"
+      },
       "test-runner": {
         "title": "Test Runner",
         "href": "/guide/test-runner"
