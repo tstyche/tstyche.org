@@ -1,6 +1,6 @@
 # Introduction
 
-TSTyche is a type test runner that was created to handle hundreds of type test in large monorepos. While that was the initial problem, TSTyche is easy to use with small projects too.
+TSTyche is a type testing tool that was created to handle hundreds of type test in large monorepos. While that was the initial problem, TSTyche is very easy to use with small projects too.
 
 ## Goals of the Project
 
@@ -13,7 +13,7 @@ TSTyche is build to test projects of any size and complexity. It aims to be:
 
 ## How It Works
 
-To be able to test types TSTyche loads the `typescript` package installed in your project. It checks types programmatically, but does not require any dependencies to be installed. This is why the install size of TSTyche is just above 200kB.
+To be able to test types TSTyche loads the `typescript` package installed in your project. It checks types programmatically and does not require any dependencies to be installed. This is why the install size of TSTyche is just above 200kB.
 
 TSTyche wraps around TypeScript's [language service API](https://github.com/microsoft/TypeScript/wiki/Using-the-Language-Service-API) that is designed to do the absolute minimum work required to answer a query. If only a single test file is selected for a run, there is no need to waste time to type check the whole program.
 
