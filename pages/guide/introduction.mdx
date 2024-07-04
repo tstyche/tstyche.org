@@ -1,6 +1,6 @@
 # Introduction
 
-TSTyche is a type testing tool that was created to handle hundreds of type test in large monorepos. While that was the initial problem, TSTyche is very easy to use with small projects too.
+TSTyche is a type testing tool that was created to handle hundreds of type test in large monorepos. While that was the initial motivation, TSTyche is very easy to use with small projects too.
 
 ## Goals of the Project
 
@@ -18,6 +18,8 @@ To be able to test types TSTyche loads the `typescript` package installed in you
 TSTyche wraps around TypeScript's [language service API](https://github.com/microsoft/TypeScript/wiki/Using-the-Language-Service-API) that is designed to do the absolute minimum work required to answer a query. If only a single test file is selected for a run, there is no need to waste time to type check the whole program.
 
 The language service API is also used by code editors like Visual Studio Code via the [`tsserver`](https://github.com/microsoft/TypeScript-wiki/blob/main/Standalone-Server-(tsserver).md) executable. This means that TSTyche sees exactly the same types which you see in hover messages.
+
+TSTyche ships with the test helpers to [filter tests](./test-runner.mdx#filtering-tests) while debugging. Furthermore the `tstyche` command is able to select a [test file](./test-runner.mdx#selecting-test-files) or a [TypeScript version](./test-runner.mdx#typescript-versions) or to run tests in the watch mode. These are just the right features you need while working at scale.
 
 ## The Name
 
