@@ -5,17 +5,19 @@ import { Note, Tip } from "@/components/Advice";
 
 A project with a TSConfig file and TypeScript installed in this guide is referred as a TypeScript project.
 
-TSTyche is build to test projects of any size and complexity. To retrieve the type information it wraps around TypeScript's [language service](https://github.com/microsoft/TypeScript/wiki/Using-the-Language-Service-API). The same API which is used by code editors like Visual Studio Code via the [`tsserver`](https://github.com/microsoft/TypeScript-wiki/blob/main/Standalone-Server-(tsserver).md) executable.
+<Tip>
+
+TSTyche is build to test projects of any size and complexity. To learn more, see the [Introduction](./introduction.mdx) page.
+
+</Tip>
 
 ## TSConfig File
 
-For each test file the service loads the compiler configuration from the nearest `tsconfig.json` which includes the file in question. This means that TSTyche sees exactly the same types which you see in hover messages.
-
-If a particular test file is not included in any of TSConfig files found in enclosing directories, the [default compiler options](./javascript-project.mdx#default-compiler-options) will be set.
+To load the compiler options for a test file, TSTyche searches for the nearest `tsconfig.json` which includes the file in question. If a particular test file is not included in any of TSConfig files found in enclosing directories, the [default compiler options](./javascript-project.mdx#default-compiler-options) will be set.
 
 <Tip>
 
-The TSTyche test runner always prints the path to the TSConfig file. To inspect the compiler configuration, copy the path and pass it to `tsc` together with the `--showConfig` option:
+The test runner always prints the path to the TSConfig file. To inspect the compiler configuration, copy the path and pass it to `tsc` together with the `--showConfig` option:
 
 ```shell
 tsc --project ./typetests/tsconfig.json --showConfig
