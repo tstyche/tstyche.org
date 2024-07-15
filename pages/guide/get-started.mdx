@@ -121,13 +121,13 @@ You should see similar report:
 
 [31mError: [0mType '"getLength"' is not identical to type '"getLength" | "getWidth"'.
 
-  [90m 8 | }[0m
-  [90m 9 | [0m
-[31m>[0m 10 [90m|[0m expect<MethodLikeKeys<Sample>>().type.toBe<"getLength" | "getWidth">();
-     [90m|[0m                                       [31m^[0m
-  [90m11 | [0m
+[90m   8[0m[90m |[0m }
+[90m   9[0m[90m |[0m
+[31m  10[0m[90m |[0m expect<MethodLikeKeys<Sample>>().type.toBe<"getLength" | "getWidth">();
+    [90m |[0m                                            [31m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[90m  11[0m[90m |[0m
 
-       [90mat[0m [36m./MethodLikeKeys.tst.ts[0m[90m:10:39[0m
+      [90m at [0m[36m./MethodLikeKeys.tst.ts[0m[90m:10:44[0m
 ```
 
 On the first line you see the TypeScript version used for this test run. It is followed by a path to the TSConfig file from which the compiler configuration was loaded.

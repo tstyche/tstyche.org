@@ -1,5 +1,5 @@
 import { FileTree, Tabs } from "nextra/components";
-import { Note, Tip } from "@/components/Advice";
+import { Note, Tip, Warning } from "@/components/Advice";
 
 # Release Notes
 
@@ -10,6 +10,43 @@ This page lists breaking changes and notable new features. Please be sure to rea
 The detailed changelog can be found in [TSTyche repository on GitHub](https://github.com/tstyche/tstyche/blob/main/RELEASES.md).
 
 </Note>
+
+## TSTyche 2.1  [#tstyche-2-1]
+
+TSTyche 2.1 ships with the new `.toAcceptProps()` matcher.
+
+### Matchers
+
+#### `.toAcceptProps()` [#to-accept-props]
+
+Checks if the JSX component accepts props of the given type.
+
+```tsx
+import { expect, test } from "tstyche";
+
+interface ButtonProps {
+  text: string;
+  type?: "reset" | "submit";
+}
+
+function Button({ text, type }: ButtonProps) {
+  return <button type={type}>{text}</button>;
+}
+
+test("accepts props?", () => {
+  expect(Button).type.toAcceptProps({ text: "Send" });
+  expect(Button).type.toAcceptProps({ text: "Clear", type: "reset" as const });
+
+  expect(Button).type.not.toAcceptProps({ text: "Download", type: "button" as const });
+  expect(Button).type.not.toAcceptProps({});
+});
+```
+
+<Warning>
+
+This is a **work in progress feature**. Generic components are not yet supported.
+
+</Warning>
 
 ## TSTyche 2.0  [#tstyche-2-0]
 
