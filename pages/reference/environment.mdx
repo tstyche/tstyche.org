@@ -9,7 +9,7 @@ TSTyche must know few details about the environment before starting. These can b
 The parsing logic of the option value depends on its type:
 
 - **boolean** is interpreted as `true`, if the value is not an empty string; otherwise `false`,
-- **number** is normalized using the [`Number()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number/Number) constructor,
+- **number** is parsed using the [`Number.parseFloat()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseFloat) method,
 - **string** is simply a string.
 
 <Warning>
