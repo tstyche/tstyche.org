@@ -163,13 +163,13 @@ const options: tstyche.ConfigFileOptions = {};
 
 describe("ConfigFileOptions", () => {
   test("'failFast' option", () => {
-    expect<tstyche.ConfigFileOptions>().type.toMatch<{
+    expect<Pick<tstyche.ConfigFileOptions, "failFast">>().type.toBe<{
       failFast?: boolean;
     }>();
   });
 
   test("'target' option", () => {
-    expect<tstyche.ConfigFileOptions>().type.toMatch<{
+    expect<Pick<tstyche.ConfigFileOptions, "target">>().type.toBe<{
       target?: Array<string>;
     }>();
   });
