@@ -13,7 +13,7 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 ## TSTyche 3.0  [#tstyche-3-0]
 
-TSTyche 3.0 ships with support of a custom `npm` registry and performance refinements.
+TSTyche 3.0 ships with the new `omit()` and `pick()` utilities, support of a custom `npm` registry and performance refinements.
 
 <Warning>
 
@@ -57,7 +57,59 @@ The deprecated `.toBeAssignable()` and `.toEqual()` matchers are removed.
 
 #### `.toMatch()` [#to-match]
 
-The `.toMatch()` matcher is deprecated.
+The `.toMatch()` matcher is deprecated. The `Omit` and `Pick` utility types or the new `omit()` and `pick()` utilities should be used for subtype testing.
+
+### Utilities
+
+#### `omit()` [#omit]
+
+The `omit()` utility reshapes type of the given object by removing the specified keys:
+
+```ts
+import { expect, omit, pick } from "tstyche";
+
+class Queue<T> {
+  #entries: Array<T> = [];
+
+  get size(): number {
+    return this.#entries.length;
+  }
+
+  enqueue(item: T): void {
+    this.#entries.push(item);
+  }
+}
+
+expect(omit(new Queue(), "enqueue")).type.toBe<{ readonly size: number }>();
+
+// Equivalent to the 'Omit' utility type
+expect<Omit<Queue<string>, "enqueue">>().type.toBe<{ readonly size: number }>();
+```
+
+#### `pick()` [#pick]
+
+The `pick()` utility reshapes type of the given object by keeping only the specified keys:
+
+```ts
+import { expect, omit, pick } from "tstyche";
+
+class Queue<T> {
+  #entries: Array<T> = [];
+
+  get size(): number {
+    return this.#entries.length;
+  }
+
+  enqueue(item: T): void {
+    this.#entries.push(item);
+  }
+}
+
+expect(pick(new Queue(), "size")).type.toBe<{ readonly size: number }>();
+
+// Equivalent to the 'Pick' utility type
+expect<Pick<Queue<string>, "size">>().type.toBe<{ readonly size: number }>();
+```
 
 ### Environment Variables
 
