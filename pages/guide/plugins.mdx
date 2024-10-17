@@ -1,4 +1,4 @@
-import { Note, Warning } from "@/components/Advice";
+import { Note, Tip, Warning } from "@/components/Advice";
 
 # Plugins
 
@@ -28,7 +28,15 @@ Or use the [`plugins`](../reference/config-file.mdx#plugins) configuration optio
 
 ## Hooks
 
-A plugin is an object with one or more hooks. The hooks are called with a particular value which can be modified or a new value can be returned instead. Returning `null` does not replace anything.
+A plugin can be a package or a local module.
+
+<Tip>
+
+If you are publishing your plugin to `npm`, consider prefixing its name with `tstyche-plugin-`.
+
+</Tip>
+
+The module must export an object with one or more hooks. The hooks are called with a particular value which can be modified or a new value can be returned instead.
 
 ### `config(resolvedConfig)`
 
