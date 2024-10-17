@@ -42,7 +42,11 @@ Is called after configuration is resolved and allows to modify it.
  */
 export default {
   config: (resolvedConfig) => {
-    return { ...resolvedConfig, reporters: ["./custom-reporter.js"], testFileMatch: [] };
+    return {
+      ...resolvedConfig,
+      reporters: [new URL("./custom-reporter.js", import.meta.url).toString()],
+      testFileMatch: [] /* disables look up */,
+    };
   },
 };
 ```
