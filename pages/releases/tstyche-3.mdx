@@ -13,7 +13,7 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 ## TSTyche 3.0  [#tstyche-3-0]
 
-TSTyche 3.0 ships with the new `omit()` and `pick()` utilities, support of a custom `npm` registry and performance refinements.
+TSTyche 3.0 ships with support of a custom `npm` registry, the new `omit()` and `pick()` utilities, support for reporters and plugins, programmatic usage refinements and performance improvements.
 
 <Warning>
 
@@ -51,13 +51,19 @@ The minimum required Node.js version is `18.17`. It is recommended to use the la
 
 ### Matchers
 
-#### Breaking Changes
+#### Breaking Change
 
 The deprecated `.toBeAssignable()` and `.toEqual()` matchers are removed.
 
 #### `.toMatch()` [#to-match]
 
 The `.toMatch()` matcher is deprecated. The `Omit` and `Pick` utility types or the new `omit()` and `pick()` utilities should be used for subtype testing.
+
+### Environment Variables
+
+#### `TSTYCHE_NPM_REGISTRY` [#npm-registry]
+
+The base URL of the `npm` [registry](https://docs.npmjs.com/cli/using-npm/registry) to use.
 
 ### Utilities
 
@@ -111,8 +117,67 @@ expect(pick(new Queue(), "size")).type.toBe<{ readonly size: number }>();
 expect<Pick<Queue<string>, "size">>().type.toBe<{ readonly size: number }>();
 ```
 
-### Environment Variables
+### Reporters
 
-#### `TSTYCHE_NPM_REGISTRY` [#npm-registry]
+The reporters allow to customize output of TSTyche. By default, the built-in `list` and `summary` reporters are used.
 
-The base URL of the [`npm` registry](https://docs.npmjs.com/cli/using-npm/registry) to use.
+A custom reporter is a class that implements the `on()` method:
+
+```js
+export default class CustomReporter {
+  /**
+   * @param {import("tstyche/tstyche").Event} event
+   */
+  on([event, payload]) {
+    if (event === "run:start") {
+      console.info("Hello from custom reporter!");
+
+      for (const task of payload.result.tasks) {
+        console.info(task.filePath);
+      }
+    }
+  }
+}
+```
+
+To learn more, see the [Reporters](../guide/reporters.mdx) page.
+
+### Plugins
+
+The plugins allow to change behavior of TSTyche.
+
+A plugin is an object with one or more hooks:
+
+```js
+/**
+ * @type {import("tstyche/tstyche").Hooks}
+ */
+export default {
+  config: (resolvedConfig) => {
+    return { ...resolvedConfig, testFileMatch: [] };
+  },
+  select: async () => {
+    return await getTestFilesSomehow();
+  },
+};
+```
+
+In this example, the `config` hook disables test file look up and the `select` hook returns a list of test files.
+
+To learn more, see the [Plugins](../guide/plugins.mdx) page.
+
+### Programmatic Usage
+
+This release also ships with refined programmatic API.
+
+```js
+import { Config, Runner } from "tstyche/tstyche";
+
+const resolvedConfig = Config.resolve();
+const runner = new Runner(resolvedConfig);
+
+
+await runner.run(["./typetests/toBeNumber.tst.ts"]);
+```
+
+To learn more, see the [Programmatic Usage](../guide/programmatic-usage.mdx) page.

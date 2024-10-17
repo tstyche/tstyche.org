@@ -61,6 +61,47 @@ Use the [`--showConfig`](./command-line.mdx#show-config) command line option to 
 
 Stop running tests after the first failure.
 
+### `plugins` [#plugins]
+
+- Default: `[]`
+- Type: `Array<string>`
+
+The list of plugins to use.
+
+The following can be specified:
+
+- name of a package: `"tstyche-plugin"`,
+- or a path relative to the configuration file: `"./custom-plugin.js"`.
+
+```json
+{
+  "plugins": ["tstyche-plugin", "./custom-plugin.js"]
+}
+```
+
+To learn more, see the [Plugins](../guide/plugins.mdx) page.
+
+### `reporters` [#reporters]
+
+- Default: `["list", "summary"]`
+- Type: `Array<string>`
+
+The list of reporters to use.
+
+The following can be specified:
+
+- built-in reporter: `"list"` or `"summary"`,
+- name of a package: `"tstyche-reporter"`,
+- or a path relative to the configuration file: `"./custom-reporter.js"`.
+
+```json
+{
+  "reporters": ["list", "tstyche-reporter", "./custom-reporter.js"]
+}
+```
+
+To learn more, see the [Reporters](../guide/reporters.mdx) page.
+
 ### `rootPath` [#root-path]
 
 - Default: the path to the directory from which the configuration file was loaded or the current directory

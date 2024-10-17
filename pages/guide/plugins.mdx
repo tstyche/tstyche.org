@@ -1,0 +1,83 @@
+import { Note, Warning } from "@/components/Advice";
+
+# Plugins
+
+The plugins allow to change behavior of TSTyche.
+
+<Warning>
+
+This feature is only available in [TSTyche 3.0 (beta)](../releases/tstyche-3.mdx).
+
+</Warning>
+
+## Usage
+
+To specify a plugin pass the [`--plugins`](../reference/command-line.mdx#plugins) command line option:
+
+```shell
+tstyche --plugins tstyche-plugin,./custom-plugin.js
+```
+
+Or use the [`plugins`](../reference/config-file.mdx#plugins) configuration option:
+
+```json
+{
+  "plugins": ["tstyche-plugin", "./custom-plugin.js"]
+}
+```
+
+## Hooks
+
+A plugin is an object with one or more hooks. The hooks are called with a particular value which can be modified or a new value can be returned instead. Returning `null` does not replace anything.
+
+### `config(resolvedConfig)`
+
+- `resolvedConfig`: `ResolvedConfig` The resolved configuration, that includes options from [configuration file](../reference/config-file.mdx) and [command line](../reference/command-line.mdx).
+
+Is called after configuration is resolved and allows to modify it.
+
+```js
+/**
+ * @type {import("tstyche/tstyche").Hooks}
+ */
+export default {
+  config: (resolvedConfig) => {
+    return { ...resolvedConfig, reporters: ["./custom-reporter.js"], testFileMatch: [] };
+  },
+};
+```
+
+### `select(testFiles)`
+
+- `testFiles`: `Array<string>` The list of selected test files.
+
+Is called after test files are selected and allows to modify the list.
+
+```js
+/**
+ * @type {import("tstyche/tstyche").Hooks}
+ */
+export default {
+  select: (testFiles) => {
+    return testFiles.filter((testFile) => !testFile.endsWith("toBeNumber.test.ts"));
+  },
+};
+```
+
+## Providing List of Test Files
+
+For example, you can disable test file look up and provide own list of test files:
+
+```js
+/**
+ * @type {import("tstyche/tstyche").Hooks}
+ */
+export default {
+  config: (resolvedConfig) => {
+    return { ...resolvedConfig, testFileMatch: [] /* disables look up */ };
+  },
+  select: async () => {
+    return await getTestFilesSomehow();
+  },
+};
+```

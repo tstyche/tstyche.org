@@ -4,6 +4,5 @@
   "config-file": "Configuration File",
   "command-line": "Command Line",
   "environment": "Environment Variables",
-  "requirements": "System Requirements",
-  "programmatic-usage": "Programmatic Usage"
+  "requirements": "System Requirements"
 }

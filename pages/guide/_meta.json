@@ -3,5 +3,8 @@
   "get-started": "Get Started",
   "test-runner": "Test Runner",
   "javascript-project": "JavaScript Project",
-  "typescript-project": "TypeScript Project"
+  "typescript-project": "TypeScript Project",
+  "reporters": "Reporters",
+  "plugins": "Plugins",
+  "programmatic-usage": "Programmatic Usage"
 }

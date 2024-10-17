@@ -1,5 +1,3 @@
 # Redirects from what the browser requests to what is served
 
-/guide/project-structure   /guide/typescript-project
-/guide/project-setup       /guide/typescript-project
-/release-notes/*           /releases/:splat
+/reference/programmatic-usage   /guide/programmatic-usage

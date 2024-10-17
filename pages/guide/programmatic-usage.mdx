@@ -1,0 +1,47 @@
+import { Note, Warning } from "@/components/Advice";
+
+# Programmatic Usage
+
+The programmatic APIs allow integrating TSTyche with other tools.
+
+<Warning>
+
+This feature is only available in [TSTyche 3.0 (beta)](../releases/tstyche-3.mdx).
+
+</Warning>
+
+## Requirements
+
+If you plan to use TypeScript, the lowest supported version is `5.0`. The `module` and `moduleResolution` compiler options must be set to `"node16"`.
+
+## Entry Point
+
+The programmatic APIs can be imported from the `tstyche/tstyche` entry point:
+
+```ts
+import { Runner } from "tstyche/tstyche";
+
+console.log(Runner.version);
+```
+
+## `Runner`
+
+The `tstyche` command is responsible to read configuration and to select test files. That is done before test runner is invoked.
+
+To run the tests, the `Runner` class can be used directly. All you have to do is to provide configuration and list of the test files:
+
+```ts
+import { Config, Runner } from "tstyche/tstyche";
+
+const resolvedConfig = Config.resolve();
+const runner = new Runner(resolvedConfig);
+
+
+await runner.run(["./typetests/toBeNumber.tst.ts"]);
+```
+
+<Note>
+
+This is consider a power user feature. More documentation may or may not be provided in the future.
+
+</Note>
