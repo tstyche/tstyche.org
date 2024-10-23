@@ -9,23 +9,23 @@ The behavior of TSTyche can be customized through a configuration file.
 
 To configure TSTyche add `tstyche.config.json` file to the root of the project. Or point to your configuration file using the [`--config`](./command-line.mdx#config) command line option. The defaults will be used, if a configuration file is not provided.
 
-The configuration file must contain an object. Comments, single quotes and trailing commas are allowed:
+The configuration file must contain an object. Comments, unquoted keys, single quotes or trailing commas are allowed:
 
-```json
+```json5
 {
   // The list of glob patterns to match the test files
-  "testFileMatch": [
-    "**/*.test.ts",
-    "**/*.tst.ts",
+  testFileMatch: [
+    '**/*.test.ts',
+    '**/*.tst.ts',
   ],
 }
 ```
 
-<Note>
+<Tip>
 
-The compiler configuration is loaded from the nearest `tsconfig.json` file. To learn more, see the [TypeScript Project](../guide/typescript-project.mdx) page.
+These features simplify implementation of configuration file parser and might be useful in some situations. For maximum portability, the example of this page follow the [JSON specification](https://www.json.org/json-en.html).
 
-</Note>
+</Tip>
 
 ## Schema
 
@@ -34,7 +34,6 @@ In-editor validation can be enabled by adding the `$schema` key:
 ```json
 {
   "$schema": "https://tstyche.org/schemas/config.json"
-  // ...
 }
 ```
 
@@ -43,7 +42,6 @@ The below pattern can be used to specify the version of TSTyche:
 ```json
 {
   "$schema": "https://tstyche.org/schemas/config-2.0.json"
-  // ...
 }
 ```
 
