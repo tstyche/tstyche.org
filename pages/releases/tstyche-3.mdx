@@ -68,8 +68,8 @@ The look up strategy to be used to find the TSConfig file.
 The following can be specified:
 
 - `"findup"`, find the nearest `tsconfig.json` that includes a particular test file,
-- `"ignore"`, do not load any `tsconfig.json`,
-- or, if the path is specified, use it to load `tsconfig.json` file.
+- `"ignore"`, do not look for any `tsconfig.json` and use the defaults,
+- or, if a path is specified, simply load `tsconfig.json` from that path.
 
 If the TSConfig file is not found, or is ignored, or does not include a test file in question, the [default compiler options](../guide/javascript-project.mdx#default-compiler-options) will be set.
 
