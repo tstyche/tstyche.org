@@ -13,7 +13,7 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 ## TSTyche 3.0  [#tstyche-3-0]
 
-TSTyche 3.0 ships with support of a custom `npm` registry, the new `omit()` and `pick()` utilities, support for reporters and plugins, programmatic usage refinements and performance improvements.
+TSTyche 3.0 ships with the new `tsconfig` option, support of a custom `npm` registry, the new `omit()` and `pick()` utilities, support for reporters and plugins, programmatic usage refinements and performance improvements.
 
 <Warning>
 
@@ -58,6 +58,26 @@ The deprecated `.toBeAssignable()` and `.toEqual()` matchers are removed.
 #### `.toMatch()` [#to-match]
 
 The `.toMatch()` matcher is deprecated. The `Omit` and `Pick` utility types or the new `omit()` and `pick()` utilities should be used for subtype testing.
+
+### Configuration
+
+#### `tsconfig` [#tsconfig]
+
+The look up strategy to be used to find the TSConfig file.
+
+The following can be specified:
+
+- `"findup"`, find the nearest `tsconfig.json` that includes a particular test file,
+- `"ignore"`, do not load any `tsconfig.json`,
+- or, if the path is specified, use it to load `tsconfig.json` file.
+
+If the TSConfig file is not found, or is ignored, or does not include a test file in question, the [default compiler options](../guide/javascript-project.mdx#default-compiler-options) will be set.
+
+```json
+{
+  "tsconfig": "./tsconfig.test.json"
+}
+```
 
 ### Environment Variables
 
