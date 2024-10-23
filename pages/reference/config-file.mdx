@@ -51,6 +51,8 @@ The below pattern can be used to specify the version of TSTyche:
 
 Options passed through the [command line](./command-line.mdx) override the ones from the configuration file.
 
+Relative paths are resolved relative to the configuration file.
+
 <Tip>
 
 Use the [`--showConfig`](./command-line.mdx#show-config) command line option to inspect the resolved configuration.
@@ -74,7 +76,7 @@ The list of plugins to use.
 The following can be specified:
 
 - name of a package: `"tstyche-plugin"`,
-- or a path relative to the configuration file: `"./custom-plugin.js"`.
+- or a path: `"./custom-plugin.js"`.
 
 ```json
 {
@@ -95,7 +97,7 @@ The following can be specified:
 
 - built-in reporter: `"list"` or `"summary"`,
 - name of a package: `"tstyche-reporter"`,
-- or a path relative to the configuration file: `"./custom-reporter.js"`.
+- or a path: `"./custom-reporter.js"`.
 
 ```json
 {
@@ -110,7 +112,7 @@ To learn more, see the [Reporters](../guide/reporters.mdx) page.
 - Default: the path to the directory from which the configuration file was loaded or the current directory
 - Type: `string`
 
-The path to a directory containing files of a test project. Relative path is resolved relative to the configuration file.
+The path to a directory containing files of a test project.
 
 To collect the test files, the file tree is walked starting from the `rootPath` directory. Later during the test run, the lookup of `tsconfig.json` for each test file starts at the directory containing the file and ends at the `rootPath`.
 
