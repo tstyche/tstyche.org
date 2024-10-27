@@ -170,14 +170,17 @@ A plugin is an object with one or more hooks:
 
 ```js
 /**
- * @type {import("tstyche/tstyche").Hooks}
+ * @type {import("tstyche/tstyche").Plugin}
  */
 export default {
-  config: (resolvedConfig) => {
+  name: "example-plugin",
+
+  config(resolvedConfig) {
     return { ...resolvedConfig, testFileMatch: [] };
   },
-  select: async () => {
-    return await getTestFilesSomehow();
+
+  async select() {
+    return await getTestFilesSomehow(this.resolvedConfig);
   },
 };
 ```

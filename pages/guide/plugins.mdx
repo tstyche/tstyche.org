@@ -46,10 +46,12 @@ Is called after configuration is resolved and allows to modify it.
 
 ```js
 /**
- * @type {import("tstyche/tstyche").Hooks}
+ * @type {import("tstyche/tstyche").Plugin}
  */
 export default {
-  config: (resolvedConfig) => {
+  name: "modify-config",
+
+  config(resolvedConfig) {
     return {
       ...resolvedConfig,
       reporters: [new URL("./custom-reporter.js", import.meta.url).toString()],
@@ -73,10 +75,12 @@ Is called after test files are selected and allows to modify the list.
 
 ```js
 /**
- * @type {import("tstyche/tstyche").Hooks}
+ * @type {import("tstyche/tstyche").Plugin}
  */
 export default {
-  select: (testFiles) => {
+  name: "filter-test-files",
+
+  select(testFiles) {
     return testFiles.filter((testFile) => !testFile.endsWith("toBeNumber.test.ts"));
   },
 };
@@ -94,14 +98,17 @@ For example, you can disable test file look up and provide own list of test file
 
 ```js
 /**
- * @type {import("tstyche/tstyche").Hooks}
+ * @type {import("tstyche/tstyche").Plugin}
  */
 export default {
-  config: (resolvedConfig) => {
+  name: "provide-test-files",
+
+  config(resolvedConfig) {
     return { ...resolvedConfig, testFileMatch: [] /* disables look up */ };
   },
-  select: async () => {
-    return await getTestFilesSomehow();
+
+  async select() {
+    return await getTestFilesSomehow(this.resolvedConfig);
   },
 };
 ```
