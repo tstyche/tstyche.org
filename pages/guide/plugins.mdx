@@ -12,6 +12,14 @@ This feature is only available in [TSTyche 3.0 (beta)](../releases/tstyche-3.mdx
 
 ## Usage
 
+A plugin can be a package or a local module.
+
+<Tip>
+
+If you are publishing your plugin to `npm`, consider prefixing its name with `tstyche-plugin-`.
+
+</Tip>
+
 To specify a plugin pass the [`--plugins`](../reference/command-line.mdx#plugins) command line option:
 
 ```shell
@@ -26,21 +34,40 @@ Or use the [`plugins`](../reference/config-file.mdx#plugins) configuration optio
 }
 ```
 
-## Hooks
+## The Plugin
 
-A plugin can be a package or a local module.
+The plugin must export an object with the `name` property and implement one or more hooks:
 
-<Tip>
+```js
+/**
+ * @type {import("tstyche/tstyche").Plugin}
+ */
+export default {
+  name: "example-plugin",
 
-If you are publishing your plugin to `npm`, consider prefixing its name with `tstyche-plugin-`.
+  config(resolvedConfig) {
+    return { ...resolvedConfig, testFileMatch: [] };
+  },
 
-</Tip>
+  async select() {
+    return await getTestFilesSomehow(this.resolvedConfig);
+  },
+};
+```
 
-The module must export an object with one or more hooks. The hooks are called with a particular value which can be modified or a new value can be returned instead.
+### Properties
 
-### `config(resolvedConfig)`
+#### `name`
 
-- `resolvedConfig`: `ResolvedConfig` The resolved configuration, that includes options from [configuration file](../reference/config-file.mdx) and [command line](../reference/command-line.mdx).
+- Type: `string`
+
+The name of this plugin.
+
+### Hooks
+
+The hooks are called with a particular value which can be modified or replaced with a new value.
+
+#### `config()`
 
 Is called after configuration is resolved and allows to modify it.
 
@@ -67,9 +94,15 @@ Use the [`--showConfig`](../reference/command-line.mdx#show-config) command line
 
 </Tip>
 
-### `select(testFiles)`
+---
 
-- `testFiles`: `Array<string>` The list of selected test files.
+**Signature.** The modified value must be returned as a an object:
+
+```ts
+config(resolvedConfig: ResolvedConfig) => ResolvedConfig
+```
+
+#### `select()`
 
 Is called after test files are selected and allows to modify the list.
 
@@ -92,7 +125,17 @@ Use the [`--listFiles`](../reference/command-line.mdx#list-files) command line o
 
 </Tip>
 
-## Providing List of Test Files
+---
+
+**Signature.** The modified value must be returned as a list of strings, URL strings or URL objects:
+
+```ts
+select(testFiles: Array<string>) => Array<string | URL>
+```
+
+## Recipes
+
+### Providing List of Test Files
 
 For example, you can disable test file look up and provide own list of test files:
 
