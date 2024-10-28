@@ -69,6 +69,8 @@ The hooks are called with a particular value which can be modified or replaced w
 
 #### `config()`
 
+- Signature: `(resolvedConfig: ResolvedConfig) => ResolvedConfig`
+
 Is called after configuration is resolved and allows to modify it.
 
 ```js
@@ -94,15 +96,9 @@ Use the [`--showConfig`](../reference/command-line.mdx#show-config) command line
 
 </Tip>
 
----
-
-**Signature.** The modified value must be returned as a an object:
-
-```ts
-config(resolvedConfig: ResolvedConfig) => ResolvedConfig
-```
-
 #### `select()`
+
+- Signature: `(testFiles: Array<string>) => Array<string | URL>`
 
 Is called after test files are selected and allows to modify the list.
 
@@ -125,15 +121,7 @@ Use the [`--listFiles`](../reference/command-line.mdx#list-files) command line o
 
 </Tip>
 
----
-
-**Signature.** The modified value must be returned as a list of strings, URL strings or URL objects:
-
-```ts
-select(testFiles: Array<string>) => Array<string | URL>
-```
-
-## Recipes
+## Examples
 
 ### Providing List of Test Files
 
