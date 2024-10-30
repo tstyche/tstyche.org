@@ -1,5 +1,5 @@
 import { Tabs } from "nextra/components";
-import { Note, Tip } from "@/components/Advice";
+import { Note, Tip, Warning } from "@/components/Advice";
 
 # Release Notes
 
@@ -51,9 +51,11 @@ The minimum required Node.js version is `18.19`. It is recommended to use the la
 
 ### Matchers
 
-#### Breaking Change
+<Warning>
 
-The deprecated `.toBeAssignable()` and `.toEqual()` matchers are removed.
+**Breaking!** The deprecated `.toBeAssignable()` and `.toEqual()` matchers are removed.
+
+</Warning>
 
 #### `.toMatch()` [#to-match]
 
@@ -80,6 +82,12 @@ The following can be specified:
 If  TSConfig file is not found, or is ignored, or does not include a test file in question, the [default compiler options](../guide/javascript-project.mdx#default-compiler-options) will be set.
 
 ### Environment Variables
+
+<Warning>
+
+**Breaking!** The `TSTYCHE_TYPESCRIPT_PATH` environment variable is removed. Use [`TSTYCHE_TYPESCRIPT_MODULE`](#typescript-module) instead.
+
+</Warning>
 
 #### `TSTYCHE_NPM_REGISTRY` [#npm-registry]
 
