@@ -1,5 +1,5 @@
 import { Tabs } from "nextra/components";
-import { Note, Tip, Warning } from "@/components/Advice";
+import { Note, Tip } from "@/components/Advice";
 
 # Release Notes
 
@@ -15,9 +15,9 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 TSTyche 3.0 ships with the new `tsconfig` option, support of a custom `npm` registry, the new `omit()` and `pick()` utilities, support for reporters and plugins, programmatic usage refinements and performance improvements.
 
-<Warning>
+<Tip>
 
-Keep in mind that TSTyche 3.0 is still in beta. More breaking changes may be introduced before the stable version is released. To install the latest beta version, use the `next` distribution tag:
+TSTyche 3.0 is available as a release candidate. It is production-ready and no further breaking changes will be introduced before the stable version. To install, use the `next` distribution tag:
 
 <Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
 <Tabs.Tab>
@@ -43,11 +43,11 @@ pnpm add -D tstyche@next
 </Tabs.Tab>
 </Tabs>
 
-</Warning>
+</Tip>
 
 ### Requirements
 
-The minimum required Node.js version is `18.17`. It is recommended to use the latest Long Term Support (LTS) release.
+The minimum required Node.js version is `18.19`. It is recommended to use the latest Long Term Support (LTS) release.
 
 ### Matchers
 
@@ -84,6 +84,10 @@ If  TSConfig file is not found, or is ignored, or does not include a test file i
 #### `TSTYCHE_NPM_REGISTRY` [#npm-registry]
 
 The base URL of the `npm` [registry](https://docs.npmjs.com/cli/using-npm/registry) to use.
+
+#### `TSTYCHE_TYPESCRIPT_MODULE` [#typescript-module]
+
+`TSTYCHE_TYPESCRIPT_MODULE` is the new name of `TSTYCHE_TYPESCRIPT_PATH`. The value is now resolved using the [`import.meta.resolve()`](https://nodejs.org/docs/latest/api/esm.html#importmetaresolvespecifier) function.
 
 ### Utilities
 
