@@ -57,6 +57,24 @@ The minimum required Node.js version is `18.19`. It is recommended to use the la
 
 </Warning>
 
+#### `.toHaveProperty()` [#to-have=property]
+
+The `.toHaveProperty()` matcher now is able to check index signatures:
+
+```ts
+import { expect } from "tstyche";
+
+expect<Record<string, unknown>>().type.toHaveProperty("sample");
+
+expect<Record<number, unknown>>().type.not.toHaveProperty("sample");
+
+interface DataProps {
+   [key: `data-${string}`]: string;
+ }
+
+expect<DataProps>().type.toHaveProperty("data-sample");
+```
+
 #### `.toMatch()` [#to-match]
 
 The `.toMatch()` matcher is deprecated. The `Omit` and `Pick` utility types or the new `omit()` and `pick()` utilities should be used for subtype testing.
