@@ -79,6 +79,27 @@ expect<DataProps>().type.toHaveProperty("data-sample");
 
 The `.toMatch()` matcher is deprecated. The `Omit` and `Pick` utility types or the new `omit()` and `pick()` utilities should be used for subtype testing.
 
+#### `.toRaiseError()` [#to-raise-error]
+
+The `.toRaiseError()` matcher now takes regular expressions as well:
+
+```ts
+import { expect } from "tstyche";
+
+interface Matchers<R, T = unknown> {
+  [key: string]: (expected: T) => R;
+}
+
+// Pattern matching the error message
+expect<Matchers>().type.toRaiseError(/between \d and \d type arguments/);
+expect<Matchers>().type.toRaiseError(/generic .+ requires .+ type arguments/i);
+
+// The exact error message
+expect<Matchers>().type.toRaiseError(
+  /^Generic type 'Matchers<R, T>' requires between 1 and 2 type arguments.$/,
+);
+```
+
 ### Configuration
 
 #### `tsconfig` [#tsconfig]
