@@ -69,8 +69,8 @@ expect<Record<string, unknown>>().type.toHaveProperty("sample");
 expect<Record<number, unknown>>().type.not.toHaveProperty("sample");
 
 interface DataProps {
-   [key: `data-${string}`]: string;
- }
+  [key: `data-${string}`]: string;
+}
 
 expect<DataProps>().type.toHaveProperty("data-sample");
 ```
