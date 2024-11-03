@@ -13,7 +13,7 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 ## TSTyche 3.0  [#tstyche-3-0]
 
-TSTyche 3.0 ships with the new `tsconfig` option, support of a custom `npm` registry, the new `omit()` and `pick()` utilities, support for reporters and plugins, programmatic usage refinements and performance improvements.
+TSTyche 3.0 ships with the new `tsconfig` option, support of a custom `npm` registry, the new `omit()` and `pick()` type utilities, support for reporters and plugins, programmatic usage refinements and performance improvements.
 
 <Tip>
 
@@ -77,7 +77,7 @@ expect<DataProps>().type.toHaveProperty("data-sample");
 
 #### `.toMatch()` [#to-match]
 
-The `.toMatch()` matcher is deprecated. The `Omit` and `Pick` utility types or the new `omit()` and `pick()` [utilities](#utilities) should be used for subtype testing.
+The `.toMatch()` matcher is deprecated. The `Omit` and `Pick` utility types or the new `omit()` and `pick()` [type utilities](#type-utilities) should be used for subtype testing.
 
 #### `.toRaiseError()` [#to-raise-error]
 
@@ -136,11 +136,11 @@ The base URL of the `npm` [registry](https://docs.npmjs.com/cli/using-npm/regist
 
 `TSTYCHE_TYPESCRIPT_MODULE` is the new name of `TSTYCHE_TYPESCRIPT_PATH`. The value is now resolved using the [`import.meta.resolve()`](https://nodejs.org/docs/latest/api/esm.html#importmetaresolvespecifier) function.
 
-### Utilities
+### Type Utilities
 
 #### `omit()` [#omit]
 
-The `omit()` utility reshapes type of the given object by removing the specified keys:
+The `omit()` type utility reshapes type of the given object by removing the specified keys:
 
 ```ts
 import { expect, omit, pick } from "tstyche";
@@ -165,7 +165,7 @@ expect<Omit<Queue<string>, "enqueue" | "entries">>().type.toBe<{ readonly size: 
 
 #### `pick()` [#pick]
 
-The `pick()` utility reshapes type of the given object by keeping only the specified keys:
+The `pick()` type utility reshapes type of the given object by keeping only the specified keys:
 
 ```ts
 import { expect, omit, pick } from "tstyche";
