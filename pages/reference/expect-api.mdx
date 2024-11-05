@@ -125,6 +125,70 @@ Marks an assertion as focused. When there are focused groups, tests or assertion
 
 Marks an assertion as skipped. The test runner will ignore anything skipped and will suppress any type errors raised by the expressions or types passed to the `expect()` or a matcher function.
 
+## Type Utilities
+
+TypeScript ships utility types like `Omit` or `Pick` that reshape types. They can also be useful when testing types. If you are testing types of expressions, use the `omit()` or `pick()` type utilities to have same results.
+
+<Note>
+
+The utilities only reshape types. At runtime they return the same object that was passed as an argument.
+
+</Note>
+
+### `omit()` [#omit]
+
+The `omit()` type utility reshapes type of the given object by removing the specified keys:
+
+```ts
+import { expect, omit, pick } from "tstyche";
+
+class Queue<T> {
+  entries: Array<T> = [];
+
+  get size(): number {
+    return this.entries.length;
+  }
+
+  enqueue(item: T): void {
+    this.entries.push(item);
+  }
+}
+
+expect(omit(new Queue(), "enqueue", "entries")).type.toBe<{
+  readonly size: number;
+}>();
+
+// Equivalent to the 'Omit' utility type
+expect<Omit<Queue<string>, "enqueue" | "entries">>().type.toBe<{
+  readonly size: number;
+}>();
+```
+
+### `pick()` [#pick]
+
+The `pick()` type utility reshapes type of the given object by keeping only the specified keys:
+
+```ts
+import { expect, omit, pick } from "tstyche";
+
+class Queue<T> {
+  entries: Array<T> = [];
+
+  get size(): number {
+    return this.entries.length;
+  }
+
+  enqueue(item: T): void {
+    this.entries.push(item);
+  }
+}
+
+expect(pick(new Queue(), "size")).type.toBe<{ readonly size: number }>();
+
+// Equivalent to the 'Pick' utility type
+expect<Pick<Queue<string>, "size">>().type.toBe<{ readonly size: number }>();
+```
+
 ## Matchers
 
 A matcher is the last element of the assertion chain. It holds an assumption to check.
@@ -270,13 +334,14 @@ test("Awaitable", () => {
 Checks if a property key exists on the source type.
 
 ```ts
-import { expect } from "tstyche";
+import { expect, test } from "tstyche";
 
 type Worker<T> = {
   [K in keyof T as Exclude<K, "setup" | "teardown">]: T[K];
 };
 
 interface Sample {
+  [key: `data-${string}`]: string;
   isBusy?: boolean | undefined;
   runTest: (a: string, b: number) => void;
   setup: () => void;
@@ -284,6 +349,7 @@ interface Sample {
 }
 
 test("Worker", () => {
+  expect<Worker<Sample>>().type.toHaveProperty("data-sample");
   expect<Worker<Sample>>().type.toHaveProperty("isBusy");
   expect<Worker<Sample>>().type.toHaveProperty("runTest");
 
@@ -307,72 +373,6 @@ expect<any>().type.toHaveProperty("nope");
 
 ```ts
 .toHaveProperty(key: string | number | symbol)
-```
-
-### `.toMatch()` [#to-match]
-
-Checks if the target type is a subtype of the source type. In other words, `.toMatch()` is useful to test partial match in complex types.
-
-For example, recursive types:
-
-```ts
-import { expect, test } from "tstyche";
-
-interface Sample {
-  nested: Sample;
-  optional?: string;
-  required: number;
-}
-
-test("Partial", () => {
-  expect<Partial<Sample>>().type.toMatch<{ nested?: Sample }>();
-  expect<Partial<Sample>>().type.toMatch<{ optional?: string }>();
-  expect<Partial<Sample>>().type.toMatch<{ required?: number }>();
-});
-
-test("Readonly", () => {
-  expect<Readonly<Sample>>().type.toMatch<{ readonly nested: Sample }>();
-  expect<Readonly<Sample>>().type.toMatch<{ readonly optional?: string }>();
-  expect<Readonly<Sample>>().type.toMatch<{ readonly required: number }>();
-});
-```
-
-`.toMatch()` is similar to [`.toBeAssignableTo()`](#to-be-assignable-to) with several exceptions:
-
-```ts
-import { expect } from "tstyche";
-
-enum Direction {
-  Up = 1,
-  Down,
-}
-
-expect<any>().type.toBeAssignableTo<string>();
-// But all types are not subtypes of the 'any' type
-expect<any>().type.not.toMatch<string>();
-
-expect<number>().type.toBeAssignableTo<Direction>();
-// But an enum type is not a subtype of a number
-expect<number>().type.not.toMatch<Direction>();
-
-expect<{ a: string }>().type.toBeAssignableTo<{ a: string; b?: number }>();
-// But an object type with an optional property is not a subtype
-// of the same object type without that particular property
-expect<{ a: string }>().type.not.toMatch<{ a: string; b?: number }>();
-
-expect<{ readonly a: string }>().type.toBeAssignableTo<{ a: string }>();
-// But an object type with a particular property is not a subtype
-// of the same object type with that property marked 'readonly'
-expect<{ readonly a: string }>().type.not.toMatch<{ a: string }>();
-```
-
----
-
-**Signatures.** The target type can be passed as a type argument or inferred from an expression:
-
-```ts
-.toMatch<Target>()
-.toMatch(target: unknown)
 ```
 
 ### `.toRaiseError()` [#to-raise-error]
@@ -414,10 +414,10 @@ type M = Matcher<>;
 
 ---
 
-**Signature.** The `target` argument is optional. It can be one or more substrings or numeric codes:
+**Signature.** The `target` argument is optional. It can be one or more substrings, numeric codes or regular expressions:
 
 ```ts
-.toRaiseError(...target: Array<string | number>)
+.toRaiseError(...target: Array<string | number | RegExp>)
 ```
 
 ## Primitive Type Matchers

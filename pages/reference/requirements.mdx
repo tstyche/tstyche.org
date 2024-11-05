@@ -1,6 +1,6 @@
 # System Requirements
 
-TSTyche requires Node.js and internet connection.
+TSTyche requires Node.js and network connection.
 
 ## TypeScript
 
@@ -8,16 +8,14 @@ TypeScript `4.x` and `5.x` can be used for testing.
 
 ## Node.js
 
-The minimum required Node.js version is `16.14`. It is recommended to use the latest Long Term Support (LTS) release.
-
-Testing on specific version of TypeScript requires Node.js 18 or later. The global [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/fetch) method is now used to fetch the `typescript` package metadata from the registry.
+The minimum required Node.js version is `18.19`. It is recommended to use the latest Long Term Support (LTS) release.
 
 TSTyche supports and tests only the LTS releases of Node.js. Other releases might work too, but keep in mind that only the LTS releases are considered ready for general use.
 
 The details regarding Node.js release schedule are available [on GitHub](https://github.com/nodejs/release#release-schedule).
 
-## Internet Connection
+## Network Connection
 
-TSTyche uses the `npm` registry and command to install requested versions of the `typescript` package. Therefor testing on not yet used TypeScript version requires internet connection.
+To be able to test using a specific TypeScript version, TSTyche fetches metadata and tarball of `typescript` packages from the registry. Therefor testing on not yet used TypeScript version requires network connection.
 
-From time to time [the store](../guide/test-runner.mdx#the-store) fetches the latest metadata from the registry to update the manifest. This makes sure that tags like `latest` or `next` resolve correctly.
+From time to time [the store](../guide/test-runner.mdx#the-store) fetches the latest metadata from the registry. This makes sure that tags like `latest` or `next` resolve correctly.
