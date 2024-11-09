@@ -29,7 +29,7 @@ tsc --project ./typetests/tsconfig.json --showConfig
 
 To work smoothly with Svelte, Vue or similar projects a code editor needs an additional extension to be installed. Usually the extension provides a TypeScript [language service plugin](https://github.com/microsoft/TypeScript/wiki/Writing-a-Language-Service-Plugin), which helps the editor to reason about typings of a project.
 
-TSTyche makes sure the plugins are loaded by the TypeScript's project service, but they must be installed and explicitly listed in a TSConfig file. For example, if your type tests import from `.svelte` files, install the `typescript-svelte-plugin` package:
+TSTyche makes sure the plugins are loaded, but they must be installed and explicitly listed in a TSConfig file. For example, if your type tests import from `.svelte` files, install the `typescript-svelte-plugin` package:
 
 <Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
 <Tabs.Tab>
@@ -55,7 +55,7 @@ pnpm add -D typescript-svelte-plugin
 </Tabs.Tab>
 </Tabs>
 
-And add it to the language service [`plugins`](https://typescriptlang.org/tsconfig#plugins) list of the `tsconfig.json` nearest to type test files:
+And add it to the language service [`plugins`](https://typescriptlang.org/tsconfig#plugins) list in `tsconfig.json`:
 
 ```jsonc
 {
