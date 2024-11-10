@@ -99,6 +99,7 @@ Use the [`--showConfig`](../reference/command-line.mdx#show-config) command line
 #### `select()`
 
 - Signature: `(testFiles: Array<string>) => Array<string | URL>`
+- Context: `this.resolvedConfig: ResolvedConfig`
 
 Is called after test files are selected and allows to modify the list.
 
@@ -139,7 +140,8 @@ export default {
   },
 
   async select() {
-    return await getTestFilesSomehow(this.resolvedConfig);
+    // The resolved configuration is provided as a property of 'this' context
+    return await getTestFilesSomehow(this.resolvedConfig.rootPath);
   },
 };
 ```
