@@ -11,6 +11,57 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 </Note>
 
+## TSTyche 3.1  [#tstyche-3-1]
+
+TSTyche 3.1 ships with the new `rejectAnyType` and `rejectNeverType` configuration options and adds support for testing on a range of TypeScript versions.
+
+### Configuration
+
+#### `rejectAnyType` [#reject-any-type]
+
+Reject the `any` type passed as an argument to the `expect()` function or a matcher.
+
+#### `rejectNeverType` [#reject-never-type]
+
+Reject the `never` type passed as an argument to the `expect()` function or a matcher.
+
+#### `target` [#target]
+
+Now it is possible to specify a range of TypeScript versions.
+
+For example, the range `>=5.5` gets expanded to: `5.5`, `5.6`, `5.7` and so on. In the future this list will include newly released versions as well.
+
+To set an upper bound, the intersection of two ranges can be used: `>=5.0 <5.3`. Here only `5.0`, `5.1` and `5.2` are be included.
+
+Ranges and versions can be combined:
+
+```json
+{
+  "target": [">=5.0 <5.3", "5.4.2", ">5.5"]
+}
+```
+
+### Command Line
+
+#### `--list` [#list]
+
+Print the list of supported versions of the `typescript` package and exit.
+
+#### `--target` [#target]
+
+A range of TypeScript versions can be specified:
+
+```shell
+# Run tests using TypeScript 5.5, 5.6, 5.7, etc
+tstyche --target ">=5.5"
+
+# Run tests using TypeScript 5.0, 5.1 and 5.2
+tstyche --target ">=5.0 <5.3"
+
+# Ranges and versions can be combined
+tstyche --target ">=5.0 <5.3, 5.4.2, >5.5"
+```
+
 ## TSTyche 3.0  [#tstyche-3-0]
 
 TSTyche 3.0 ships with the new `tsconfig` option, support of a custom `npm` registry, the new `omit()` and `pick()` type utilities, support for reporters and plugins, programmatic usage refinements and performance improvements.

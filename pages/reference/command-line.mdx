@@ -76,6 +76,10 @@ tstyche --install --target 4.9
 tstyche --install --target 4.7,latest
 ```
 
+### `--list` [#list]
+
+Print the list of supported versions of the `typescript` package and exit.
+
 ### `--listFiles` [#list-files]
 
 Print the list of the selected test files and exit.
@@ -170,6 +174,32 @@ tstyche --target latest
 # Test on all specified versions of TypeScript
 tstyche --target 4.9,5.3.2,current
 ```
+
+#### Ranges
+
+Version ranges allow testing on a range of TypeScript versions. The range must be specified using an operator and a minor version.
+
+Supported operators:
+
+- `<`, less than,
+- `<=`, less than or equal to,
+- `>`, more than,
+- `>=`, more than or equal to.
+
+For example, the range `>=5.5` gets expanded to: `5.5`, `5.6`, `5.7` and so on. In the future this list will include newly released versions as well.
+
+To set an upper bound, the intersection of two ranges can be used: `>=5.0 <5.3`. Here only `5.0`, `5.1` and `5.2` are be included.
+
+```shell
+# Ranges and versions can be combined
+tstyche --target ">=5.0 <5.3, 5.4.2, >5.5"
+```
+
+<Tip>
+
+Use the [`--list`](./command-line.mdx#list) command line option to inspect the list of supported versions.
+
+</Tip>
 
 ### `--tsconfig` [#tsconfig]
 
