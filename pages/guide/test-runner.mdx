@@ -21,42 +21,45 @@ By default, the currently installed `typescript` package is used. To specify oth
 <Tabs.Tab>
 
 ```shell
-npx tstyche --target 4.8,current
+npx tstyche --target '>=5.5'
 ```
 
 </Tabs.Tab>
 <Tabs.Tab>
 
 ```shell
-yarn tstyche --target 4.8,current
+yarn tstyche --target '>=5.5'
 ```
 
 </Tabs.Tab>
 <Tabs.Tab>
 
 ```shell
-pnpm tstyche --target 4.8,current
+pnpm tstyche --target '>=5.5'
 ```
 
 </Tabs.Tab>
 </Tabs>
 
-If you run this command using the example from the [Introduction](./introduction.mdx), the report should include two versions of TypeScript:
+If you run this command using the example from the [Introduction](./introduction.mdx), the report should include three versions of TypeScript:
 
 ```ansi
-[90madds[0m TypeScript 4.8.4[90m to /Users/CandyCat/Library/TSTyche/typescript@4.8.4[0m
-[34muses[0m TypeScript 4.8.4[90m with ./tsconfig.json[0m
+[34muses[0m TypeScript 5.5.4
 
 [32mpass[0m [90m./[0mMethodLikeKeys.tst.ts
 
-[34muses[0m TypeScript 5.5.2[90m with ./tsconfig.json[0m
+[34muses[0m TypeScript 5.6.3
+
+[32mpass[0m [90m./[0mMethodLikeKeys.tst.ts
+
+[34muses[0m TypeScript 5.7.2
 
 [32mpass[0m [90m./[0mMethodLikeKeys.tst.ts
 ```
 
 <Tip>
 
-At this point you can rest assured that typings can be used with TypeScript 4.8 and the currently installed version. Wondering about the future? Specify `beta`, `latest`, `next` or `rc` as the target tag.
+At this point you can rest assured that typings can be used with TypeScript `5.5` and above. Wondering about the future? Specify `beta`, `latest`, `next` or `rc` as the target tag.
 
 </Tip>
 

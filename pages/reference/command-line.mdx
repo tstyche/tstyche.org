@@ -32,7 +32,7 @@ An option does not take a value, if its type is not specified. Otherwise, the pa
 
 - **boolean** is interpreted as `true`, if the value is omitted or set to `true`; or as `false`, if set to `false`,
 - **string** is simply a string,
-- **list** can hold one or several values separated by commas: `--target 4.9` or `--target 4.9,current`.
+- **list** can hold one or several values separated by commas: `--target 4.9` or `--target 4.9,latest`.
 
 Relative paths are resolved relative to the current directory.
 
@@ -73,7 +73,7 @@ Install specified versions of the `typescript` package and exit.
 tstyche --install --target 4.9
 
 # Install the specified versions of TypeScript
-tstyche --install --target 4.7,latest
+tstyche --install --target '5.5, latest'
 ```
 
 ### `--list` [#list]
@@ -172,7 +172,7 @@ tstyche --target 4.9
 tstyche --target latest
 
 # Test on all specified versions of TypeScript
-tstyche --target 4.9,5.3.2,current
+tstyche --target '5.0, 5.3.2, next'
 ```
 
 #### Ranges
@@ -192,7 +192,7 @@ To set an upper bound, the intersection of two ranges can be used: `>=5.0 <5.3`.
 
 ```shell
 # Ranges and versions can be combined
-tstyche --target ">=5.0 <5.3, 5.4.2, >5.5"
+tstyche --target '>=5.0 <5.3, 5.4.2, >5.5'
 ```
 
 <Tip>
