@@ -1,4 +1,4 @@
-import { Note, Tip } from "@/components/Advice";
+import { Note, Tip, Warning } from "@/components/Advice";
 
 # Command Line
 
@@ -217,7 +217,11 @@ The following can be specified:
 tstyche --tsconfig ./tsconfig.test.json
 ```
 
-If TSConfig file is not found, or is ignored, or does not include a test file in question, the [default compiler options](../guide/javascript-project.mdx#default-compiler-options) will be set.
+<Warning>
+
+If TSConfig file is not found or does not include a test file in question, the [default compiler options](../guide/javascript-project.mdx#default-compiler-options) will be set.
+
+</Warning>
 
 ### `--update` [#update]
 

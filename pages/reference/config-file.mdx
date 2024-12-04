@@ -1,5 +1,5 @@
 import { FileTree } from "nextra/components";
-import { Note, Tip } from "@/components/Advice";
+import { Note, Tip, Warning } from "@/components/Advice";
 
 # Configuration File
 
@@ -255,4 +255,8 @@ The following can be specified:
 }
 ```
 
-If TSConfig file is not found, or is ignored, or does not include a test file in question, the [default compiler options](../guide/javascript-project.mdx#default-compiler-options) will be set.
+<Warning>
+
+If TSConfig file is not found or does not include a test file in question, the [default compiler options](../guide/javascript-project.mdx#default-compiler-options) will be set.
+
+</Warning>
