@@ -21,9 +21,33 @@ TSTyche 3.1 ships with the new `rejectAnyType` and `rejectNeverType` configurati
 
 Reject the `any` type passed as an argument to the `expect()` function or a matcher.
 
+For instance, the following test is passing even when the return type by mistake resolves to `any`:
+
+```ts
+import { query } from "query";
+import { expect } from "tstyche";
+
+expect(query({ payload: "sample" })).type.toBeAssignableTo<string>();
+expect(query({ payload: 123 })).type.toBeAssignableTo<number>();
+```
+
+This issue can be solved by adding `.not.toBeAny()` check. `rejectAnyType` does the same, but without repetitive boilerplate code.
+
 #### `rejectNeverType` [#reject-never-type]
 
 Reject the `never` type passed as an argument to the `expect()` function or a matcher.
+
+For instance, the following test is passing even when the `Result` type by mistake resolves to `never`:
+
+```ts
+import { type Result, getResult } from "result";
+import { expect } from "tstyche";
+
+expect(getResult("sample")).type.toBe<Result<string>>();
+expect(getResult(123)).type.toBe<Result<number>>();
+```
+
+This issue can be solved by adding `.not.toBeNever()` check. `rejectNeverType` does the same, but without repetitive boilerplate code.
 
 #### `target` [#target]
 

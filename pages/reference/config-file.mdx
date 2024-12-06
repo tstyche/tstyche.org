@@ -91,12 +91,56 @@ To learn more, see the [Plugins](../guide/plugins.mdx) page.
 
 Reject the `any` type passed as an argument to the `expect()` function or a matcher.
 
+For instance, the following test is passing even when the return type by mistake resolves to `any`:
+
+```ts
+import { query } from "query";
+import { expect } from "tstyche";
+
+expect(query({ payload: "sample" })).type.toBeAssignableTo<string>();
+expect(query({ payload: 123 })).type.toBeAssignableTo<number>();
+```
+
+This issue can be solved by adding `.not.toBeAny()` check. `rejectAnyType` does the same, but without repetitive boilerplate code.
+
+<Note>
+
+The `any` type is allowed with:
+
+- all matchers when type is explicit, like `.not.toBe<any>()`;
+- `.toRaiseError()`, but not `.not.toRaiseError()`;
+- and all [primitive type matchers](./expect-api.mdx#primitive-type-matchers).
+
+</Note>
+
 ### `rejectNeverType` [#reject-never-type]
 
 - Default: `false`
 - Type: `boolean`
 
 Reject the `never` type passed as an argument to the `expect()` function or a matcher.
+
+For instance, the following test is passing even when the `Result` type by mistake resolves to `never`:
+
+```ts
+import { type Result, getResult } from "result";
+import { expect } from "tstyche";
+
+expect(getResult("sample")).type.toBe<Result<string>>();
+expect(getResult(123)).type.toBe<Result<number>>();
+```
+
+This issue can be solved by adding `.not.toBeNever()` check. `rejectNeverType` does the same, but without repetitive boilerplate code.
+
+<Note>
+
+The `never` type is allowed with:
+
+- all matchers when type is explicit, like `.toBeAssignableWith<never>()`;
+- `.toRaiseError()`, but not `.not.toRaiseError()`;
+- and all [primitive type matchers](./expect-api.mdx#primitive-type-matchers).
+
+</Note>
 
 ### `reporters` [#reporters]
 
