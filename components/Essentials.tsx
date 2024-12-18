@@ -26,7 +26,14 @@ export function Essentials() {
             className="mr-4 rounded-none border-b border-blue-ribbon-700 py-2 text-blue-ribbon-700 dark:border-blue-ribbon-500 dark:text-blue-ribbon-500 sm:mr-6"
             href="/guide/introduction"
           >
-            Guide
+            The Why
+            <ArrowRight className="inline pl-1 align-bottom" size={24} />
+          </Link>
+          <Link
+            className="mr-4 rounded-none border-b border-blue-ribbon-700 py-2 text-blue-ribbon-700 dark:border-blue-ribbon-500 dark:text-blue-ribbon-500 sm:mr-6"
+            href="/guide/get-started"
+          >
+            Quick Start
             <ArrowRight className="inline pl-1 align-bottom" size={24} />
           </Link>
           <Link
