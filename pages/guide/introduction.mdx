@@ -1,29 +1,18 @@
 # Introduction
 
-TSTyche is a type testing tool that was created to handle hundreds of type test in large monorepos. While that was the initial motivation, TSTyche is very easy to use with small projects too.
-
-## Goals of the Project
-
-TSTyche is build to test projects of any size and complexity. It aims to be:
-
-- lightweight
-- performant
-- predictable
-- scalable
-
-## Why TSTyche?
-
-Take a look at any popular JavaScript test runner. It will be a command line tool. It will have `test()` and `describe()` helpers with `.only` and `.skip` modifiers. It will be able to select test files using a pattern or to run a specific test file. And it will output failures in red, success in green and warnings in yellow (like traffic lights).
-
-As expected, TSTyche does all of above. Also since it is a type test runner, TSTyche is able to test using specific TypeScript version or even version range: `tstyche --target '>=5.0 <5.3'`.
+TSTyche is a type testing tool for TypeScript. It ships with `describe()` and `test()` helpers, `expect` style assertions and a mighty test runner.
 
 ## Why a Type Test Runner?
 
-You might think that TypeScript has all necessary tools. Alright, let’s look inside.
+Take a look at any popular JavaScript test runner. It will be a command line tool. It will have `test()` and `describe()` helpers with `.only` and `.skip` modifiers. It will be able to select test files using a pattern or to run a specific test file. And it will report success in green and failures in red.
 
-The `typescript` package consists of the compiler or `tsc`, and the language server or `tsserver`. Both of them wrap around the same type checking API. `tsc` is called from the command line, it emits code and reports found errors in red. `tsserver` provides information for text editors and reports found errors in red.
+Now lets look at the `typescript` package. It consists of the compiler (`tsc`) and the language server (`tsserver`). Both of them wrap around the same type checking API. `tsc` is called from the command line, it emits code and reports found errors in red. `tsserver` provides information for text editors and reports found errors in red.
 
-The `tstyche` command is the third member of this team. It wraps around the same type checking APIs. But instead of emitting code or feeding text editors, it provides type testing experience and reports in the three colors of traffic lights.
+Although both of these tools do report errors, their tasks do not include testing types. In other words, neither of them has features that a test runner has. For instance, the compiler does not need an error message like: `Type 'X' is not identical to type 'Y'.`
+
+## Why TSTyche?
+
+The `tstyche` command is the third member of the team. It wraps around the same type checking APIs, provides type testing experience (similar to your JavaScript test runner that reports success in green and failures in red with specific error messages).
 
 Would you like to use `test()` and `describe()` in your tests? Would you like to see green `pass` printed next to a test file name? Would you like to test your types against several versions of TypeScript?
 
@@ -36,6 +25,15 @@ To be able to test types TSTyche loads the `typescript` package installed in you
 TSTyche wraps around TypeScript’s [language service API](https://github.com/microsoft/TypeScript/wiki/Using-the-Language-Service-API) that is designed to do the absolute minimum work required to answer a query. If only a single test file is selected for a run, there is no need to waste time to type check the whole program.
 
 The language service API is also used by text editors like Visual Studio Code. This means that TSTyche sees exactly the same types which you see in hover messages.
+
+## Goals of the Project
+
+TSTyche is build to test projects of any size and complexity. It aims to be:
+
+- lightweight
+- performant
+- predictable
+- scalable
 
 ## The Name
 
