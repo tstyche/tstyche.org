@@ -57,6 +57,20 @@ Use the [`--showConfig`](./command-line.mdx#show-config) command line option to 
 
 </Tip>
 
+### `checkSourceFiles` [#check-source-files]
+
+- Default: `false`
+- Type: `boolean`
+
+Enable type error reporting for source files.
+
+To maximize performance TSTyche only checks types of the test files. When `checkSourceFiles` is enabled, type errors are also reported for imported or ambient files of a project. Only the files within the `node_modules` directory are not checked.
+
+It is recommended to enable this option when:
+
+- a project has handcrafted or generated type declarations,
+- or type test fixtures are used (for instance, fixtures can be handy to test declaration merging).
+
 ### `failFast` [#fail-fast]
 
 - Default: `false`

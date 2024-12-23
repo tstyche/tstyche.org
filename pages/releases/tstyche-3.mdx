@@ -11,11 +11,23 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 </Note>
 
+## TSTyche 3.2  [#tstyche-3-2]
+
+TSTyche 3.2 ships with the new `checkSourceFiles` configuration option.
+
+### Configuration [#configuration-3-2]
+
+#### `checkSourceFiles` [#check-source-files]
+
+Enable type error reporting for source files.
+
+To maximize performance TSTyche only checks types of the test files. When `checkSourceFiles` is enabled, type errors are also reported for imported or ambient files of a project. Only the files within the `node_modules` directory are not checked.
+
 ## TSTyche 3.1  [#tstyche-3-1]
 
 TSTyche 3.1 ships with the new `rejectAnyType` and `rejectNeverType` configuration options and adds support for testing on a range of TypeScript versions.
 
-### Configuration
+### Configuration [#configuration-3-1]
 
 #### `rejectAnyType` [#reject-any-type]
 
