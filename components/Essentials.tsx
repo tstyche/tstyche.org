@@ -30,10 +30,10 @@ export function Essentials() {
             <ArrowRight className="inline pl-1 align-bottom" size={24} />
           </Link>
           <Link
-            className="mr-4 rounded-none border-b border-gray-500 py-2 text-gray-500 dark:border-gray-400 dark:text-gray-400 sm:mr-6"
+            className="hidden md:inline mr-4 rounded-none border-b border-gray-500 py-2 text-gray-500 dark:border-gray-400 dark:text-gray-400 sm:mr-6"
             href="/guide/introduction"
           >
-            The Why
+            Slow Start
             <ArrowRight className="inline pl-1 align-bottom" size={24} />
           </Link>          <Link
             className="rounded-none border-b border-gray-500 py-2 text-gray-500 dark:border-gray-400 dark:text-gray-400"
