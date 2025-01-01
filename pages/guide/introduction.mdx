@@ -4,7 +4,7 @@ TSTyche is a type testing tool for TypeScript. It ships with `describe()` and `t
 
 ## Why a Type Test Runner?
 
-Take a look at any popular JavaScript test runner. It will be a command line tool. It will have `test()` and `describe()` helpers with `.only` and `.skip` modifiers. It will be able to select test files using a pattern or to run a specific test file. And it will report success in green and failures in red.
+Take a look at any popular JavaScript test runner. It is a command line tool. It has `test()` and `describe()` helpers with `.only` and `.skip` modifiers. It is able to select test files using a pattern or to run a specific test file. And it reports success in green and failures in red.
 
 Now lets look at the `typescript` package. It consists of the compiler (`tsc`) and the language server (`tsserver`). Both of them wrap around the same type checking API. `tsc` is called from the command line, it emits code and reports found errors in red. `tsserver` provides information for text editors and reports found errors in red.
 
