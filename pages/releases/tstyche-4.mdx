@@ -1,0 +1,127 @@
+import { FileTree, Tabs } from "nextra/components";
+import { Note, Tip, Warning } from "@/components/Advice";
+
+# Release Notes
+
+This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from previous version.
+
+<Note>
+
+The detailed changelog can be found in [TSTyche repository on GitHub](https://github.com/tstyche/tstyche/blob/main/RELEASES.md).
+
+</Note>
+
+## TSTyche 4.0  [#tstyche-4-0]
+
+TSTyche 4.0 ships with enhanced protection against accidental `any` or `never` types and stricter default compiler options.
+
+<Warning>
+
+ Keep in mind that TSTyche 4.0 is still in beta. More breaking changes may be introduced before the stable version is released. To install the latest beta version, use the `next` distribution tag:
+
+ <Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
+ <Tabs.Tab>
+
+ ```shell
+ npm add -D tstyche@next
+ ```
+
+ </Tabs.Tab>
+ <Tabs.Tab>
+
+ ```shell
+ yarn add -D tstyche@next
+ ```
+
+ </Tabs.Tab>
+ <Tabs.Tab>
+
+ ```shell
+ pnpm add -D tstyche@next
+ ```
+
+ </Tabs.Tab>
+ </Tabs>
+
+ </Warning>
+
+### Requirements
+
+The minimum required Node.js version is `20.9`. It is recommended to use the latest Long Term Support (LTS) release.
+
+### Matchers
+
+<Warning>
+
+**Breaking!** The deprecated `.toMatch()` matcher is removed.
+
+</Warning>
+
+<Warning>
+
+**Breaking!** All primitive type matchers like `.toBeString()` or `.toBeNumber()` are removed.
+
+```diff
+import { expect } from "tstyche";
+
+- expect<string>().type.toBeString();
++ expect<string>().type.toBe<string>();
+
+- expect<number>().type.toBeNumber();
++ expect<number>().type.toBe<number>();
+```
+
+</Warning>
+
+### Configuration
+
+#### `checkSourceFiles` [#check-source-files]
+
+The [`checkSourceFiles`](../reference/config-file.mdx#check-source-files) configuration option is enabled by default.
+
+#### `rejectAnyType` [#reject-any-type]
+
+The [`rejectAnyType`](../reference/config-file.mdx#reject-any-type) configuration option is enabled by default.
+
+#### `rejectNeverType` [#reject-never-type]
+
+The [`rejectNeverType`](../reference/config-file.mdx#reject-never-type) configuration option is enabled by default.
+
+#### `target`
+
+<Warning>
+
+**Breaking!** Support for TypeScript `4.x` is dropped. Only `5.x` series can be used for testing.
+
+</Warning>
+
+### Command Line
+
+#### `--fetch` [#fetch]
+
+<Warning>
+
+**Breaking!** `--fetch` is the new name of `--install`.
+
+</Warning>
+
+### Compiler Options
+
+If your project does not have a TSConfig file, the default compiler options now are much more strict:
+
+```json
+{
+  "allowImportingTsExtensions": true,
+  "allowJs": true,
+  "checkJs": true,
+  "exactOptionalPropertyTypes": true,
+  "jsx": "preserve",
+  "module": "nodenext",
+  "moduleResolution": "nodenext",
+  "noUncheckedIndexedAccess": true,
+  "resolveJsonModule": true,
+  "strict": true,
+  "target": "esnext",
+  "verbatimModuleSyntax": true
+}
+```
