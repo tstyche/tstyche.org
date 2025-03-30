@@ -163,7 +163,9 @@ To organize a larger test file, the [`describe()`](../reference/testing-api.mdx#
 import { describe, expect, test } from "tstyche";
 import type * as tstyche from "tstyche/tstyche";
 
-const options: tstyche.ConfigFileOptions = {};
+test("all options are optional", () => {
+  expect<tstyche.ConfigFileOptions>().type.toBeAssignableWith({});
+});
 
 describe("ConfigFileOptions", () => {
   test("'failFast' option", () => {
@@ -230,12 +232,11 @@ TSTyche assertions support the [run mode flags](../reference/expect-api.mdx#run-
 import { expect } from "tstyche";
 import type * as tstyche from "tstyche/tstyche";
 
-expect.skip<tstyche.ConfigFileOptions>().type.toMatch<{
+expect.skip<Pick<tstyche.ConfigFileOptions, "failFast">>().type.toBe<{
   failFast?: boolean;
 }>();
-
-expect.fail<tstyche.ConfigFileOptions>().type.toMatch<{
-  target?: string;
+expect.fail<Pick<tstyche.ConfigFileOptions, "target">>().type.toBe<{
+  target?: Array<string>;
 }>();
 ```
 
