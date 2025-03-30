@@ -122,8 +122,7 @@ This issue can be solved by adding `.not.toBeAny()` check. `rejectAnyType` does 
 The `any` type is allowed with:
 
 - all matchers when type is explicit, like `.not.toBe<any>()`;
-- `.toRaiseError()`, but not `.not.toRaiseError()`;
-- and all [primitive type matchers](./expect-api.mdx#primitive-type-matchers).
+- `.toRaiseError()`, but not `.not.toRaiseError()`.
 
 </Note>
 
@@ -151,8 +150,7 @@ This issue can be solved by adding `.not.toBeNever()` check. `rejectNeverType` d
 The `never` type is allowed with:
 
 - all matchers when type is explicit, like `.toBeAssignableWith<never>()`;
-- `.toRaiseError()`, but not `.not.toRaiseError()`;
-- and all [primitive type matchers](./expect-api.mdx#primitive-type-matchers).
+- `.toRaiseError()`, but not `.not.toRaiseError()`.
 
 </Note>
 

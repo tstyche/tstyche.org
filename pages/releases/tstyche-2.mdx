@@ -119,7 +119,7 @@ import { expect } from "tstyche";
 + expect<{ a: string }>().type.not.toBe<{ b: number }>();
 ```
 
-The new name simplifies swapping between the [primitive type matchers](../reference/expect-api.mdx#primitive-type-matchers) and `.toBe()`. For example, replacing `.toBeString()` with `.toBe<string | undefined>()` looks more clear than before.
+The new name simplifies swapping between primitive type matchers and `.toBe()`. For example, replacing `.toBeString()` with `.toBe<string | undefined>()` looks more clear than before.
 
 #### `.toBeAssignableTo()` [#to-be-assignable-to]
 

@@ -200,8 +200,8 @@ To negate the condition, prepend `.not` before any matcher:
 ```ts
 import { expect } from "tstyche";
 
-expect<string>().type.toBeString();
-expect<number>().type.not.toBeString();
+expect<string>().type.toBe<string>();
+expect<number>().type.not.toBe<string>();
 ```
 
 ### `.toAcceptProps()` [#to-accept-props]
@@ -419,74 +419,3 @@ type M = Matcher<>;
 ```ts
 .toRaiseError(...target: Array<string | number | RegExp>)
 ```
-
-## Primitive Type Matchers
-
-The primitive type matchers are shorthands which make your tests easier to read:
-
-```ts
-import { expect, test } from "tstyche";
-
-test("is any?", () => {
-  expect<any>().type.toBeAny();
-  // Equivalent to '.toBe<any>()'
-});
-
-test("is string?", () => {
-  expect<string>().type.toBeString();
-  // Equivalent to '.toBe<string>()'
-});
-
-test("is number?", () => {
-  expect<number>().type.toBeNumber();
-  // Equivalent to '.toBe<number>()'
-});
-```
-
-### `.toBeAny()` [#to-be-any]
-
-Checks if the source type is `any`.
-
-### `.toBeBigInt()` [#to-be-big-int]
-
-Checks if the source type is `bigint`.
-
-### `.toBeBoolean()` [#to-be-boolean]
-
-Checks if the source type is `boolean`.
-
-### `.toBeNever()` [#to-be-never]
-
-Checks if the source type is `never`.
-
-### `.toBeNull()` [#to-be-null]
-
-Checks if the source type is `null`.
-
-### `.toBeNumber()` [#to-be-number]
-
-Checks if the source type is `number`.
-
-### `.toBeString()` [#to-be-string]
-
-Checks if the source type is `string`.
-
-### `.toBeSymbol()` [#to-be-symbol]
-
-Checks if the source type is `symbol`.
-
-### `.toBeUndefined()` [#to-be-undefined]
-
-Checks if the source type is `undefined`.
-
-### `.toBeUniqueSymbol()` [#to-be-unique-symbol]
-
-Checks if the source type is `unique symbol`.
-
-### `.toBeUnknown()` [#to-be-unknown]
-
-Checks if the source type is `unknown`.
-
-### `.toBeVoid()` [#to-be-void]
-
-Checks if the source type is `void`.

@@ -13,21 +13,21 @@ import { describe, expect, test } from "tstyche";
 
 describe.only("string", () => {
   test("is a string?", () => {
-    expect<string>().type.toBeString();
+    expect<string>().type.toBe<string>();
   });
 
   test.skip("does not run", () => {
-    expect<string>().type.not.toBeString();
+    expect<string>().type.not.toBe<string>();
   });
 });
 
 describe("number", () => {
   test("does not run", () => {
-    expect<number>().type.toBeNumber();
+    expect<number>().type.toBe<number>();
   });
 
   test.only("is not a number?", () => {
-    expect<string>().type.not.toBeNumber();
+    expect<string>().type.not.toBe<number>();
   });
 });
 
@@ -61,7 +61,7 @@ import { expect } from "tstyche";
 
 // is a string?
 {
-  expect<string>().type.toBeString();
+  expect<string>().type.toBe<string>();
 }
 ```
 
@@ -85,11 +85,11 @@ import { describe, expect, test } from "tstyche";
 
 describe("is a group?", () => {
   test("is a string?", () => {
-    expect<string>().type.toBeString();
+    expect<string>().type.toBe<string>();
   });
 
   test("is a number?", () => {
-    expect<number>().type.toBeNumber();
+    expect<number>().type.toBe<number>();
   });
 });
 ```
@@ -103,7 +103,7 @@ import { describe, expect, it } from "tstyche";
 
 describe("number", () => {
   it("should be of type 'number'", () => {
-    expect<number>().type.toBeNumber();
+    expect<number>().type.toBe<number>();
   });
 });
 ```
@@ -119,6 +119,6 @@ Defines a single test.
 import { expect, test } from "tstyche";
 
 test("is a string?", () => {
-  expect<string>().type.toBeString();
+  expect<string>().type.toBe<string>();
 });
 ```
