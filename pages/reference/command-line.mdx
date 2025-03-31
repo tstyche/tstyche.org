@@ -64,15 +64,15 @@ Print the list of command line options with brief descriptions and exit.
 
 ### `--install` [#install]
 
-Install specified versions of the `typescript` package and exit.
+Fetch the specified versions of the `typescript` package and exit.
 
 `--install` must be used together with the [`target`](./config-file.mdx#target) configuration option or the [`--target`](#target) command line option. The versions specified via the [`--target`](#target) command line option are added, if it is provided; otherwise the versions listed in the [`target`](./config-file.mdx#target) array in the configuration file are added.
 
 ```shell
-# Install TypeScript 4.9.5
+# Fetch TypeScript 4.9.5
 tstyche --install --target 4.9
 
-# Install the specified versions of TypeScript
+# Fetch the specified versions of TypeScript
 tstyche --install --target '5.5, latest'
 ```
 
