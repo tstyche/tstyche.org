@@ -59,7 +59,7 @@ The minimum required Node.js version is `20.9`. It is recommended to use the lat
 
 <Warning>
 
-**Breaking!** All primitive type matchers like `.toBeString()` or `.toBeNumber()` are removed.
+**Breaking!** All primitive type matchers like `.toBeString()` or `.toBeNumber()` are removed. Use `.toBe()` instead:
 
 ```diff
 import { expect } from "tstyche";
