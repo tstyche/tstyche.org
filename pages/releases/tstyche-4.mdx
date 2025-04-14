@@ -105,7 +105,7 @@ export class Person {
 
 #### `.toBeCallableWith()` [#to-be-callable-with]
 
-The new `.toBeCallableWith()` matcher checks if the function can be called with the given arguments.
+The new `.toBeCallableWith()` matcher checks if a function is callable with the given arguments.
 
 ```ts
 import { expect, test } from "tstyche";
@@ -123,6 +123,46 @@ test("pickLonger()", () => {
 
   expect(pickLonger).type.not.toBeCallableWith("zero", [123]);
   expect(pickLonger<string | Array<number>>).type.toBeCallableWith("zero", [123]);
+});
+```
+
+#### `.toBeConstructableWith()` [#to-be-constructable-with]
+
+The new `.toBeConstructableWith()` matcher checks if a class is constructable with the given arguments.
+
+```ts
+import { expect, test } from "tstyche";
+
+class Stack<T> {
+  #elements: Array<T> = [];
+  #size: number;
+
+  constructor(size: number) {
+    this.#size = size;
+  }
+
+  push(element: T): void {
+    if (this.#elements.length === this.#size) {
+      throw new Error("The stack is overflow!");
+    }
+
+    this.#elements.push(element);
+  }
+
+  pop(): T | undefined {
+    if (this.#elements.length === 0) {
+      throw new Error("The stack is empty!");
+    }
+
+    return this.#elements.pop();
+  }
+}
+
+test("Stack", () => {
+  expect(Stack).type.toBeConstructableWith(12);
+
+  expect(Stack).type.not.toBeConstructableWith();
+  expect(Stack).type.not.toBeConstructableWith("two");
 });
 ```
 
