@@ -133,36 +133,25 @@ The new `.toBeConstructableWith()` matcher checks if a class is constructable wi
 ```ts
 import { expect, test } from "tstyche";
 
-class Stack<T> {
-  #elements: Array<T> = [];
-  #size: number;
+class Pair<T> {
+  left: T;
+  right: T;
 
-  constructor(size: number) {
-    this.#size = size;
-  }
-
-  push(element: T): void {
-    if (this.#elements.length === this.#size) {
-      throw new Error("The stack is overflow!");
-    }
-
-    this.#elements.push(element);
-  }
-
-  pop(): T | undefined {
-    if (this.#elements.length === 0) {
-      throw new Error("The stack is empty!");
-    }
-
-    return this.#elements.pop();
+  constructor(left: T, right: T) {
+    this.left = left;
+    this.right = right;
   }
 }
 
-test("Stack", () => {
-  expect(Stack).type.toBeConstructableWith(12);
+test("Pair", () => {
+  expect(Pair).type.toBeConstructableWith("sun", "moon");
+  expect(Pair).type.toBeConstructableWith(true, false);
 
-  expect(Stack).type.not.toBeConstructableWith();
-  expect(Stack).type.not.toBeConstructableWith("two");
+  expect(Pair).type.not.toBeConstructableWith("five", 10);
+  expect(Pair<number | string>).type.toBeConstructableWith("five", 10);
+
+  expect(Pair).type.not.toBeConstructableWith();
+  expect(Pair).type.not.toBeConstructableWith("nope");
 });
 ```
 
