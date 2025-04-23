@@ -110,19 +110,18 @@ The new `.toBeCallableWith()` matcher checks if a function is callable with the 
 ```ts
 import { expect, test } from "tstyche";
 
-function pickLonger<T extends { length: number }>(a: T, b: T) {
-  return a.length >= b.length ? a : b;
+function isSameLength<T extends { length: number }>(a: T, b: T) {
+  return a.length === b.length;
 }
 
-test("pickLonger()", () => {
-  expect(pickLonger).type.toBeCallableWith([1, 2], [1, 2, 3]);
-  expect(pickLonger).type.toBeCallableWith("two", "three");
+test("isSameLength", () => {
+  expect(isSameLength([1, 2], [1, 2, 3])).type.toBe<boolean>();
+  expect(isSameLength("one", "two")).type.toBe<boolean>();
 
+  expect(isSameLength).type.not.toBeCallableWith(1, 2);
+  expect(isSameLength).type.not.toBeCallableWith("zero", [123]);
 
-  expect(pickLonger).type.not.toBeCallableWith(1, 2);
-
-  expect(pickLonger).type.not.toBeCallableWith("zero", [123]);
-  expect(pickLonger<string | Array<number>>).type.toBeCallableWith("zero", [123]);
+  expect(isSameLength<string | Array<number>>).type.toBeCallableWith("zero", [123]);
 });
 ```
 
