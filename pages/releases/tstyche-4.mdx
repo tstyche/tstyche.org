@@ -214,7 +214,7 @@ The [`rejectNeverType`](../reference/config-file.mdx#reject-never-type) configur
 
 <Warning>
 
-**Breaking!** Support for TypeScript `4.x` is dropped. Only `5.x` series can be used for testing.
+**Breaking!** The lowest support TypeScript versions is now `4.7`.
 
 </Warning>
 
@@ -230,7 +230,7 @@ If your project does not have a TSConfig file, the default compiler options now 
 
 ```json
 {
-  "allowImportingTsExtensions": true,
+  "allowImportingTsExtensions": true, // not set for TypeScript 4.x
   "allowJs": true,
   "checkJs": true,
   "exactOptionalPropertyTypes": true,
@@ -241,6 +241,6 @@ If your project does not have a TSConfig file, the default compiler options now 
   "resolveJsonModule": true,
   "strict": true,
   "target": "esnext",
-  "verbatimModuleSyntax": true
+  "verbatimModuleSyntax": true // not set for TypeScript 4.x
 }
 ```
