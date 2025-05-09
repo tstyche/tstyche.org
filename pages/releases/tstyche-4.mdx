@@ -158,11 +158,9 @@ test("Pair", () => {
 
 ### Template Test Files
 
-In some cases it is useful to generate tests using a template and data table. To cover this use case TSTyche 4 is adding support for template test files.
+The template test files allow generating tests using a template and data table.
 
-To mark a test file as a template, a user must include `// @tstyche-template` as the first line of a test file.
-
-When the `// @tstyche-template` directive is detected, the default export of a file is treated as a type test text.
+To mark a test file as a template, add the `// @tstyche-template` directive as its first line. When the directive is found, the default export of a file is interpreted as a type test text.
 
 For example, the following:
 
@@ -174,7 +172,7 @@ let testText = `import { expect, test } from "tstyche";
 
 for (const target of ["string", "number"]) {
   testText += `test("is ${target} a string?", () => {
-  expect<string>().type.toBe<${target}>();
+  expect<${string}>().type.toBe<string>();
 });
 `;
 }
@@ -182,7 +180,7 @@ for (const target of ["string", "number"]) {
 export default testText;
 ```
 
-is treated as:
+is interpreted as:
 
 ```ts
 import { expect, test } from "tstyche";
@@ -190,7 +188,7 @@ test("is string a string?", () => {
   expect<string>().type.toBe<string>();
 });
 test("is number a string?", () => {
-  expect<string>().type.toBe<number>();
+  expect<number>().type.toBe<string>();
 });
 ```
 
