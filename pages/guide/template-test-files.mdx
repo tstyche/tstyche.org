@@ -1,0 +1,51 @@
+import { Note, Tip } from "@/components/Advice";
+
+# Template Test Files
+
+The template test files allow generating tests using a template and data table.
+
+<Note>
+
+This feature is available since [TSTyche 4.0](../releases/tstyche-4.mdx).
+
+</Note>
+
+## Usage
+
+To mark a test file as a template, add the `// @tstyche-template` directive as its first line. When the directive is found, the default export of a file is interpreted as a type test text.
+
+For example, the following:
+
+```ts
+// @tstyche-template
+
+let testText = `import { expect, test } from "tstyche";
+`;
+
+for (const target of ["string", "number"]) {
+  testText += `test("is ${target} a string?", () => {
+  expect<${string}>().type.toBe<string>();
+});
+`;
+}
+
+export default testText;
+```
+
+is interpreted as:
+
+```ts
+import { expect, test } from "tstyche";
+test("is string a string?", () => {
+  expect<string>().type.toBe<string>();
+});
+test("is number a string?", () => {
+  expect<number>().type.toBe<string>();
+});
+```
+
+## Caveat
+
+The type test text is loaded using `import()` and replaced programmatically keeping the same file name. Therefore, this must be a TypeScript file and it must be executed at the same time. Fortunately, running TypeScript code with Node.js is now [possible](https://nodejs.org/en/learn/typescript/run-natively).
+
+Alternatively, you can register loader hooks like the ones provided by [`ts-blank-space`](https://github.com/bloomberg/ts-blank-space/tree/main?tab=readme-ov-file#nodejs-loader).

@@ -4,6 +4,7 @@
   "test-runner": "Test Runner",
   "javascript-project": "JavaScript Project",
   "typescript-project": "TypeScript Project",
+  "template-test-files": "Template Test Files",
   "reporters": "Reporters",
   "plugins": "Plugins",
   "programmatic-usage": "Programmatic Usage"
