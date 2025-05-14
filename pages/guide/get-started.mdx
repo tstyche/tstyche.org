@@ -115,11 +115,11 @@ pnpm tstyche
 You should see similar report:
 
 ```ansi
-[34muses[0m TypeScript 5.7.2[90m with ./tsconfig.json[0m
+[34muses[0m TypeScript 5.8.3[90m with ./tsconfig.json[0m
 
 [31mfail[0m [90m./[0mMethodLikeKeys.tst.ts
 
-[31mError: [0mType '"getLength"' is not identical to type '"getLength" | "getWidth"'.
+[31mError: [0mType '"getLength"' is not the same as type '"getLength" | "getWidth"'.
 
 [90m   8[0m[90m |[0m }
 [90m   9[0m[90m |[0m
@@ -147,7 +147,7 @@ export type MethodLikeKeys<T> = keyof {
 Run the test again and it will pass:
 
 ```ansi
-[34muses[0m TypeScript 5.7.2[90m with ./tsconfig.json[0m
+[34muses[0m TypeScript 5.8.3[90m with ./tsconfig.json[0m
 
 [32mpass[0m [90m./[0mMethodLikeKeys.tst.ts
 ```
