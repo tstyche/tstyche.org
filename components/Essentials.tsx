@@ -13,7 +13,7 @@ export function Essentials() {
       </div>
 
       <div className="pb-12 pt-8 sm:pb-16 sm:pt-12 lg:pb-32 lg:pt-24 xl:pb-48">
-        <h1 className="max-w-md text-4xl font-semibold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl lg:max-w-2xl lg:text-6xl">
+        <h1 className="max-w-md text-4xl font-semibold text-gray-900 dark:text-gray-100 sm:text-5xl lg:max-w-2xl lg:text-6xl">
           Everything You Need for&nbsp;Type Testing.
         </h1>
 
