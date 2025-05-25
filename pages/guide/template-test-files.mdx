@@ -12,12 +12,12 @@ This feature is available since [TSTyche 4.0](../releases/tstyche-4.mdx).
 
 ## Usage
 
-To mark a test file as a template, add the `// @tstyche-template` directive at the top. When the directive is found, the default export of a file is interpreted as a type test text.
+To mark a test file as a template, add the `// @tstyche template` directive at the top. When the directive is found, the default export of a file is interpreted as a type test text.
 
 For example, the following:
 
 ```ts
-// @tstyche-template
+// @tstyche template -- For documentation, see: https://tstyche.org/guide/template-test-files
 
 let testText = `import { expect, test } from "tstyche";
 `;
