@@ -156,11 +156,35 @@ test("Pair", () => {
 });
 ```
 
+### Conditional Tests
+
+To skip an `expect()`, `test()` or `describe()` on specific version of TypeScript, use the `// @tstyche if { target: <range> }` comment directive:
+
+```ts
+import { expect, test } from "tstyche";
+
+function isUint8Array(input: unknown): input is Uint8Array {
+  return input instanceof Uint8Array;
+}
+
+test("isUint8Array", () => {
+  const unknowns: Array<unknown> = [];
+
+  // @tstyche if { target: [">=5.7"] }
+  expect(unknowns.filter(isUint8Array)).type.toBe<Array<Uint8Array<ArrayBufferLike>>>();
+
+  // @tstyche if { target: ["<5.7"] } -- Before TypeScript 5.7, 'Uint8Array' was not generic
+  expect(unknowns.filter(isUint8Array)).type.toBe<Array<Uint8Array>>();
+});
+```
+
+Adding the directive at the top of the file, would skip the whole file when condition does not match.
+
 ### Template Test Files
 
 The template test files allow generating tests using a template and data table.
 
-To mark a test file as a template, add the `// @tstyche template` directive at the top. When the directive is found, the default export of a file is interpreted as a type test text.
+To mark a test file as a template, add the `// @tstyche template` comment directive at the top. When the directive is found, the default export of a file is interpreted as a type test text.
 
 For example, the following:
 
