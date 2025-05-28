@@ -18,7 +18,7 @@ To specify other version, pass it with the [`--target`](../reference/command-lin
 
 ### Range of Versions
 
-Keep in mind that TypeScript follows *loose* semver policy, where a patch release is only fixing bugs, but a major release may introduce breaking changes. This means, upgrading from `5.6` to `5.7` can beak your types.
+Keep in mind that TypeScript follows the semver policy somewhat [loosely](https://github.com/microsoft/TypeScript/wiki/TypeScript's-Release-Process/e669ab1ad96edc1a7bcef5f6d9e35e24397891e5). A patch release is strictly only a bug fix, but a major release may introduce breaking changes. This means, upgrading from `5.6` to `5.7` can beak your types.
 
 If your project declares that the lowest supported TypeScript version is `5.6`, it is recommended to test against all major versions staring with that one:
 
@@ -35,3 +35,27 @@ To learn more about the version ranges, see the [Ranges](../reference/command-li
 Running tests against many versions of TypeScript is slow. Use ranges only in continuous integration jobs. If something fails, run TSTyche locally targeting that single version.
 
 </Tip>
+
+### Handling Changes
+
+Changes between TypeScript versions can be handled using the `// @tstyche if` comment directive:
+
+```ts
+import { expect, test } from "tstyche";
+
+function isUint8Array(input: unknown): input is Uint8Array {
+  return input instanceof Uint8Array;
+}
+
+test("isUint8Array", () => {
+  const unknowns: Array<unknown> = [];
+
+  // @tstyche if { target: [">=5.7"] }
+  expect(unknowns.filter(isUint8Array)).type.toBe<Array<Uint8Array<ArrayBufferLike>>>();
+
+  // @tstyche if { target: ["<5.7"] } -- Before TypeScript 5.7, 'Uint8Array' was not generic
+  expect(unknowns.filter(isUint8Array)).type.toBe<Array<Uint8Array>>();
+});
+```
+
+The directive can conditionally skip an `expect()`, `test()`, `describe()` or entire test file (when specified at the top of a file).

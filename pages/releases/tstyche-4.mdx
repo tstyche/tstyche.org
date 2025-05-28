@@ -158,7 +158,7 @@ test("Pair", () => {
 
 ### Conditional Tests
 
-To skip an `expect()`, `test()` or `describe()` on specific version of TypeScript, use the `// @tstyche if { target: <range> }` comment directive:
+The `// @tstyche if` comment directive is added to allow conditionally skipping an `expect()`, `test()` or `describe()`:
 
 ```ts
 import { expect, test } from "tstyche";
