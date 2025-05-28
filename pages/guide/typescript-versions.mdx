@@ -1,4 +1,4 @@
-import { Tip } from "@/components/Advice";
+import { Note, Tip } from "@/components/Advice";
 
 # TypeScript Versions
 
@@ -32,7 +32,7 @@ To learn more about the version ranges, see the [Ranges](../reference/command-li
 
 <Tip>
 
-Running tests against many versions of TypeScript is slow. Use ranges only in continuous integration jobs. If something fails, run TSTyche locally targeting that single version.
+Running tests against many versions of TypeScript is slow. Use ranges only in continuous integration workflows. If something fails, run TSTyche locally targeting that single version.
 
 </Tip>
 
@@ -59,3 +59,15 @@ test("isUint8Array", () => {
 ```
 
 The directive can conditionally skip an `expect()`, `test()`, `describe()` or entire test file (when specified at the top of a file).
+
+## Early Warnings
+
+TSTyche supports `beta`, `latest`, `next` or `rc` as the target tags. Use them as one-off commands or in continuous integration workflows.
+
+For example, it is a good idea to have a workflow that runs tests once a day against `typescript@next`. An example can be found in [`tstyche/ts-nightly-example`](https://github.com/tstyche/ts-nightly-example) repository.
+
+<Note>
+
+[`typescript-go`](https://github.com/microsoft/typescript-go) is not yet supported, but is definitely worth a go! For updates, please follow [tstyche/tstyche#443](https://github.com/tstyche/tstyche/issues/443).
+
+</Note>
