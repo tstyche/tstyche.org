@@ -1,0 +1,37 @@
+import { Note, Tip } from "@/components/Advice";
+
+# TypeScript Versions
+
+TSTyche makes it a breeze to be sure your types are compatible with specific versions of TypeScript.
+
+## Support Policy
+
+Most of the projects choose to support a single TypeScript version or declare the lowest supported version.
+
+Testing against a single version is simple. If the `typescript` package is installed, TSTyche will load it. Otherwise the latest version of TypeScript will be used.
+
+<Tip>
+
+To specify other version, pass it with the [`--target`](../reference/command-line.mdx#target) command line option or use the [`target`](../reference/config-file.mdx#target) configuration option.
+
+</Tip>
+
+### Range of Versions
+
+Keep in mind that TypeScript follows *loose* semver policy, where a patch release is only fixing bugs, but a major release may introduce breaking changes. This means, upgrading from `5.6` to `5.7` can beak your types.
+
+If your project declares that the lowest supported TypeScript version is `5.6`, it is recommended to test against all major versions staring with that one:
+
+```shell
+tstyche --target '>=5.6'
+```
+
+This command will test against TypeScript `5.6`, `5.7`, `5.8` and so on. The newly released versions will be added as soon as they are available.
+
+To learn more about the version ranges, see the [Ranges](../reference/command-line.mdx#ranges) chapter in documentation of the `--target` command line option.
+
+<Tip>
+
+Running tests against many versions of TypeScript is slow. Use ranges only in continuous integration jobs. If something fails, run TSTyche locally targeting that single version.
+
+</Tip>
