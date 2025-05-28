@@ -58,23 +58,23 @@ tstyche --config ./config/tstyche.json
 
 Stop running tests after the first failure.
 
-### `--help` [#help]
-
-Print the list of command line options with brief descriptions and exit.
-
-### `--install` [#install]
+### `--fetch` [#fetch]
 
 Fetch the specified versions of the `typescript` package and exit.
 
-`--install` must be used together with the [`target`](./config-file.mdx#target) configuration option or the [`--target`](#target) command line option. The versions specified via the [`--target`](#target) command line option are added, if it is provided; otherwise the versions listed in the [`target`](./config-file.mdx#target) array in the configuration file are added.
+`--fetch` must be used together with the [`target`](./config-file.mdx#target) configuration option or the [`--target`](#target) command line option. The versions specified via the [`--target`](#target) command line option are added, if it is provided; otherwise the versions listed in the [`target`](./config-file.mdx#target) array in the configuration file are added.
 
 ```shell
 # Fetch TypeScript 4.9.5
-tstyche --install --target 4.9
+tstyche --fetch --target 4.9
 
 # Fetch the specified versions of TypeScript
-tstyche --install --target '5.5, latest'
+tstyche --fetch --target '5.5, latest'
 ```
+
+### `--help` [#help]
+
+Print the list of command line options with brief descriptions and exit.
 
 ### `--list` [#list]
 

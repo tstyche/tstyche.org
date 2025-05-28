@@ -71,3 +71,16 @@ To catch the breaking changes early, consider setting up a workflow that runs te
 [`typescript-go`](https://github.com/microsoft/typescript-go) is not yet supported, but is definitely worth a go! For updates, please follow [tstyche/tstyche#443](https://github.com/tstyche/tstyche/issues/443).
 
 </Note>
+
+## The Store
+
+The TSTyche store is a tiny package manager which knows how to download the requested version of the `typescript` package. It keeps packages in a global cache. This means running TSTyche in a different project will reuse already fetched packages.
+
+To know how to resolve tags like `latest` or `next`, every two hours the store fetches metadata of the `typescript` package from the registry.
+
+These are the command line options dedicated to the store:
+
+- [`--fetch`](../reference/command-line.mdx#install) fetches the specified versions of TypeScript, useful if you are preparing to work offline,
+- [`--list`](../reference/command-line.mdx#list) prints the list of supported TypeScript versions,
+- [`--prune`](../reference/command-line.mdx#prune) removes the whole cache directory, if you want to free up disk space or to resolve a store issue,
+- [`--update`](../reference/command-line.mdx#update) force updates the `typescript` package metadata from the registry.

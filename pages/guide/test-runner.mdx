@@ -15,7 +15,7 @@ This page assumes you already know how to install TSTyche and run type tests. If
 
 The TSTyche test runner does not execute the code. Instead it passes the code through TypeScript’s type checker and reports back with the result. In a way you can see TSTyche as a type checker with benefits.
 
-By default, the currently installed `typescript` package is used. To specify other version of TypeScript, pass it with the [`--target`](../reference/command-line.mdx#target) command line option (or use the [`target`](../reference/config-file.mdx#target) configuration option):
+By default, the currently installed `typescript` package is used. To specify another version of TypeScript, pass it with the [`--target`](../reference/command-line.mdx#target) command line option (or use the [`target`](../reference/config-file.mdx#target) configuration option):
 
 <Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
 <Tabs.Tab>
@@ -44,37 +44,20 @@ pnpm tstyche --target '>=5.6'
 If you run this command using the example from the [Get Started](./get-started#define-a-type) page, the report should include three versions of TypeScript:
 
 ```ansi
-[34muses[0m TypeScript 5.6.3
+[34muses[0m TypeScript 5.6.3[90m with ./tsconfig.json[0m
 
 [32mpass[0m [90m./[0mMethodLikeKeys.tst.ts
 
-[34muses[0m TypeScript 5.7.3
+[34muses[0m TypeScript 5.7.3[90m with ./tsconfig.json[0m
 
 [32mpass[0m [90m./[0mMethodLikeKeys.tst.ts
 
-[34muses[0m TypeScript 5.8.3
+[34muses[0m TypeScript 5.8.3[90m with ./tsconfig.json[0m
 
 [32mpass[0m [90m./[0mMethodLikeKeys.tst.ts
 ```
 
-<Tip>
-
-At this point you can rest assured that typings can be used with TypeScript `5.6` and above. Wondering about the future? Specify `beta`, `latest`, `next` or `rc` as the target tag.
-
-</Tip>
-
-## The Store
-
-First line of the above report tells that the requested version of TypeScript was added to the store. The TSTyche store is a tiny package manager which downloads the requested versions of `typescript` package. The packages are kept in the global cache, this means running TSTyche in any project will reuse already installed packages.
-
-To know how to resolve tags like `latest` or `next`, every two hours the store fetches the `typescript` package metadata.
-
-These are the command line options dedicated to the store:
-
-- [`--install`](../reference/command-line.mdx#install) fetches the specified versions of TypeScript, useful if you are preparing to work offline,
-- [`--list`](../reference/command-line.mdx#list) prints the list of supported TypeScript versions,
-- [`--prune`](../reference/command-line.mdx#prune) removes the whole cache directory, if you want to free up disk space or to resolve a store issue,
-- [`--update`](../reference/command-line.mdx#update) force updates the `typescript` package metadata from the registry.
+To learn more about testing types against specific versions of TypeScript, see the [TypeScript Versions](./typescript-versions.mdx) page.
 
 ## Functional Tests
 
