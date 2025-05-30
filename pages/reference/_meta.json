@@ -3,7 +3,7 @@
   "testing-api": "Testing API",
   "config-file": "Configuration File",
   "command-line": "Command Line",
-  "directives": "Comment Directive",
+  "directives": "Comment Directives",
   "environment": "Environment Variables",
   "requirements": "System Requirements"
 }
