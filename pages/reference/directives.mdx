@@ -18,8 +18,8 @@ Only a single-line comment is considered to be a directive if its text starts wi
 
 The scope of a directive can be:
 
-- the whole test file (when used at the top of the file),
-- or test APIs (only affects `expect()`, `test()` or `describe()` in the next line after the comment),
+- the whole test file (use it at the top of the file),
+- or test APIs (place it above any `expect()`, `test()` or `describe()`),
 - or both of the above.
 
 <Warning>
