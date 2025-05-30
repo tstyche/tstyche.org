@@ -1,9 +1,9 @@
 {
   "expect-api": "Expect API",
   "testing-api": "Testing API",
+  "directives": "Comment Directives",
   "config-file": "Configuration File",
   "command-line": "Command Line",
-  "directives": "Comment Directives",
   "environment": "Environment Variables",
   "requirements": "System Requirements"
 }
