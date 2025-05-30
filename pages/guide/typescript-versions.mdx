@@ -43,8 +43,8 @@ Changes between TypeScript versions can be handled using the `// @tstyche if` co
 ```ts
 import { expect, test } from "tstyche";
 
-function isUint8Array(input: unknown): input is Uint8Array {
-  return input instanceof Uint8Array;
+function isUint8Array(target: unknown): target is Uint8Array {
+  return target instanceof Uint8Array;
 }
 
 test("isUint8Array", () => {
@@ -58,7 +58,7 @@ test("isUint8Array", () => {
 });
 ```
 
-The directive can conditionally skip an `expect()`, `test()`, `describe()` or entire test file (when specified at the top of a file).
+The directive can conditionally skip an `expect()`, `test()`, `describe()` or the whole test file (when specified at the top of a file).
 
 ## Early Warnings
 

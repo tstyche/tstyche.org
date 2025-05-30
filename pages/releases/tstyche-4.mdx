@@ -163,8 +163,8 @@ The `// @tstyche if` comment directive is added to allow conditionally skipping 
 ```ts
 import { expect, test } from "tstyche";
 
-function isUint8Array(input: unknown): input is Uint8Array {
-  return input instanceof Uint8Array;
+function isUint8Array(target: unknown): target is Uint8Array {
+  return target instanceof Uint8Array;
 }
 
 test("isUint8Array", () => {
@@ -178,7 +178,7 @@ test("isUint8Array", () => {
 });
 ```
 
-Adding the directive at the top of the file, would skip the whole file when condition does not match.
+If this directive is used at the top of the file, the whole test file would run only when the specified condition matches.
 
 ### Template Test Files
 
