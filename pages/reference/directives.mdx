@@ -1,0 +1,49 @@
+import { Note, Tip, Warning } from "@/components/Advice";
+
+# Comment Directives
+
+The comment directives are single-line comments that serve as inline configuration for the test runner.
+
+<Note>
+
+This feature is available since [TSTyche 4.0](../releases/tstyche-4.mdx).
+
+</Note>
+
+## `// @tstyche template`
+
+- Scope: the whole file only
+
+Marks a test file as a template. When the directive is found, the default export of a file is interpreted as a type test text.
+
+For example, the following:
+
+```ts
+// @tstyche template -- For documentation, see: https://tstyche.org/guide/template-test-files
+
+let testText = `import { expect, test } from "tstyche";
+`;
+
+for (const source of ["string", "number"]) {
+  testText += `test("is ${source} a string?", () => {
+  expect<${source}>().type.toBe<string>();
+});
+`;
+}
+
+export default testText;
+```
+
+is interpreted as:
+
+```ts
+import { expect, test } from "tstyche";
+test("is string a string?", () => {
+  expect<string>().type.toBe<string>();
+});
+test("is number a string?", () => {
+  expect<number>().type.toBe<string>();
+});
+```
+
+To learn more, see the [Template Test Files](../guide/template-test-files.mdx) page.
