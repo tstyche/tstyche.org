@@ -18,11 +18,13 @@ Use the [`--list`](../reference/command-line.mdx#list) command line option to in
 
 The projects that declare compatibility with TypeScript, mostly choose to specify a single version or a range of versions.
 
+### Single Version
+
 Testing against a single version is simple. If the `typescript` package is installed, TSTyche will load it. Otherwise, the latest version of TypeScript will be used.
 
 To specify another version, pass it with the [`--target`](../reference/command-line.mdx#target) command line option or use the [`target`](../reference/config-file.mdx#target) configuration option.
 
-## Range of Versions
+### Range of Versions
 
 Keep in mind that TypeScript follows the Semantic Versioning specification only [partly](https://github.com/microsoft/TypeScript/wiki/TypeScript's-Release-Process/e669ab1ad96edc1a7bcef5f6d9e35e24397891e5). A patch release is still strictly only a bug fix, but a major release may introduce breaking changes. This means upgrading from `5.6` to `5.7` can break your types.
 
@@ -44,7 +46,7 @@ Running tests against many versions of TypeScript is slow. Use ranges only in co
 
 ## Handling Changes
 
-Changes between TypeScript versions can be handled using the `// @tstyche if` comment directive:
+Changes between TypeScript versions can be handled using the [`// @tstyche if`](../reference/directives.mdx#if) comment directive:
 
 ```ts
 import { expect, test } from "tstyche";
@@ -64,7 +66,7 @@ test("isUint8Array", () => {
 });
 ```
 
-The directive can conditionally skip an `expect()`, `test()`, `describe()` or the whole test file (when specified at the top of a file).
+If this directive is used at the top of the file, the whole test file would run only when the specified condition matches.
 
 ## Early Warnings
 
