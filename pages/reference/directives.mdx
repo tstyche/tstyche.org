@@ -38,7 +38,7 @@ When a comment directive is used in the wrong scope, it holds no special meaning
 
 </Warning>
 
-### `// @tstyche if`
+### `// @tstyche if` [#if]
 
 - Scope: a single assertion or a test helper, or the whole test file
 - Argument type: `{ target: Array<string> }`
@@ -65,9 +65,9 @@ test("isUint8Array", () => {
 
 If this directive is used at the top of the file, the whole test file would run only when the specified condition matches.
 
-### `// @tstyche template`
+### `// @tstyche template` [#template]
 
-- Scope: the whole test file only
+- Scope: the whole test file
 
 Marks a test file as a template. When the directive is found, the default export of a file is interpreted as a type test text.
 
