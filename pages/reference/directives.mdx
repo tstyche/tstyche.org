@@ -19,7 +19,7 @@ Only a single-line comment is considered to be a directive if its text starts wi
 The scope of a directive can be:
 
 - the whole test file (use it at the top of the file),
-- or test APIs (place it above any `expect()`, `test()` or `describe()`),
+- a single assertion or a test helper (place it above any `expect()`, `test()` or `describe()`),
 - or both of the above.
 
 <Warning>
@@ -30,7 +30,7 @@ When a comment directive is used in the wrong scope, it holds no special meaning
 
 ### `// @tstyche if`
 
-- Scope: test APIs or the whole test file
+- Scope: a single assertion or a test helper, or the whole test file
 - Argument type: `{ target: Array<string> }`
 
 Run an `expect()`, `test()` or `describe()` only when the specified condition matches.
