@@ -4,25 +4,29 @@ import { Note, Tip } from "@/components/Advice";
 
 TSTyche makes it a breeze to be sure your types are compatible with specific versions of TypeScript.
 
-## Support Policy
+## Supported Versions
 
-Most of the projects choose to support a single TypeScript version or declare the lowest supported version.
+Currently TypeScript `>=4.7` can be used for testing.
+
+<Tip>
+
+Use the [`--list`](../reference/command-line.mdx#list) command line option to inspect the list of supported versions.
+
+</Tip>
+
+## Compatibility Policy
+
+The projects that declare compatibility with TypeScript, mostly choose to specify a single version or a range of versions.
 
 Testing against a single version is simple. If the `typescript` package is installed, TSTyche will load it. Otherwise, the latest version of TypeScript will be used.
 
 To specify another version, pass it with the [`--target`](../reference/command-line.mdx#target) command line option or use the [`target`](../reference/config-file.mdx#target) configuration option.
 
-<Note>
-
-Currently TypeScript `4.7` or above can be used for testing.
-
-</Note>
-
 ## Range of Versions
 
 Keep in mind that TypeScript follows the Semantic Versioning specification only [partly](https://github.com/microsoft/TypeScript/wiki/TypeScript's-Release-Process/e669ab1ad96edc1a7bcef5f6d9e35e24397891e5). A patch release is still strictly only a bug fix, but a major release may introduce breaking changes. This means upgrading from `5.6` to `5.7` can break your types.
 
-For instance, if your project declares that the lowest supported TypeScript version is `5.6`, it is recommended to test against all major versions starting with that one:
+For instance, if your project declares that the lowest compatible TypeScript version is `5.6`, it is recommended to test against all major versions starting with that one:
 
 ```shell
 tstyche --target '>=5.6'

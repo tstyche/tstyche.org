@@ -49,6 +49,14 @@ TSTyche 4.0 is available as a release candidate. It is production-ready and no f
 
 The minimum required Node.js version is `20.9`. It is recommended to use the latest Long Term Support (LTS) release.
 
+## TypeScript Versions
+
+<Warning>
+
+**Breaking!** Support for TypeScript `<=4.6` is dropped. Only version `4.7` or above can be used for testing.
+
+</Warning>
+
 ### Matchers
 
 <Warning>
@@ -233,14 +241,6 @@ The [`rejectAnyType`](../reference/config-file.mdx#reject-any-type) configuratio
 #### `rejectNeverType` [#reject-never-type]
 
 The [`rejectNeverType`](../reference/config-file.mdx#reject-never-type) configuration option is enabled by default.
-
-#### `target`
-
-<Warning>
-
-**Breaking!** The lowest supported target is now TypeScript `4.7`.
-
-</Warning>
 
 ### Command Line
 
