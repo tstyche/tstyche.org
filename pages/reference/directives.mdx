@@ -12,7 +12,17 @@ This feature is available since [TSTyche 4.0](../releases/tstyche-4.mdx).
 
 ## Usage
 
-Only a single-line comment is considered to be a directive if its text starts with `@tstyche` namespace followed by the directive keyword. Arguments must be provided if a directive requires them. Optionally, a note can be added after two or more hyphens.
+Only a single-line comment is considered to be a directive if its text starts with `@tstyche` namespace followed by the directive keyword. An argument must be provided if a directive requires it. Optionally, a note can be added after two or more hyphens.
+
+```ts
+// @tstyche if { target: [">=5.7"] } -- Only when TypeScript 5.7 or above is used
+```
+
+<Tip>
+
+The argument text is parsed as a JSON string, but unquoted keys, single quotes or trailing commas are allowed. This means you can style the arguments just like the rest of the code.
+
+</Tip>
 
 ## Directives
 
