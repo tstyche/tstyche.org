@@ -1,5 +1,4 @@
 {
-  "cSpell.enableFiletypes": ["mdx"],
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },
@@ -9,12 +8,9 @@
   },
   "editor.rulers": [80, 120],
   "files.associations": {
-    "*.css": "tailwindcss"
+    "*.css": "tailwindcss",
+    "*.mdx": "markdown"
   },
   "typescript.preferences.importModuleSpecifierEnding": "js",
-  "typescript.tsdk": "./node_modules/typescript/lib",
-
-  "[mdx]": {
-    "editor.wordWrap": "on"
-  }
+  "typescript.tsdk": "./node_modules/typescript/lib"
 }
