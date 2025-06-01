@@ -4,6 +4,5 @@
   "directives": "Comment Directives",
   "config-file": "Configuration File",
   "command-line": "Command Line",
-  "environment": "Environment Variables",
-  "requirements": "System Requirements"
+  "environment": "Environment Variables"
 }

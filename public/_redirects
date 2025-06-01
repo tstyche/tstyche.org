@@ -1,3 +1,4 @@
 # Redirects from what the browser requests to what is served
 
 /reference/programmatic-usage   /guide/programmatic-usage
+/reference/requirements         /guide/get-started#prerequisites
