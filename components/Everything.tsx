@@ -25,14 +25,14 @@ export function Everything() {
         <p className="mt-10 sm:text-lg lg:text-xl">
           <Link
             className="mr-4 rounded-none border-b border-blue-ribbon-700 py-2 text-blue-ribbon-700 dark:border-blue-ribbon-500 dark:text-blue-ribbon-500 sm:mr-6"
-            href="/guide/get-started"
+            href="/get-started/first-steps"
           >
             Quick Start
             <ArrowRight className="inline pl-1 align-bottom" size={24} />
           </Link>
           <Link
             className="hidden md:inline mr-4 rounded-none border-b border-gray-500 py-2 text-gray-500 dark:border-gray-400 dark:text-gray-400 sm:mr-6"
-            href="/guide/introduction"
+            href="/get-started/introduction"
           >
             Slow Start
             <ArrowRight className="inline pl-1 align-bottom" size={24} />

@@ -59,7 +59,7 @@ Use the [`--showConfig`](./command-line.mdx#show-config) command line option to 
 
 ### `checkSourceFiles` [#check-source-files]
 
-- Default: `false`
+- Default: `true`
 - Type: `boolean`
 
 Enable type error reporting for source files.
@@ -96,11 +96,11 @@ The following can be specified:
 }
 ```
 
-To learn more, see the [Plugins](../guide/plugins.mdx) page.
+To learn more, see the [Plugins](../guides/plugins.mdx) page.
 
 ### `rejectAnyType` [#reject-any-type]
 
-- Default: `false`
+- Default: `true`
 - Type: `boolean`
 
 Reject the `any` type passed as an argument to the `expect()` function or a matcher.
@@ -128,7 +128,7 @@ The `any` type is allowed with:
 
 ### `rejectNeverType` [#reject-never-type]
 
-- Default: `false`
+- Default: `true`
 - Type: `boolean`
 
 Reject the `never` type passed as an argument to the `expect()` function or a matcher.
@@ -173,7 +173,7 @@ The following can be specified:
 }
 ```
 
-To learn more, see the [Reporters](../guide/reporters.mdx) page.
+To learn more, see the [Reporters](../guides/reporters.mdx) page.
 
 ### `rootPath` [#root-path]
 
@@ -302,7 +302,7 @@ The look up strategy to be used to find the TSConfig file.
 The following can be specified:
 
 - `"findup"`, find the nearest `tsconfig.json` that includes a particular test file,
-- `"ignore"`, do not look for any `tsconfig.json` and use the defaults,
+- `"ignore"`, do not look for any `tsconfig.json` and use [default compiler options](../project/compiler-options.mdx#default-compiler-options),
 - or, if a path is specified, simply load `tsconfig.json` from that path.
 
 ```json
@@ -313,6 +313,6 @@ The following can be specified:
 
 <Warning>
 
-If TSConfig file is not found or does not include a test file in question, the [default compiler options](../guide/javascript-project.mdx#default-compiler-options) are set.
+If TSConfig file does not include a test file in question, [default compiler options](../project/compiler-options.mdx#default-compiler-options) are set.
 
 </Warning>

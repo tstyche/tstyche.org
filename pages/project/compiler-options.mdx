@@ -1,0 +1,89 @@
+import { Tabs } from "nextra/components";
+import { Note, Tip } from "@/components/Advice";
+
+# Compiler Options
+
+TSTyche searches for the nearest `tsconfig.json` that includes the test file. If none is found, it uses default compiler options.
+
+## TSConfig File
+
+To load the compiler options for a test file, TSTyche searches for the nearest `tsconfig.json` which includes the file in question. If a particular test file is not included in any of the TSConfig files found in enclosing directories, [default compiler options](#default-compiler-options) are set.
+
+To specify the path to `tsconfig.json` explicitly, pass it with the [`--tsconfig`](../reference/command-line.mdx#tsconfig) command line option or use the [`tsconfig`](../reference/config-file.mdx#tsconfig) configuration option.
+
+<Tip>
+
+The test runner always prints the path of the TSConfig file. To inspect the compiler configuration, copy the path and pass it to `tsc` together with the `--showConfig` option:
+
+```shell
+tsc --project ./typetests/tsconfig.json --showConfig
+```
+
+</Tip>
+
+### Language Service Plugins
+
+To work smoothly with Svelte, Vue or similar projects, a code editor needs an additional extension to be installed. Usually, the extension provides a TypeScript [language service plugin](https://github.com/microsoft/TypeScript/wiki/Writing-a-Language-Service-Plugin), which helps the editor to reason about typings of a project.
+
+TSTyche makes sure the plugins are loaded, but they must be installed and explicitly listed in a TSConfig file. For example, if your type tests import from `.svelte` files, install the `typescript-svelte-plugin` package:
+
+<Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
+<Tabs.Tab>
+
+```shell
+npm add -D typescript-svelte-plugin
+```
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+```shell
+yarn add -D typescript-svelte-plugin
+```
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+```shell
+pnpm add -D typescript-svelte-plugin
+```
+
+</Tabs.Tab>
+</Tabs>
+
+And add it to the language service [`plugins`](https://typescriptlang.org/tsconfig#plugins) list in `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "plugins": [{ "name": "typescript-svelte-plugin" }]
+  }
+}
+```
+
+## Default Compiler Options
+
+TSTyche sets the following default compiler options:
+
+```json
+{
+  "allowImportingTsExtensions": true, // not set for TypeScript 4.x
+  "allowJs": true,
+  "checkJs": true,
+  "exactOptionalPropertyTypes": true,
+  "jsx": "preserve",
+  "module": "nodenext",
+  "moduleResolution": "nodenext",
+  "noUncheckedIndexedAccess": true,
+  "resolveJsonModule": true,
+  "strict": true,
+  "target": "esnext",
+  "verbatimModuleSyntax": true // not set for TypeScript 4.x
+}
+```
+
+<Note>
+
+Your code editor may have set different default compiler options. This is the reason why TSTyche might see typings different from the editor. If that is an issue, add a `tsconfig.json` file to a project and it will be used by both TSTyche and the editor.
+
+</Note>

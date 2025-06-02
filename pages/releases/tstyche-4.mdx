@@ -15,39 +15,13 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 TSTyche 4.0 ships with the new `.toBeApplicable`, `.toBeCallableWith()` and `.toBeConstructableWith()` matchers, support for template test files, enhanced protection against accidental `any` or `never` types and stricter default compiler options.
 
-<Tip>
-
-TSTyche 4.0 is available as a release candidate. It is production-ready and no further breaking changes will be introduced before the stable version. To install the latest beta version, use the `next` distribution tag:
-
- <Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
- <Tabs.Tab>
-
- ```shell
- npm add -D tstyche@next
- ```
-
- </Tabs.Tab>
- <Tabs.Tab>
-
- ```shell
- yarn add -D tstyche@next
- ```
-
- </Tabs.Tab>
- <Tabs.Tab>
-
- ```shell
- pnpm add -D tstyche@next
- ```
-
- </Tabs.Tab>
- </Tabs>
-
- </Tip>
-
 ### Requirements
 
-The minimum supported Node.js version is `20.9`. It is recommended to use the latest [LTS release](https://nodejs.org/en/about/previous-releases).
+<Warning>
+
+**Breaking!** The minimum supported Node.js version is `20.9`. It is recommended to use the latest [LTS release](https://nodejs.org/en/about/previous-releases).
+
+</Warning>
 
 ### TypeScript Versions
 
@@ -197,7 +171,7 @@ To mark a test file as a template, add the `// @tstyche template` comment direct
 For example, the following:
 
 ```ts
-// @tstyche template -- For documentation, see: https://tstyche.org/guide/template-test-files
+// @tstyche template -- For documentation, see: https://tstyche.org/guides/template-test-files
 
 let testText = `import { expect, test } from "tstyche";
 `;
@@ -224,7 +198,7 @@ test("is number a string?", () => {
 });
 ```
 
-To learn more, see the [Template Test Files](../guide/template-test-files.mdx) page.
+To learn more, see the [Template Test Files](../guides/template-test-files.mdx) page.
 
 Thanks to [@nikelborm](https://github.com/nikelborm) for the idea!
 
@@ -250,7 +224,7 @@ The [`rejectNeverType`](../reference/config-file.mdx#reject-never-type) configur
 
 ### Compiler Options
 
-If your project does not have a TSConfig file, the default compiler options now are much more strict:
+If your project does not have a TSConfig file, default compiler options now are much more strict:
 
 ```json
 {

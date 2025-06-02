@@ -29,6 +29,12 @@ Testing against a single version is simple. If the `typescript` package is insta
 
 To specify another version, pass it with the [`--target`](../reference/command-line.mdx#target) command line option or use the [`target`](../reference/config-file.mdx#target) configuration option.
 
+The version of TypeScript used for testing will be reported like this:
+
+```ansi
+[34muses[0m TypeScript 5.8.3[90m with ./tsconfig.json[0m
+```
+
 ### Range of Versions
 
 Keep in mind that TypeScript follows the Semantic Versioning specification only [partly](https://github.com/microsoft/TypeScript/wiki/TypeScript's-Release-Process). A patch release is still strictly only a bug fix, but a major release may introduce breaking changes. This means upgrading from `5.6` to `5.7` can break your types.
@@ -40,6 +46,16 @@ tstyche --target '>=5.6'
 ```
 
 This command will test using TypeScript `5.6`, `5.7`, `5.8` and so on. The newly released versions will be added as soon as they are available.
+
+The report will include three (or more) versions of TypeScript:
+
+```ansi
+[34muses[0m TypeScript 5.6.3[90m with ./tsconfig.json[0m
+
+[34muses[0m TypeScript 5.7.3[90m with ./tsconfig.json[0m
+
+[34muses[0m TypeScript 5.8.3[90m with ./tsconfig.json[0m
+```
 
 To learn more about the version ranges, see the [Ranges](../reference/command-line.mdx#ranges) section in the documentation of the `--target` command line option.
 

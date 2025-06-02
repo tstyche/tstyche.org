@@ -9,7 +9,9 @@
     }
   },
 
-  "guide": "Guide",
+  "get-started": "Get Started",
+  "project": "Project",
+  "guides": "Guides",
   "reference": "Reference",
   "releases": "What’s New"
 }

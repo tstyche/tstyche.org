@@ -98,7 +98,7 @@ tstyche --only external
 
 ### `--prune` [#prune]
 
-Remove all installed versions the `typescript` package and exit.
+Remove all fetched versions the `typescript` package and exit.
 
 ### `--plugins` [#plugins]
 
@@ -115,7 +115,7 @@ The following can be specified:
 tstyche --plugins tstyche-plugin,./custom-plugin.js
 ```
 
-To learn more, see the [Plugins](../guide/plugins.mdx) page.
+To learn more, see the [Plugins](../guides/plugins.mdx) page.
 
 ### `--reporters` [#reporters]
 
@@ -133,7 +133,7 @@ The following can be specified:
 tstyche --reporters list,tstyche-reporter,./custom-reporter.js
 ```
 
-To learn more, see the [Reporters](../guide/reporters.mdx) page.
+To learn more, see the [Reporters](../guides/reporters.mdx) page.
 
 ### `--showConfig` [#show-config]
 
@@ -210,7 +210,7 @@ The look up strategy to be used to find the TSConfig file.
 The following can be specified:
 
 - `findup`, find the nearest `tsconfig.json` that includes a particular test file,
-- `ignore`, do not look for any `tsconfig.json` and use the defaults,
+- `ignore`, do not look for any `tsconfig.json` and use [default compiler options](../project/compiler-options.mdx#default-compiler-options),
 - or, if a path is specified, simply load `tsconfig.json` from that path.
 
 ```shell
@@ -219,7 +219,7 @@ tstyche --tsconfig ./tsconfig.test.json
 
 <Warning>
 
-If TSConfig file is not found or does not include a test file in question, the [default compiler options](../guide/javascript-project.mdx#default-compiler-options) are set.
+If TSConfig file does not include a test file in question, [default compiler options](../project/compiler-options.mdx#default-compiler-options) are set.
 
 </Warning>
 

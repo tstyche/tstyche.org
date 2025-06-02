@@ -177,7 +177,7 @@ The following can be specified:
 
 <Warning>
 
-If TSConfig file is not found, or is ignored, or does not include a test file in question, the [default compiler options](../guide/javascript-project.mdx#default-compiler-options) are set.
+If TSConfig is ignored, or does not include a test file in question, [default compiler options](../project/compiler-options.mdx#default-compiler-options) are set.
 
 </Warning>
 
@@ -284,7 +284,7 @@ export default class CustomReporter {
 }
 ```
 
-To learn more, see the [Reporters](../guide/reporters.mdx) page.
+To learn more, see the [Reporters](../guides/reporters.mdx) page.
 
 ### Plugins
 
@@ -311,7 +311,7 @@ export default {
 
 In this example, the `config` hook disables test file look up and the `select` hook returns a list of test files.
 
-To learn more, see the [Plugins](../guide/plugins.mdx) page.
+To learn more, see the [Plugins](../guides/plugins.mdx) page.
 
 ### Programmatic Usage
 
@@ -327,4 +327,4 @@ const runner = new Runner(resolvedConfig);
 await runner.run(["./typetests/toBeNumber.tst.ts"]);
 ```
 
-To learn more, see the [Programmatic Usage](../guide/programmatic-usage.mdx) page.
+To learn more, see the [Programmatic Usage](../guides/programmatic-usage.mdx) page.
