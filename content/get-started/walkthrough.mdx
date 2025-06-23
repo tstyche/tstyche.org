@@ -49,17 +49,30 @@ It is generally better to use ability matchers like `.toBeCallableWith()` or `.t
 The assertions can be mixed into unit tests as well:
 
 ```ts twoslash
-import assert from "node:assert";
-import test from "node:test";
-import * as tstyche from "tstyche";
-
-function toMilliseconds(value: number) {
+export function toMilliseconds(value: number) {
   if (typeof value === "number" && !Number.isNaN(value)) {
     return value * 1000;
   }
 
   throw new Error("Not a number");
 }
+```
+
+```ts twoslash
+// @filename: ./src/toMilliseconds.ts
+export function toMilliseconds(value: number) {
+  if (typeof value === "number" && !Number.isNaN(value)) {
+    return value * 1000;
+  }
+
+  throw new Error("Not a number");
+}
+// @filename: ./src/__tests__/toMilliseconds.test.ts
+// ---cut---
+import assert from "node:assert";
+import test from "node:test";
+import * as tstyche from "tstyche";
+import { toMilliseconds } from "../toMilliseconds.js";
 
 test("toMilliseconds", () => {
   const sample = toMilliseconds(10);
@@ -91,10 +104,10 @@ TSTyche assertions and testing helpers are just empty functions returning `undef
 Passing one or more search strings to the `tstyche` command runs only the test files with matching paths. For example, if a project structure look like this:
 
 <FileTree>
-  <FileTree.Folder name="src" defaultOpen>
-    <FileTree.Folder name="__tests__" defaultOpen>
+  <FileTree.Folder name="src" open>
+    <FileTree.Folder name="__tests__" open>
       <FileTree.File name="lastItem.test.ts" />
-      <FileTree.File name="secondItem.test.ts" />
+      <FileTree.File name="secondItem.test.ts" active />
     </FileTree.Folder>
     <FileTree.File name="lastItem.ts" />
     <FileTree.File name="secondItem.ts" />
@@ -114,7 +127,7 @@ To organize a larger test file, the [`describe()`](../reference/testing-api.mdx#
 ```ts twoslash
 import { describe, expect, test } from "tstyche";
 // ---cut-start---
-interface ConfigFileOptions {}
+interface ConfigFileOptions { failFast?: boolean; target?: Array<string> }
 // ---cut-end---
 
 test("all options are optional", () => {
@@ -123,11 +136,15 @@ test("all options are optional", () => {
 
 describe("ConfigFileOptions", () => {
   test("'failFast' option", () => {
-    // ...
+    expect<Pick<ConfigFileOptions, "failFast">>().type.toBe<{
+      failFast?: boolean;
+    }>();
   });
 
   test("'target' option", () => {
-    // ...
+    expect<Pick<ConfigFileOptions, "target">>().type.toBe<{
+      target?: Array<string>;
+    }>();
   });
 });
 ```
