@@ -14,3 +14,11 @@
     font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   }
 }
+
+code {
+  .twoslash-highlighted {
+    background-color: var(--color-yellow-200);
+    border: none;
+    border-radius: 0;
+  }
+}

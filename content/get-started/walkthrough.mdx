@@ -31,7 +31,7 @@ To learn more, see the [TypeScript Versions](../guides/typescript-versions.mdx) 
 
 The downside of `// @ts-expect-error` is that it hides any errors found in the line following the comment. To address that TSTyche requires a fragment of the error message after `// @ts-expect-error` and checks if it matches the actual error:
 
-```ts
+```ts twoslash
 // @ts-expect-error Cannot find name 'add'
 console.log(add);
 ```
@@ -48,7 +48,11 @@ It is generally better to use ability matchers like `.toBeCallableWith()` or `.t
 
 The assertions can be mixed into unit tests as well:
 
-```ts filename="./src/toMilliseconds.ts"
+```ts twoslash
+import assert from "node:assert";
+import test from "node:test";
+import * as tstyche from "tstyche";
+
 function toMilliseconds(value: number) {
   if (typeof value === "number" && !Number.isNaN(value)) {
     return value * 1000;
@@ -56,13 +60,6 @@ function toMilliseconds(value: number) {
 
   throw new Error("Not a number");
 }
-```
-
-```ts filename="./src/__tests__/toMilliseconds.test.ts"
-import assert from "node:assert";
-import test from "node:test";
-import * as tstyche from "tstyche";
-import { toMilliseconds } from "../toMilliseconds.js";
 
 test("toMilliseconds", () => {
   const sample = toMilliseconds(10);
@@ -114,25 +111,23 @@ tstyche second
 
 To organize a larger test file, the [`describe()`](../reference/testing-api.mdx#describe) and [`test()`](../reference/testing-api.mdx#test) helpers can be used:
 
-```ts
+```ts twoslash
 import { describe, expect, test } from "tstyche";
-import type * as tstyche from "tstyche/tstyche";
+// ---cut-start---
+interface ConfigFileOptions {}
+// ---cut-end---
 
 test("all options are optional", () => {
-  expect<tstyche.ConfigFileOptions>().type.toBeAssignableWith({});
+  expect<ConfigFileOptions>().type.toBeAssignableWith({});
 });
 
 describe("ConfigFileOptions", () => {
   test("'failFast' option", () => {
-    expect<Pick<tstyche.ConfigFileOptions, "failFast">>().type.toBe<{
-      failFast?: boolean;
-    }>();
+    // ...
   });
 
   test("'target' option", () => {
-    expect<Pick<tstyche.ConfigFileOptions, "target">>().type.toBe<{
-      target?: Array<string>;
-    }>();
+    // ...
   });
 });
 ```
@@ -141,7 +136,9 @@ This is a fragment of TSTyche’s `ConfigFileOptions` interface test. The type i
 
 While developing similar script, the [run mode flags](../reference/testing-api.mdx#run-mode-flags) come in handy. Use `.only` to focus on or `.skip` to skip some of the tests:
 
-```ts
+```ts twoslash
+import { describe, expect, test } from "tstyche";
+// ---cut---
 describe.only("ConfigFileOptions", () => {
   test.skip("'failFast' option", () => {
     // ...

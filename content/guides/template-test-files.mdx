@@ -16,7 +16,7 @@ To mark a test file as a template, add the [`// @tstyche template`](../reference
 
 For example, the following:
 
-```ts
+```ts twoslash
 // @tstyche template -- For documentation, see: https://tstyche.org/guides/template-test-files
 
 let testText = `import { expect, test } from "tstyche";
@@ -34,7 +34,7 @@ export default testText;
 
 is interpreted as:
 
-```ts
+```ts twoslash
 import { expect, test } from "tstyche";
 test("is string a string?", () => {
   expect<string>().type.toBe<string>();
