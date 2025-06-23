@@ -71,6 +71,24 @@ It is recommended to enable this option when:
 - a project has handcrafted or generated type declarations,
 - or type test fixtures are used (for instance, fixtures can be handy to test declaration merging).
 
+### `checkSuppressedErrors` [#check-suppressed-errors]
+
+- Default: `false`
+- Type: `boolean`
+
+Check errors silenced by `// @ts-expect-error` directives in the test files.
+
+When this option is enabled, the runner reads the text after `// @ts-expect-error` and checks if it matches the actual error message:
+
+```ts
+// @ts-expect-error Cannot find name 'add'
+console.log(add);
+```
+
+If a message does not match or is not specified, an error is reported.
+
+To ignore a directive, append the `!` character after it: `// @ts-expect-error!`.
+
 ### `failFast` [#fail-fast]
 
 - Default: `false`

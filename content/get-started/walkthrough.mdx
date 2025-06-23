@@ -3,7 +3,7 @@ import { Note, Tip } from "@/components/Advice";
 
 # Walkthrough
 
-This page offers a quick overview of the most important features of TSTyche.
+An overview of the most important aspects of TSTyche.
 
 ## How It Works?
 
@@ -26,6 +26,23 @@ tstyche --target '>=5.6'
 ```
 
 To learn more, see the [TypeScript Versions](../guides/typescript-versions.mdx) page.
+
+## Expecting Errors
+
+The downside of `// @ts-expect-error` is that it hides any errors found in the line following the comment. To address that TSTyche requires a fragment of the error message after `// @ts-expect-error` and checks if it matches the actual error:
+
+```ts
+// @ts-expect-error Cannot find name 'add'
+console.log(add);
+```
+
+To learn more, see documentation of the [`checkSuppressedErrors`](../reference/config-file.mdx#check-suppressed-errors) option.
+
+<Tip>
+
+It is generally better to use ability matchers like `.toBeCallableWith()` or `.toHaveProperty()` instead of `// @ts-expect-error`.
+
+</Tip>
 
 ## Integrating into Unit Tests
 
@@ -156,18 +173,4 @@ expect.skip<Pick<tstyche.ConfigFileOptions, "failFast">>().type.toBe<{
 expect.fail<Pick<tstyche.ConfigFileOptions, "target">>().type.toBe<{
   target?: Array<string>;
 }>();
-```
-
-## Expecting Errors
-
-Speaking of assertions and errors, TSTyche has a special [`.toRaiseError()`](../reference/expect-api.mdx#to-raise-error) matcher. It checks if the provided type or expression raises a particular TypeScript error:
-
-```ts
-import { expect } from "tstyche";
-
-function firstItem<T>(target: Array<T>): T | undefined {
-  return target[0];
-}
-
-expect(firstItem()).type.toRaiseError("Expected 1 argument");
 ```

@@ -1,4 +1,3 @@
-import { FileTree, Tabs } from "nextra/components";
 import { Note, Tip, Warning } from "@/components/Advice";
 
 # Release Notes
@@ -10,6 +9,48 @@ This page lists breaking changes and notable new features. Please be sure to rea
 The detailed changelog can be found in [TSTyche repository on GitHub](https://github.com/tstyche/tstyche/blob/main/CHANGELOG.md).
 
 </Note>
+
+## TSTyche 4.1  [#tstyche-4-1]
+
+TSTyche 4.1 ships with the new `// @tstyche fixme` comment directive and `checkSuppressedErrors` configuration option.
+
+### Comment Directives
+
+#### `// @tstyche fixme` [#fixme]
+
+Marks an `expect()`, `test()` or `describe()` as supposed to fail:
+
+```ts
+import { expect } from "tstyche";
+
+declare function test(cb: () => unknown): void;
+declare function test(cb: () => Promise<unknown>): Promise<void>;
+
+expect(test(() => {})).type.toBe<void>();
+// @tstyche fixme -- This should work, see: #265
+expect(test(() => Promise.resolve())).type.toBe<Promise<void>>();
+```
+
+### Configuration
+
+#### `checkSuppressedErrors` [#check-suppressed-errors]
+
+Check errors silenced by `// @ts-expect-error` directives in the test files.
+
+When this option is enabled, the runner reads the text after `// @ts-expect-error` and checks if it matches the actual error message:
+
+```ts
+// @ts-expect-error Cannot find name 'add'
+console.log(add);
+```
+
+If a message does not match or is not specified, an error is reported.
+
+To ignore a directive, append the `!` character after it: `// @ts-expect-error!`.
+
+### Compiler Options
+
+The `noUncheckedSideEffectImports` compiler option is now enabled for TypeScript 5.6 and above.
 
 ## TSTyche 4.0  [#tstyche-4-0]
 

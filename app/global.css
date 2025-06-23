@@ -1,6 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@import 'nextra-theme-docs/style.css';
+
+@variant dark (&:where(.dark *));
 
 @layer base {
   code,
@@ -11,9 +13,4 @@
   body {
     font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   }
-}
-
-.dark pre,
-.light pre {
-  @apply rounded-md bg-gray-200/30;
 }
