@@ -9,7 +9,9 @@ export async function generateMetadata({ params }: Props) {
   const { mdxPath } = await params;
 
   if (mdxPath != null) {
-    return await importPage(mdxPath);
+    const { metadata } = await importPage(mdxPath);
+
+    return metadata;
   }
 
   return { title: { absolute: "TSTyche — Everything You Need for Type Testing" } };
