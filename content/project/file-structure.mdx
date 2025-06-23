@@ -16,9 +16,9 @@ TSTyche is built to test projects of any size and complexity. To learn more, see
 It is recommended to keep type test files in a dedicated directory. For instance, you can name it `__typetests__`:
 
 <FileTree>
-  <FileTree.Folder name="src" defaultOpen>
-    <FileTree.Folder name="__typetests__" defaultOpen>
-      <FileTree.File name="MethodLikeKeys.tst.ts" />
+  <FileTree.Folder name="src" open>
+    <FileTree.Folder name="__typetests__" open>
+      <FileTree.File name="MethodLikeKeys.tst.ts" active />
       <FileTree.File name="tsconfig.json" />
     </FileTree.Folder>
     <FileTree.File name="MethodLikeKeys.ts" />
@@ -55,9 +55,9 @@ By convention, it is recommended to suffix the unit tests with `.test.*` and the
 It is also possible to keep unit and type test files in a single shared directory:
 
 <FileTree>
-  <FileTree.Folder name="src" defaultOpen>
-    <FileTree.Folder name="__tests__" defaultOpen>
-      <FileTree.File name="MethodLikeKeys.tst.ts" />
+  <FileTree.Folder name="src" open>
+    <FileTree.Folder name="__tests__" open>
+      <FileTree.File name="MethodLikeKeys.tst.ts" active />
       <FileTree.File name="secondItem.test.ts" />
       <FileTree.File name="tsconfig.json" />
     </FileTree.Folder>
@@ -97,9 +97,9 @@ To use type testing assertions in [unit tests](../get-started/walkthrough.mdx#in
 Isolation of type tests placed next to source files is complicated, but not impossible. A hypothetical project could look like this:
 
 <FileTree>
-  <FileTree.Folder name="src" defaultOpen>
+  <FileTree.Folder name="src" open>
     <FileTree.File name="MethodLikeKeys.ts" />
-    <FileTree.File name="MethodLikeKeys.tst.ts" />
+    <FileTree.File name="MethodLikeKeys.tst.ts" active />
     <FileTree.File name="secondItem.ts" />
     <FileTree.File name="secondItem.test.ts" />
   </FileTree.Folder>
