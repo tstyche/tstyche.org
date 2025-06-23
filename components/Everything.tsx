@@ -17,12 +17,12 @@ export function Everything() {
           Everything You Need for&nbsp;Type Testing.
         </h1>
 
-        <p className="mt-6 max-w-lg text-gray-500 dark:text-gray-400 sm:mt-10 text-xl md:max-w-3xl">
+        <p className="mt-6 max-w-lg text-gray-500 dark:text-gray-400 sm:mt-10 sm:text-lg md:max-w-3xl lg:text-xl">
           TSTyche is a type testing tool for TypeScript. It&nbsp;ships with <Code>{"describe()"}</Code> and{" "}
           <Code>{"test()"}</Code> helpers, <Code>{"expect"}</Code> style assertions and&nbsp;a&nbsp;mighty test runner.
         </p>
 
-        <p className="mt-10 text-xl">
+        <p className="mt-10 sm:text-lg lg:text-xl">
           <Link
             className="mr-4 rounded-none border-b border-blue-700 py-2 text-blue-700 dark:border-blue-500 dark:text-blue-500 sm:mr-6"
             href="/get-started/first-steps"
