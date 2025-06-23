@@ -5,7 +5,7 @@ import { Code } from "./Code";
 export function Everything() {
   return (
     <>
-      <div className="rounded-md text-center border text-blue-700 border-blue-700 py-2 dark:text-blue-500 dark:border-blue-500">
+      <div className="rounded-md text-center border border-blue-600 py-2 dark:border-blue-500">
         <Link href="/releases/tstyche-4">
           TSTyche 4.1 is now available
           <ArrowRight className="inline pl-1 align-bottom" size={22} />
@@ -24,7 +24,7 @@ export function Everything() {
 
         <p className="mt-10 sm:text-lg lg:text-xl">
           <Link
-            className="mr-4 rounded-none border-b border-blue-700 py-2 text-blue-700 dark:border-blue-500 dark:text-blue-500 sm:mr-6"
+            className="mr-4 rounded-none border-b border-blue-600 py-2 text-blue-600 dark:border-blue-500 dark:text-blue-500 sm:mr-6"
             href="/get-started/first-steps"
           >
             Quick Start
