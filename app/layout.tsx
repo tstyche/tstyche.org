@@ -14,16 +14,10 @@ export const metadata: Metadata = {
       { url: "/images/favicon.png", type: "image/png" },
       { url: "/images/favicon.svg", type: "image/svg+xml" },
     ],
-    apple: "/images/apple-touch-icon.png",
+    apple: "/images/apple-icon.png",
   },
   openGraph: {
-    images: [
-      {
-        url: "https://tstyche.org/images/og.png",
-        width: 800,
-        height: 600,
-      },
-    ],
+    images: [{ url: "https://tstyche.org/images/og.png", width: 1200, height: 630 }],
   },
   robots: { index: true, follow: true },
   title: {
