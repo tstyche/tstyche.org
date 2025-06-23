@@ -6,7 +6,7 @@ import { Everything } from "@/components/Everything";
 
 If you are used to test JavaScript, a simple type test file should look familiar:
 
-```ts
+```ts twoslash
 import { expect, test } from "tstyche";
 
 function isSameLength<T extends { length: number }>(a: T, b: T) {
@@ -30,7 +30,7 @@ To organize, debug and plan tests TSTyche has:
 
 The assertions can be used to write type tests (like in the above example) or mixed in your unit tests:
 
-```ts
+```ts twoslash
 import assert from "node:assert";
 import test from "node:test";
 import * as tstyche from "tstyche";

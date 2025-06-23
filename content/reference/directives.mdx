@@ -44,7 +44,7 @@ When a comment directive is used in the wrong scope, it holds no special meaning
 
 Marks an `expect()`, `test()` or `describe()` as supposed to fail.
 
-```ts
+```ts twoslash
 import { expect } from "tstyche";
 
 declare function test(cb: () => unknown): void;
@@ -78,7 +78,7 @@ Run an `expect()`, `test()` or `describe()` only when the specified condition ma
 
 TODO
 
-```ts
+```ts twoslash
 import { expect, test } from "tstyche";
 
 function isUint8Array(target: unknown): target is Uint8Array {
@@ -106,7 +106,7 @@ Marks a test file as a template. When the directive is found, the default export
 
 For example, the following:
 
-```ts
+```ts twoslash
 // @tstyche template -- For documentation, see: https://tstyche.org/guides/template-test-files
 
 let testText = `import { expect, test } from "tstyche";
@@ -124,7 +124,7 @@ export default testText;
 
 is interpreted as:
 
-```ts
+```ts twoslash
 import { expect, test } from "tstyche";
 test("is string a string?", () => {
   expect<string>().type.toBe<string>();

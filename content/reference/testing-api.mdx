@@ -8,7 +8,7 @@ TSTyche ships testing helpers and run mode flags to organize, select and filter 
 
 To select groups or tests to run, append the run mode flags to any [`describe()`](#describe) or [`test()`](#test) function. The flags are inherited from the parent.
 
-```ts
+```ts twoslash
 import { describe, expect, test } from "tstyche";
 
 describe.only("string", () => {
@@ -56,7 +56,7 @@ You can use the `.only` and `.skip` flags with the [`expect()`](./expect-api.mdx
 
 TSTyche does not require to use the helper functions. For instance, instead of callbacks you can use [block statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block) to scope variables or code comments to name the tests:
 
-```ts
+```ts twoslash
 import { expect } from "tstyche";
 
 // is a string?
@@ -80,7 +80,7 @@ Keep in mind that the runner does not execute the code, therefor the `name` argu
 
 Defines a group of tests. The `describe()` groups can be nested within each other.
 
-```ts
+```ts twoslash
 import { describe, expect, test } from "tstyche";
 
 describe("is a group?", () => {
@@ -98,7 +98,7 @@ describe("is a group?", () => {
 
 An alias for [`test()`](#test). For example, you can use it to write tests in the [BDD style](https://en.wikipedia.org/wiki/Behavior-driven_development):
 
-```ts
+```ts twoslash
 import { describe, expect, it } from "tstyche";
 
 describe("number", () => {
@@ -115,7 +115,7 @@ describe("number", () => {
 
 Defines a single test.
 
-```ts
+```ts twoslash
 import { expect, test } from "tstyche";
 
 test("is a string?", () => {

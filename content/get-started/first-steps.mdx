@@ -55,7 +55,7 @@ The following steps assume that you installed the `typescript` package and added
 
 Create a `MethodLikeKeys.ts` file with the following content:
 
-```ts filename="./MethodLikeKeys.ts"
+```ts twoslash
 type MethodLike = (...args: any) => any;
 
 export type MethodLikeKeys<T> = keyof {
@@ -69,7 +69,15 @@ The `MethodLikeKeys` utility should construct a union type by picking up names o
 
 Create a `MethodLikeKeys.tst.ts` file in the same directory:
 
-```ts filename="./MethodLikeKeys.tst.ts"
+```ts twoslash
+// @filename: ./MethodLikeKeys.ts
+type MethodLike = (...args: any) => any;
+
+export type MethodLikeKeys<T> = keyof {
+  [K in keyof T as T[K] extends MethodLike ? K : never]: T[K];
+};
+// @filename: ./MethodLikeKeys.tst.ts
+// ---cut---
 import { expect } from "tstyche";
 import type { MethodLikeKeys } from "./MethodLikeKeys.js";
 
@@ -144,9 +152,12 @@ The rest reports that the test has failed and explains the problem.
 
 The `getWidth` key is marked as optional and was not picked up by the `MethodLikeKeys` type. Here is the fixed type:
 
-```ts /Required<T>/
+```ts twoslash
+type MethodLike = (...args: any) => any;
+// ---cut---
 export type MethodLikeKeys<T> = keyof {
   [K in keyof T as Required<T>[K] extends MethodLike ? K : never]: T[K];
+  //               ^^^^^^^^^^^
 };
 ```
 

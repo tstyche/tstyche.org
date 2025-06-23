@@ -18,45 +18,37 @@ TSTyche sees exactly the same types which you see in code editor’s hover messa
 
 In mutable context a [literal type is inferred](https://typescriptlang.org/docs/handbook/2/everyday-types.html#literal-inference) as its base type:
 
-```ts
+```ts twoslash
 import { expect } from "tstyche";
 
-const one = 1;
-//    ^^^ The type is '1'
-
-expect(1).type.toBe<1>();
-
 const two = { a: 2, b: [3, 3] };
-//    ^^^ The type is '{ a: number; b: number[] }'
+//    ^^^
 
-expect({ a: 2, b: [3, 3] }).type.toBe<{ a: number; b: number[] }>();
+expect(two).type.toBe<{ a: number; b: number[] }>();
 ```
 
 To tell to the type checker that a type should not be widened, use [type assertions](https://typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions):
 
-```ts
+```ts twoslash
 import { expect } from "tstyche";
 
 const six = { a: 6 as const, b: [9, 9] as 9[] };
-//    ^^^ The type is '{ a: 6; b: 9[] }'
+//    ^^^
 
-expect({ a: 6 as const, b: [9, 9] as 9[] }).type.toBe<{ a: 6; b: 9[] }>();
+expect(six).type.toBe<{ a: 6; b: 9[] }>();
 ```
 
 <Note>
 
 It is also possible to use the `const` type assertion to convert the entire object, but in this case a different type is created:
 
-```ts
+```ts twoslash
 import { expect } from "tstyche";
 
 const ten = { a: 6, b: [9, 9] } as const;
-//    ^^^ The type is '{ readonly a: 6; readonly b: readonly [9, 9] }'
+//    ^^^
 
-expect({ a: 6, b: [9, 9] } as const).type.toBe<{
-  readonly a: 6;
-  readonly b: readonly [9, 9];
-}>();
+expect(ten).type.toBe<{ readonly a: 6; readonly b: readonly [9, 9] }>();
 ```
 
 </Note>
@@ -65,14 +57,13 @@ expect({ a: 6, b: [9, 9] } as const).type.toBe<{
 
 If passed as arguments, the object literals undergo the [excess property checks](https://typescriptlang.org/docs/handbook/2/objects.html#excess-property-checks):
 
-```ts
+```ts twoslash
+// @errors: 2353
 import { expect } from "tstyche";
 
 let config: { timeout?: number } = {};
 
 config = { silent: true, timeout: 800 };
-//         ~~~~~~ Error: Object literal may only specify known properties,
-//                and 'silent' does not exist in type '{ timeout?: number; }'.
 
 // Just like above, object literals may only specify known properties
 expect({ silent: true, timeout: 800 }).type.not.toBeAssignableTo<{ timeout?: number }>();
@@ -85,7 +76,7 @@ expect<{ timeout?: number }>().type.toBeAssignableWith<{ silent: true; timeout: 
 
 Generally these failures prevent outdated assertions hanging around in your tests. If the excess property checks is not what you need, follow the above link to learn how to get around them. For example, you can pass a reference instead of an object literal:
 
-```ts
+```ts twoslash
 import { expect } from "tstyche";
 
 const configSample = { silent: true, timeout: 800 };
@@ -139,7 +130,7 @@ The utilities only reshape types. At runtime they return the same object that wa
 
 The `omit()` type utility reshapes type of the given object by removing the specified keys:
 
-```ts
+```ts twoslash
 import { expect, omit, pick } from "tstyche";
 
 class Queue<T> {
@@ -168,7 +159,7 @@ expect<Omit<Queue<string>, "enqueue" | "entries">>().type.toBe<{
 
 The `pick()` type utility reshapes type of the given object by keeping only the specified keys:
 
-```ts
+```ts twoslash
 import { expect, omit, pick } from "tstyche";
 
 class Queue<T> {
@@ -214,7 +205,8 @@ This is a **work in progress feature**. Generic components are not yet supported
 
 </Warning>
 
-```tsx
+```tsx twoslash
+// @jsx: react-jsx
 import { expect, test } from "tstyche";
 
 interface ButtonProps {
@@ -248,7 +240,7 @@ test("accepts props?", () => {
 
 Checks if the source type the same as the target type.
 
-```ts
+```ts twoslash
 import { expect, test } from "tstyche";
 
 type MethodLike = (...args: any) => any;
@@ -283,7 +275,7 @@ Checks if the decorator function can be applied to a class or a class member.
 
 Differently from other matchers, `.toBeApplicable` must be used as a decorator:
 
-```ts
+```ts twoslash
 import { expect, test } from "tstyche";
 
 function bind<This, Value extends (this: This, ...args: any) => any>(
@@ -313,7 +305,7 @@ test("bind", () => {
 
 Checks if the source type is assignable to the target type. The opposite of the [`.toBeAssignableWith()`](#to-be-assignable-with) matcher.
 
-```ts
+```ts twoslash
 import { expect, test } from "tstyche";
 
 test("Set", () => {
@@ -338,7 +330,7 @@ test("Set", () => {
 
 Checks if the source type is assignable with the target type. The opposite of the [`.toBeAssignableTo()`](#to-be-assignable-to) matcher.
 
-```ts
+```ts twoslash
 import { expect, test } from "tstyche";
 
 type Awaitable<T> = T | PromiseLike<T>;
@@ -365,7 +357,7 @@ test("Awaitable", () => {
 
 Checks if a function is callable with the given arguments.
 
-```ts
+```ts twoslash
 import { expect, test } from "tstyche";
 
 function isSameLength<T extends { length: number }>(a: T, b: T) {
@@ -393,7 +385,7 @@ test("isSameLength", () => {
 
 Checks if a class is constructable with the given arguments.
 
-```ts
+```ts twoslash
 import { expect, test } from "tstyche";
 
 class Pair<T> {
@@ -430,7 +422,7 @@ test("Pair", () => {
 
 Checks if a property key exists on the source type.
 
-```ts
+```ts twoslash
 import { expect, test } from "tstyche";
 
 type Worker<T> = {
@@ -457,7 +449,7 @@ test("Worker", () => {
 
 `.toHaveProperty()` requires the source to be of an object type. For example, in TypeScript the `any` type can have any property, but it is not an object:
 
-```ts
+```ts twoslash
 import { expect } from "tstyche";
 
 // Error: A type argument for 'Source' must be of an object type
@@ -476,7 +468,8 @@ expect<any>().type.toHaveProperty("nope");
 
 Checks if the source type raises an error.
 
-```ts
+```ts twoslash
+// @noErrors
 import { expect, test } from "tstyche";
 
 interface Matchers<R, T = unknown> {
@@ -498,7 +491,7 @@ It is recommended to pass a substring of an error message to the matcher. Altern
 
 Avoid the `// @ts-expect-error` comments in your type tests, instead always use `.toRaiseError()`. The comment suppresses syntax errors, hence it turns typos into falsy passing tests. For example, the following is passing despite two syntax errors:
 
-```ts
+```ts twoslash
 interface Matchers<R, T = unknown> {
   [key: string]: (expected: T) => R;
 }

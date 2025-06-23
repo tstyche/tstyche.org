@@ -80,7 +80,7 @@ Check errors silenced by `// @ts-expect-error` directives in the test files.
 
 When this option is enabled, the runner reads the text after `// @ts-expect-error` and checks if it matches the actual error message:
 
-```ts
+```ts twoslash
 // @ts-expect-error Cannot find name 'add'
 console.log(add);
 ```
@@ -125,7 +125,8 @@ Reject the `any` type passed as an argument to the `expect()` function or a matc
 
 For instance, the following test is passing even when the return type by mistake resolves to `any`:
 
-```ts
+```ts twoslash
+// @noErrors
 import { query } from "query";
 import { expect } from "tstyche";
 
@@ -153,7 +154,8 @@ Reject the `never` type passed as an argument to the `expect()` function or a ma
 
 For instance, the following test is passing even when the `Result` type by mistake resolves to `never`:
 
-```ts
+```ts twoslash
+// @noErrors
 import { type Result, getResult } from "result";
 import { expect } from "tstyche";
 
