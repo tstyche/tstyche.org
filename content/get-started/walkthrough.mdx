@@ -29,18 +29,18 @@ To learn more, see the [TypeScript Versions](../guides/typescript-versions.mdx) 
 
 ## Expecting Errors
 
-The downside of `// @ts-expect-error` is that it hides any errors found in the line following the comment. To address that TSTyche requires a fragment of the error message after `// @ts-expect-error` and checks if it matches the actual error:
+The downside of `// @ts-expect-error` is that it hides any errors found in the line following the comment. To address that, TSTyche requires a fragment of the error message after `// @ts-expect-error` and checks if it matches the actual error:
 
 ```ts twoslash
 // @ts-expect-error Cannot find name 'add'
 console.log(add);
 ```
 
-To learn more, see documentation of the [`checkSuppressedErrors`](../reference/config-file.mdx#check-suppressed-errors) option.
+To learn more, see the documentation of the [`checkSuppressedErrors`](../reference/config-file.mdx#check-suppressed-errors) option.
 
 <Tip>
 
-It is generally better to use ability matchers like `.toBeCallableWith()` or `.toHaveProperty()` instead of `// @ts-expect-error`.
+To indicate the purpose of a test, use matchers like [`.toBeCallableWith()`](../reference/expect-api.mdx#to-be-callable-with) or [`.toHaveProperty()`](../reference/expect-api.mdx#to-have-property) instead of `// @ts-expect-error`.
 
 </Tip>
 
