@@ -36,7 +36,7 @@ export function Everything() {
           >
             Slow Start
             <ArrowRight className="inline pl-1 align-bottom" size={24} />
-          </Link>{" "}
+          </Link>
           <Link
             className="rounded-none border-b border-gray-500 py-2 text-gray-500 dark:border-gray-400 dark:text-gray-400"
             href="/reference/expect-api"
