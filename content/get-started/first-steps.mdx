@@ -55,7 +55,7 @@ The following steps assume that you installed the `typescript` package and added
 
 Create a `MethodLikeKeys.ts` file with the following content:
 
-```ts twoslash
+```ts twoslash filename="./MethodLikeKeys.ts"
 type MethodLike = (...args: any) => any;
 
 export type MethodLikeKeys<T> = keyof {
@@ -69,7 +69,7 @@ The `MethodLikeKeys` utility should construct a union type by picking up names o
 
 Create a `MethodLikeKeys.tst.ts` file in the same directory:
 
-```ts twoslash
+```ts twoslash filename="./MethodLikeKeys.tst.ts"
 // @filename: ./MethodLikeKeys.ts
 type MethodLike = (...args: any) => any;
 

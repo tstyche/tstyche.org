@@ -48,7 +48,7 @@ To indicate the purpose of a test, use matchers like [`.toBeCallableWith()`](../
 
 The assertions can be mixed into unit tests as well:
 
-```ts twoslash
+```ts twoslash filename="./src/toMilliseconds.ts"
 export function toMilliseconds(value: number) {
   if (typeof value === "number" && !Number.isNaN(value)) {
     return value * 1000;
@@ -58,7 +58,7 @@ export function toMilliseconds(value: number) {
 }
 ```
 
-```ts twoslash
+```ts twoslash filename="./src/__tests__/toMilliseconds.test.ts"
 // @filename: ./src/toMilliseconds.ts
 export function toMilliseconds(value: number) {
   if (typeof value === "number" && !Number.isNaN(value)) {
