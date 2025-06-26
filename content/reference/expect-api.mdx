@@ -447,15 +447,6 @@ test("Worker", () => {
 });
 ```
 
-`.toHaveProperty()` requires the source to be of an object type. For example, in TypeScript the `any` type can have any property, but it is not an object:
-
-```ts twoslash
-import { expect } from "tstyche";
-
-// Error: A type argument for 'Source' must be of an object type
-expect<any>().type.toHaveProperty("nope");
-```
-
 ---
 
 **Signature.** The `key` argument can be passed as a string, number or symbol:
