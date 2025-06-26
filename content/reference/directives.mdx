@@ -1,0 +1,104 @@
+import { Note, Tip, Warning } from "@/components/Advice";
+
+# Comment Directives
+
+The comment directives are single-line comments that serve as inline configuration for the test runner.
+
+<Note>
+
+This feature is available since [TSTyche 4.0](../releases/tstyche-4.mdx).
+
+</Note>
+
+## Usage
+
+Only a single-line comment is considered to be a directive if its text starts with `@tstyche` namespace followed by the directive keyword. An argument must be provided if a directive requires it. Optionally, a note can be added after two or more hyphens.
+
+```ts
+// @tstyche if { target: [">=5.7"] } -- Only when TypeScript 5.7 or above is used
+```
+
+<Tip>
+
+The argument text is parsed as a JSON string, but unquoted keys, single quotes or trailing commas are allowed. This means you can style the arguments just like the rest of the code.
+
+</Tip>
+
+## Directives
+
+The scope of a directive can be:
+
+- the whole test file (use it at the top of the file),
+- a single assertion or a test helper (place it above any `expect()`, `test()` or `describe()`),
+- or both of the above.
+
+<Warning>
+
+When a comment directive is used in the wrong scope, it holds no special meaning.
+
+</Warning>
+
+### `// @tstyche if` [#if]
+
+- Scope: a single assertion or a test helper, or the whole test file
+- Argument type: `{ target: Array<string> }`
+
+Run an `expect()`, `test()` or `describe()` only when the specified condition matches.
+
+```ts twoslash
+import { expect, test } from "tstyche";
+
+function isUint8Array(target: unknown): target is Uint8Array {
+  return target instanceof Uint8Array;
+}
+
+test("isUint8Array", () => {
+  const unknowns: Array<unknown> = [];
+
+  // @tstyche if { target: [">=5.7"] } -- Before TypeScript 5.7, 'Uint8Array' was not generic
+  expect(unknowns.filter(isUint8Array)).type.toBe<Array<Uint8Array<ArrayBufferLike>>>();
+
+  // @tstyche if { target: ["<5.7"] }
+  expect(unknowns.filter(isUint8Array)).type.toBe<Array<Uint8Array>>();
+});
+```
+
+If this directive is used at the top of the file, the whole test file would run only when the specified condition matches.
+
+### `// @tstyche template` [#template]
+
+- Scope: the whole test file
+
+Marks a test file as a template. When the directive is found, the default export of a file is interpreted as a type test text.
+
+For example, the following:
+
+```ts twoslash
+// @tstyche template -- For documentation, see: https://tstyche.org/guides/template-test-files
+
+let testText = `import { expect, test } from "tstyche";
+`;
+
+for (const source of ["string", "number"]) {
+  testText += `test("is ${source} a string?", () => {
+  expect<${source}>().type.toBe<string>();
+});
+`;
+}
+
+export default testText;
+```
+
+is interpreted as:
+
+```ts twoslash
+import { expect, test } from "tstyche";
+test("is string a string?", () => {
+  expect<string>().type.toBe<string>();
+});
+test("is number a string?", () => {
+  expect<number>().type.toBe<string>();
+});
+```
+
+To learn more, see the [Template Test Files](../guides/template-test-files.mdx) page.

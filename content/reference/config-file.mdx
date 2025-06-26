@@ -1,0 +1,338 @@
+import { FileTree } from "nextra/components";
+import { Note, Tip, Warning } from "@/components/Advice";
+
+# Configuration File
+
+The behavior of TSTyche can be customized through a configuration file.
+
+## Usage
+
+To configure TSTyche add `tstyche.config.json` file to the root of the project. Or point to your configuration file using the [`--config`](./command-line.mdx#config) command line option. The defaults are used, if a configuration file is not provided.
+
+The configuration file must contain an object. Comments, unquoted keys, single quotes or trailing commas are allowed:
+
+```js
+{
+  // The list of glob patterns to match the test files
+  testFileMatch: [
+    '**/*.test.ts',
+    '**/*.tst.ts',
+  ],
+}
+```
+
+<Note>
+
+For maximum portability, examples on this page follow the [JSON specification](https://json.org/json-en.html).
+
+</Note>
+
+## Schema
+
+In-editor validation can be enabled by adding the `$schema` key:
+
+```json
+{
+  "$schema": "https://tstyche.org/schemas/config.json"
+}
+```
+
+The below pattern can be used to specify the version of TSTyche:
+
+```json
+{
+  "$schema": "https://tstyche.org/schemas/config-4.0.json"
+}
+```
+
+## Options
+
+Options passed through the [command line](./command-line.mdx) override the ones from the configuration file.
+
+Relative paths are resolved relative to the configuration file.
+
+<Tip>
+
+Use the [`--showConfig`](./command-line.mdx#show-config) command line option to inspect the resolved configuration.
+
+</Tip>
+
+### `checkSourceFiles` [#check-source-files]
+
+- Default: `true`
+- Type: `boolean`
+
+Enable type error reporting for source files.
+
+To maximize performance TSTyche only checks types of the test files. When `checkSourceFiles` is enabled, type errors are also reported for imported or ambient files of a project. Only the files within the `node_modules` directory are not checked.
+
+It is recommended to enable this option when:
+
+- a project has handcrafted or generated type declarations,
+- or type test fixtures are used (for instance, fixtures can be handy to test declaration merging).
+
+### `checkSuppressedErrors` [#check-suppressed-errors]
+
+- Default: `false`
+- Type: `boolean`
+
+Check errors silenced by `// @ts-expect-error` directives in the test files.
+
+When this option is enabled, the runner reads the text after `// @ts-expect-error` and checks if it matches the actual error message:
+
+```ts twoslash
+// @ts-expect-error Cannot find name 'add'
+console.log(add);
+```
+
+If a message does not match or is not specified, an error is reported.
+
+To ignore a directive, append the `!` character after it: `// @ts-expect-error!`.
+
+### `failFast` [#fail-fast]
+
+- Default: `false`
+- Type: `boolean`
+
+Stop running tests after the first failure.
+
+### `plugins` [#plugins]
+
+- Default: `[]`
+- Type: `Array<string>`
+
+The list of plugins to use.
+
+The following can be specified:
+
+- name of a package: `"tstyche-plugin"`,
+- or a path: `"./custom-plugin.js"`.
+
+```json
+{
+  "plugins": ["tstyche-plugin", "./custom-plugin.js"]
+}
+```
+
+To learn more, see the [Plugins](../guides/plugins.mdx) page.
+
+### `rejectAnyType` [#reject-any-type]
+
+- Default: `true`
+- Type: `boolean`
+
+Reject the `any` type passed as an argument to the `expect()` function or a matcher.
+
+For instance, the following test is passing even when the return type by mistake resolves to `any`:
+
+```ts twoslash
+// @noErrors
+import { query } from "query";
+import { expect } from "tstyche";
+
+expect(query({ payload: "sample" })).type.toBeAssignableTo<string>();
+expect(query({ payload: 123 })).type.toBeAssignableTo<number>();
+```
+
+This issue can be solved by adding `.not.toBeAny()` check. `rejectAnyType` does the same, but without repetitive boilerplate code.
+
+<Note>
+
+The `any` type is allowed with:
+
+- all matchers when type is explicit, like `.not.toBe<any>()`;
+- `.toRaiseError()`, but not `.not.toRaiseError()`.
+
+</Note>
+
+### `rejectNeverType` [#reject-never-type]
+
+- Default: `true`
+- Type: `boolean`
+
+Reject the `never` type passed as an argument to the `expect()` function or a matcher.
+
+For instance, the following test is passing even when the `Result` type by mistake resolves to `never`:
+
+```ts twoslash
+// @noErrors
+import { type Result, getResult } from "result";
+import { expect } from "tstyche";
+
+expect(getResult("sample")).type.toBe<Result<string>>();
+expect(getResult(123)).type.toBe<Result<number>>();
+```
+
+This issue can be solved by adding `.not.toBeNever()` check. `rejectNeverType` does the same, but without repetitive boilerplate code.
+
+<Note>
+
+The `never` type is allowed with:
+
+- all matchers when type is explicit, like `.toBeAssignableWith<never>()`;
+- `.toRaiseError()`, but not `.not.toRaiseError()`.
+
+</Note>
+
+### `reporters` [#reporters]
+
+- Default: `["list", "summary"]`
+- Type: `Array<string>`
+
+The list of reporters to use.
+
+The following can be specified:
+
+- built-in reporter: `"list"` or `"summary"`,
+- name of a package: `"tstyche-reporter"`,
+- or a path: `"./custom-reporter.js"`.
+
+```json
+{
+  "reporters": ["list", "tstyche-reporter", "./custom-reporter.js"]
+}
+```
+
+To learn more, see the [Reporters](../guides/reporters.mdx) page.
+
+### `rootPath` [#root-path]
+
+- Default: the path to the directory from which the configuration file was loaded or the current directory
+- Type: `string`
+
+The path to a directory containing files of a test project.
+
+To collect the test files, the file tree is walked starting from the `rootPath` directory. Later during the test run, the lookup of `tsconfig.json` for each test file starts at the directory containing the file and ends at the `rootPath`.
+
+This means that all test files to be run and TSConfig files to load the compiler configuration from must be within the `rootPath`.
+
+For instance, if you prefer to keep the TSTyche configuration file in a `./config` directory:
+
+<FileTree>
+  <FileTree.Folder name="config" defaultOpen>
+    <FileTree.File name="tstyche.json" />
+  </FileTree.Folder>
+  <FileTree.Folder name="src">
+    <FileTree.Folder name="__typetests__">
+      <FileTree.File name="MethodLikeKeys.tst.ts" />
+      <FileTree.File name="tsconfig.json" />
+    </FileTree.Folder>
+    <FileTree.File name="MethodLikeKeys.ts" />
+  </FileTree.Folder>
+  <FileTree.File name="package.json" />
+  <FileTree.File name="tsconfig.json" />
+</FileTree>
+
+The `rootPath` should point to the root of the project:
+
+```json filename="./config/tstyche.json"
+{
+  "rootPath": "../"
+}
+```
+
+### `target` [#target]
+
+- Default: `["current"]`; or `["latest"]`, if TypeScript is not installed.
+- Type: `Array<string>`
+
+The list of TypeScript versions to be tested on.
+
+The following can be specified:
+
+- `"current"` is the version of TypeScript currently installed in the project,
+- minor releases, like `"5.2"` or `"4.9"`, resolves to the latest version in the serries (for example, `"4.9"` resolves to version 4.9.5),
+- patch releases, like `"5.3.2"` or `"4.8.4"`,
+- `"beta"`, `"latest"`, `"next"` or `"rc"` distribution [tags](https://npmjs.com/package/typescript?activeTab=versions) of the `typescript` package.
+
+```json
+{
+  "target": ["4.9", "5.3.2", "current"]
+}
+```
+
+#### Ranges
+
+Version ranges allow testing on a range of TypeScript versions. The range must be specified using an operator and a minor version.
+
+Supported operators:
+
+- `>`, greater than,
+- `>=`, greater than or equal,
+- `<`, less than,
+- `<=`, less than or equal.
+
+For example, the range `>=5.5` gets expanded to: `5.5`, `5.6`, `5.7` and so on. In the future this list will include newly released versions as well.
+
+To set an upper bound, the intersection of two ranges can be used: `>=5.0 <5.3`. Here only `5.0`, `5.1` and `5.2` are be included.
+
+Ranges and versions can be combined:
+
+```json
+{
+  "target": [">=5.0 <5.3", "5.4.2", ">5.5"]
+}
+```
+
+<Tip>
+
+Use the [`--list`](./command-line.mdx#list) command line option to inspect the list of supported versions.
+
+</Tip>
+
+### `testFileMatch` [#test-file-match]
+
+- Default: `["**/*.tst.*", "**/__typetests__/*.test.*", "**/typetests/*.test.*"]`
+- Type: `Array<string>`
+
+The list of glob patterns to match the test files. The patterns are matched with the portion of the path relative to the [`rootPath`](#root-path) directory. The matching is case insensitive.
+
+The following rules are used when matching the patterns:
+
+- `/` matches a path separator,
+- `?` matches any single character excluding path separators,
+- `*` matches zero or more characters excluding path separators,
+- `**` matches zero or more characters including path separators.
+
+Usage examples:
+
+- `?` can be used to select files or directories that differ in their name by only a character: `typetests/?at.tst.ts` would match `typetests/bat.tst.ts` or `typetests/cat.tst.ts`, but not `typetests/at.tst.ts`,
+- `*` can be used to select files within a directory: `*.tst.ts` would match `Options.tst.ts`, but not `Options.test.ts` or `json/Options.tst.ts`,
+- `**` can be used to select files within nested directories: `packages/**/typetests/*.test.ts` would match `packages/typetests/api.test.ts`, `packages/core/typetests/awaitable.test.ts` or `packages/parsers/json/typetests/JsonObject.test.ts`.
+
+<Note>
+
+The `?`, `*` and `**` wildcards do not match any path segments that start with the `.` and do not select files within the `node_modules` directories. These files or directories can only be matched, if specified explicitly: `**/.generated/*.tst.*` or `node_modules/**/*.tst.*`.
+
+</Note>
+
+<Tip>
+
+Use the [`--listFiles`](./command-line.mdx#list-files) command line option to inspect the list of selected files.
+
+</Tip>
+
+### `tsconfig` [#tsconfig]
+
+- Default: `"findup"`
+- Type: `string`
+
+The look up strategy to be used to find the TSConfig file.
+
+The following can be specified:
+
+- `"findup"`, find the nearest `tsconfig.json` that includes a particular test file,
+- `"ignore"`, do not look for any `tsconfig.json` and use [default compiler options](../project/compiler-options.mdx#default-compiler-options),
+- or, if a path is specified, simply load `tsconfig.json` from that path.
+
+```json
+{
+  "tsconfig": "./tsconfig.test.json"
+}
+```
+
+<Warning>
+
+If TSConfig file does not include a test file in question, [default compiler options](../project/compiler-options.mdx#default-compiler-options) are set.
+
+</Warning>

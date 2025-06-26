@@ -1,0 +1,53 @@
+import { Note, Warning } from "@/components/Advice";
+
+# Template Test Files
+
+Generate type tests using a data table.
+
+<Note>
+
+This feature is available since [TSTyche 4.0](../releases/tstyche-4.mdx).
+
+</Note>
+
+## Usage
+
+To mark a test file as a template, add the [`// @tstyche template`](../reference/directives.mdx#template) comment directive at the top. When the directive is found, the default export of a file is interpreted as a type test text.
+
+For example, the following:
+
+```ts twoslash
+// @tstyche template -- For documentation, see: https://tstyche.org/guides/template-test-files
+
+let testText = `import { expect, test } from "tstyche";
+`;
+
+for (const source of ["string", "number"]) {
+  testText += `test("is ${source} a string?", () => {
+  expect<${source}>().type.toBe<string>();
+});
+`;
+}
+
+export default testText;
+```
+
+is interpreted as:
+
+```ts twoslash
+import { expect, test } from "tstyche";
+test("is string a string?", () => {
+  expect<string>().type.toBe<string>();
+});
+test("is number a string?", () => {
+  expect<number>().type.toBe<string>();
+});
+```
+
+<Warning>
+
+This feature requires Node.js `22.6` or later.
+
+The type test text is loaded using the `import()` expression and replaced programmatically keeping the same file name. Therefore, this must be a TypeScript file and it must be executed at the same time. Fortunately, running TypeScript code with Node.js is now [possible](https://nodejs.org/api/typescript.html#type-stripping).
+
+</Warning>

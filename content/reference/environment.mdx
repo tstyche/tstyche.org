@@ -1,0 +1,71 @@
+import { Tip, Warning } from "@/components/Advice";
+
+# Environment Variables
+
+TSTyche must know few details about the environment before starting.
+
+## Options
+
+The parsing logic of the option value depends on its type:
+
+- **boolean** is interpreted as `true`, if the value is not an empty string; otherwise `false`,
+- **number** is parsed using the [`Number.parseFloat()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseFloat) method,
+- **string** is simply a string.
+
+<Warning>
+
+Values of the environment variables are not validated, meaning that they are passed around as provided without any additional checks.
+
+</Warning>
+
+<Tip>
+
+Use the [`--showConfig`](./command-line.mdx#show-config) command line option to inspect the resolved configuration.
+
+</Tip>
+
+### `TSTYCHE_NO_COLOR` [#no-color]
+
+- Default: `false`; or `true`, if the [`NO_COLOR`](https://no-color.org) environment variable is set and its value is not an empty string.
+- Type: boolean
+
+Specifies whether color should be disabled in the output.
+
+### `TSTYCHE_NO_INTERACTIVE` [#no-interactive]
+
+- Default: `!process.stdout.isTTY`
+- Type: boolean
+
+Specifies whether interactive elements should be disabled in the output.
+
+### `TSTYCHE_NPM_REGISTRY` [#npm-registry]
+
+- Default: `https://registry.npmjs.org`
+- Type: string
+
+The base URL of the [`npm` registry](https://docs.npmjs.com/cli/using-npm/registry) to use.
+
+### `TSTYCHE_STORE_PATH` [#store-path]
+
+- Default: `$HOME/Library/TSTyche` on macOS; or `%LocalAppData%/TSTyche` on Windows, if the `LocalAppData` environment variable is set; or `$XDG_DATA_HOME/TSTyche` on Linux, if the `XDG_DATA_HOME` environment variable is set; otherwise `$HOME/.local/share/TSTyche`.
+- Type: string
+
+The directory where the fetched versions of the `typescript` package are stored. Relative path is resolved relative to the current directory.
+
+### `TSTYCHE_TIMEOUT` [#timeout]
+
+- Default: `30`
+- Type: number
+
+The number of seconds to wait before giving up stale operations. The value of `0` disables the timeout.
+
+The timeout value is passed to requests to fetch the metadata and tarballs of `typescript` packages.
+
+### `TSTYCHE_TYPESCRIPT_MODULE` [#typescript-module]
+
+- Default: `typescript`
+- Type: string
+
+The module name or path to be used as the currently installed TypeScript module. The value is resolved using the [`import.meta.resolve()`](https://nodejs.org/docs/latest/api/esm.html#importmetaresolvespecifier) function.
+
+By default, TSTyche runs type tests using TypeScript currently installed in the project. Or, if the path does not resolve, the `latest` version is used. To learn more, see the [`target`](./config-file.mdx#target) option documentation.

@@ -1,5 +1,7 @@
 {
   "recommendations": [
+    "biomejs.biome",
+    "bradlc.vscode-tailwindcss",
     "davidanson.vscode-markdownlint",
     "editorconfig.editorconfig",
     "streetsidesoftware.code-spell-checker"

@@ -4,21 +4,15 @@
     "**/*.json",
     "**/*.md",
     "**/*.mdx",
-    "**/*.mjs",
+    "**/*.css",
+    "**/*.ts",
     "**/*.tsx",
+    "app/**/*",
     "components/**/*",
-    "pages/**/*",
+    "content/**/*",
     "public/**/*"
   ],
   "language": "en-US",
   "useGitignore": true,
-  "words": [
-    "findup",
-    "fontsource",
-    "nextra",
-    "tailwindcss",
-    "tstyche",
-    "typecheck",
-    "typetests"
-  ]
+  "words": ["findup", "typetests"]
 }

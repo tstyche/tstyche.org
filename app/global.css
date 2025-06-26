@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@import "nextra-theme-docs/style.css";
+
+@variant dark (&:where(.dark *));
+
+@layer base {
+  code,
+  pre {
+    font-family: "IBM Plex Mono", monospace;
+  }
+
+  body {
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+}
+
+code {
+  .twoslash-highlighted {
+    background-color: --alpha(var(--color-yellow-500) / 33%);
+    border-radius: var(--radius-xs);
+  }
+}
