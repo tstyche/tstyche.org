@@ -38,35 +38,6 @@ When a comment directive is used in the wrong scope, it holds no special meaning
 
 </Warning>
 
-### `// @tstyche fixme` [#fixme]
-
-- Scope: a single assertion or a test helper
-
-Marks an `expect()`, `test()` or `describe()` as supposed to fail.
-
-```ts twoslash
-import { expect } from "tstyche";
-
-declare function test(cb: () => unknown): void;
-declare function test(cb: () => Promise<unknown>): Promise<void>;
-
-expect(test(() => {})).type.toBe<void>();
-// @tstyche fixme -- This should work, see: #265
-expect(test(() => Promise.resolve())).type.toBe<Promise<void>>();
-```
-
-The runner implements the following logic:
-
-- when an `expect()` is marked, make sure it actually fails,
-- when a `test()` or `describe()` is marked, check if it has a failing child,
-- otherwise raise an error.
-
-<Warning>
-
-Unlike [run mode flags](./testing-api.mdx#run-mode-flags), `// @tstyche fixme` directives are not inherited from the parent. They only affect the line following the comment.
-
-</Warning>
-
 ### `// @tstyche if` [#if]
 
 - Scope: a single assertion or a test helper, or the whole test file

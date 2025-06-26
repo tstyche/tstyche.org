@@ -12,24 +12,7 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 ## TSTyche 4.1  [#tstyche-4-1]
 
-TSTyche 4.1 ships with the new `// @tstyche fixme` comment directive and `checkSuppressedErrors` configuration option.
-
-### Comment Directives
-
-#### `// @tstyche fixme` [#fixme]
-
-Marks an `expect()`, `test()` or `describe()` as supposed to fail:
-
-```ts
-import { expect } from "tstyche";
-
-declare function test(cb: () => unknown): void;
-declare function test(cb: () => Promise<unknown>): Promise<void>;
-
-expect(test(() => {})).type.toBe<void>();
-// @tstyche fixme -- This should work, see: #265
-expect(test(() => Promise.resolve())).type.toBe<Promise<void>>();
-```
+TSTyche 4.1 ships with the new `checkSuppressedErrors` configuration option.
 
 ### Configuration
 
