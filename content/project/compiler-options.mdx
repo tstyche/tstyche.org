@@ -3,19 +3,27 @@ import { Note, Tip } from "@/components/Advice";
 
 # Compiler Options
 
-TSTyche searches for the nearest `tsconfig.json` that includes the test file. If none is found, it uses default compiler options.
+The compiler options are loaded from the nearest `tsconfig.json`.
 
 ## TSConfig File
 
-To load the compiler options for a test file, TSTyche searches for the nearest `tsconfig.json` which includes the file in question. If a particular test file is not included in any of the TSConfig files found in enclosing directories, [default compiler options](#default-compiler-options) are set.
+TSTyche searches for the nearest `tsconfig.json` that includes the file in question. The path of the discovered TSConfig file is included in the report:
+
+```ansi
+[34muses[0m TypeScript 5.8.3[90m with ./typetests/tsconfig.json[0m
+```
+
+If a particular test file is not included in any of the TSConfig files found in enclosing directories, [default compiler options](#default-compiler-options) are set. The report will look like this:
+
+```ansi
+[34muses[0m TypeScript 5.8.3
+```
 
 To specify the path to `tsconfig.json` explicitly, pass it with the [`--tsconfig`](../reference/command-line.mdx#tsconfig) command line option or use the [`tsconfig`](../reference/config-file.mdx#tsconfig) configuration option.
 
-// TODO show how path is printed
-
 <Tip>
 
-The test runner always prints the path of the TSConfig file. To inspect the compiler configuration, copy the path and pass it to `tsc` together with the `--showConfig` option:
+To inspect the resolved compiler configuration, pass the path of the TSConfig file to `tsc` together with the `--showConfig` option:
 
 ```shell
 tsc --project ./typetests/tsconfig.json --showConfig
