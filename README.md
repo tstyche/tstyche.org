@@ -26,6 +26,4 @@ The command generates static content into the `.next` directory and can be serve
 
 ## License
 
-[MIT][license-href]
-
-[license-href]: https://github.com/tstyche/tstyche/blob/main/LICENSE.md
+[MIT](https://github.com/tstyche/tstyche/blob/main/LICENSE.md)
