@@ -10,6 +10,16 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 </Note>
 
+## TSTyche 4.2  [#tstyche-4-2]
+
+TSTyche 4.2 ships with glob brace expansion added.
+
+### Configuration
+
+#### `testFileMatch` [#test-tile-match]
+
+Brace expansion of comma separated lists is now supported. For example, `["**/tests/*.{ts,tsx}"]` or `["**/tests/*.ts{,x}"]` both expand to `["**/tests/*.ts", "**/tests/*.tsx"]`.
+
 ## TSTyche 4.1  [#tstyche-4-1]
 
 TSTyche 4.1 ships with the new `checkSuppressedErrors` configuration option.

@@ -287,6 +287,8 @@ Use the [`--list`](./command-line.mdx#list) command line option to inspect the l
 
 The list of glob patterns to match the test files. The patterns are matched with the portion of the path relative to the [`rootPath`](#root-path) directory. The matching is case insensitive.
 
+Brace expansion of comma separated lists is supported. For example, `["**/tests/*.{ts,tsx}"]` or `["**/tests/*.ts{,x}"]` both expand to `["**/tests/*.ts", "**/tests/*.tsx"]`.
+
 The following wildcards can be used:
 
 - `/` matches a path separator,
