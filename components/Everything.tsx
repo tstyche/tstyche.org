@@ -7,7 +7,7 @@ export function Everything() {
     <>
       <div className="rounded-md text-center border border-blue-600 py-2 dark:border-blue-500">
         <Link href="/releases/tstyche-4">
-          TSTyche 4.2 is now available
+          TSTyche 4.3 is now available
           <ArrowRight className="inline pl-1 align-bottom" size={22} />
         </Link>
       </div>

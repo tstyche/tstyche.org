@@ -64,7 +64,7 @@ Use the [`--showConfig`](./command-line.mdx#show-config) command line option to 
 
 Enable type error reporting for source files.
 
-To maximize performance TSTyche only checks types of the test files. When `checkSourceFiles` is enabled, type errors are also reported for imported or ambient files of a project. Only the files within the `node_modules` directory are not checked.
+To maximize performance TSTyche only checks types of test and fixture files. When `checkSourceFiles` is enabled, type errors are also reported for imported or ambient files of a project. Only the files within the `node_modules` directory are not checked.
 
 It is recommended to enable this option when:
 
@@ -95,6 +95,15 @@ To ignore a directive, append the `!` character after it: `// @ts-expect-error!`
 - Type: `boolean`
 
 Stop running tests after the first failure.
+
+### `fixtureFileMatch` [#fixture-file-match]
+
+- Default: `["**/__fixtures__/*.{ts,tsx}", "**/fixtures/*.{ts,tsx}"]`
+- Type: `Array<string>`
+
+The list of glob patterns to match the fixture files. The patterns are matched with the portion of the path relative to the [`rootPath`](#root-path) directory. The matching is case insensitive.
+
+To maximize performance TSTyche only checks types of [test](#test-file-match) and fixture files.
 
 ### `plugins` [#plugins]
 
