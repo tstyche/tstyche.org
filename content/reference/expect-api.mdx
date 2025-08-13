@@ -82,7 +82,6 @@ import { expect } from "tstyche";
 const configSample = { silent: true, timeout: 800 };
 
 expect(configSample).type.toBeAssignableTo<{ timeout?: number }>();
-expect<{ timeout?: number }>().type.toBeAssignableWith(configSample);
 ```
 
 ## `expect()`
