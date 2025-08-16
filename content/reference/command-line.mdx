@@ -12,8 +12,11 @@ When called without arguments, the `tstyche` command runs all test files matched
 # Run all tests
 tstyche
 
-# Only run the test files with matching path
-tstyche ./path/to/first.test.ts
+# Only run the matching test file
+tstyche query-params
+
+# Test against specific versions of TypeScript
+tstyche --target '5.3, 5.5.2, >=5.7'
 ```
 
 Only the files matched by the [`testFileMatch`](./config-file.mdx#test-file-match) patterns can be selected. The search strings are matched with the portion of the path relative to the current directory. The matching is case insensitive.
@@ -68,8 +71,8 @@ Fetch the specified versions of the `typescript` package and exit.
 # Fetch TypeScript 4.9.5
 tstyche --fetch --target 4.9
 
-# Fetch the specified versions of TypeScript
-tstyche --fetch --target '5.5, latest'
+# Fetch specific versions of TypeScript
+tstyche --fetch --target '5.5, >=5.8'
 ```
 
 ### `--help` [#help]
@@ -171,7 +174,7 @@ tstyche --target 4.9
 # Run tests using the latest version of TypeScript
 tstyche --target latest
 
-# Test on all specified versions of TypeScript
+# Test against specific versions of TypeScript
 tstyche --target '5.0, 5.3.2, next'
 ```
 
