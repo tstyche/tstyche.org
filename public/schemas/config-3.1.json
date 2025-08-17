@@ -46,7 +46,7 @@
       "default": [
         "current"
       ],
-      "description": "The list of TypeScript versions to be tested on.",
+      "description": "The list of TypeScript versions to be tested against.",
       "items": {
         "type": "string"
       },

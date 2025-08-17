@@ -15,7 +15,7 @@
       "default": [
         "current"
       ],
-      "description": "The list of TypeScript versions to be tested on.",
+      "description": "The list of TypeScript versions to be tested against.",
       "items": {
         "pattern": "^([45]\\.[0-9](\\.[0-9])?)|beta|current|latest|next|rc$",
         "type": "string"

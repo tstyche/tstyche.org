@@ -36,7 +36,10 @@
       "type": "boolean"
     },
     "reporters": {
-      "default": ["list", "summary"],
+      "default": [
+        "list",
+        "summary"
+      ],
       "description": "The list of reporters to use.",
       "items": {
         "type": "string"
@@ -50,8 +53,10 @@
       "type": "string"
     },
     "target": {
-      "default": ["current"],
-      "description": "The list of TypeScript versions to be tested on.",
+      "default": [
+        "current"
+      ],
+      "description": "The list of TypeScript versions to be tested against.",
       "items": {
         "type": "string"
       },
@@ -59,7 +64,11 @@
       "uniqueItems": true
     },
     "testFileMatch": {
-      "default": ["**/*.tst.*", "**/__typetests__/*.test.*", "**/typetests/*.test.*"],
+      "default": [
+        "**/*.tst.*",
+        "**/__typetests__/*.test.*",
+        "**/typetests/*.test.*"
+      ],
       "description": "The list of glob patterns matching the test files.",
       "items": {
         "type": "string"
