@@ -1,0 +1,165 @@
+import { Tabs } from "nextra/components";
+import { Note, Tip, Warning } from "@/components/Advice";
+
+# Release Notes
+
+This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from previous version.
+
+<Note>
+
+The detailed changelog can be found in [TSTyche repository on GitHub](https://github.com/tstyche/tstyche/blob/main/CHANGELOG.md).
+
+</Note>
+
+## TSTyche 5.0  [#tstyche-5-0]
+
+TSTyche 5.0 ships with the new `// @tstyche fixme` comment directive and `checkDeclarationFiles` configuration option.
+
+<Warning>
+
+Keep in mind that TSTyche 5.0 is still in beta. More breaking changes may be introduced before the stable version is released. To install the latest beta version, use the `next` distribution tag:
+
+<Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
+<Tabs.Tab>
+
+```shell
+npm add -D tstyche@next
+```
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+```shell
+yarn add -D tstyche@next
+```
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+```shell
+pnpm add -D tstyche@next
+```
+
+</Tabs.Tab>
+</Tabs>
+
+</Warning>
+
+### Requirements
+
+<Warning>
+
+**Breaking!** The minimum supported Node.js version is `20.12`. It is recommended to use the latest [LTS release](https://nodejs.org/en/about/previous-releases).
+
+</Warning>
+
+### `expect()` [#expect]
+
+<Warning>
+
+**Breaking!** The `.fail` run mode flag is removed. Use the new [`// @tstyche fixme`](#fixme) comment directive instead.
+
+</Warning>
+
+### Comment Directives
+
+### `// @tstyche fixme` [#fixme]
+
+Marks an `expect()`, `test()` or `describe()` as supposed to fail.
+
+```ts twoslash
+import { expect } from "tstyche";
+
+declare function test(cb: () => unknown): void;
+declare function test(cb: () => Promise<unknown>): Promise<void>;
+
+expect(test(() => {})).type.toBe<void>();
+// @tstyche fixme -- This should work, see: #265
+expect(test(() => Promise.resolve())).type.toBe<Promise<void>>();
+```
+
+The runner implements the following logic:
+
+- when an `expect()` is marked, make sure it actually fails,
+- when a `test()` or `describe()` is marked, check if it has a failing child.
+
+### Configuration
+
+<Warning>
+
+**Breaking!** The `checkSourceFiles` configuration option is removed.
+
+</Warning>
+
+#### `checkDeclarationFiles` [#check-declaration-files]
+
+Check declaration files for type errors.
+
+To maximize performance TSTyche only checks types of test and fixture files. When `checkDeclarationFiles` is enabled, type errors are also reported for declaration and ambient. In other words, all `.d.ts` files of the projected are checked. The files within the `node_modules` directory are not checked.
+
+It is recommended to enable this option when a project has handcrafted or generated type declarations.
+
+#### `checkSuppressedErrors` [#check-suppressed-errors]
+
+The [`checkSuppressedErrors`](../reference/config-file.mdx#check-suppressed-errors) configuration option is enabled by default.
+
+#### `target`
+
+<Warning>
+
+**Breaking!** The option value now must be a string in semver syntax:
+
+```diff
+- "target": [">=5.2 <=5.3", "5.4.2", ">5.5"]
++ "target": ">=5.2 <=5.3 || 5.4.2 || >5.5"
+```
+
+The default value is changed to `"*"`. When TypeScript is installed, it will use that version; otherwise, the `latest` version will be used.
+
+The `"current"` value is not supported any more. Use `"*"` instead.
+
+</Warning>
+
+### Command Line
+
+#### `--target` [#target]
+
+<Warning>
+
+**Breaking!** The option value now must be a string in semver syntax:
+
+```diff
+- --target '>=5.2 <5.3, 5.4.2, >5.5'
++ --target '>=5.2 <=5.3 || 5.4.2 || >5.5'
+```
+
+The default value is changed to `"*"`. When TypeScript is installed, it will use that version; otherwise, the `latest` version will be used.
+
+The `"current"` value is not supported any more. Use `"*"` instead.
+
+</Warning>
+
+### Compiler Options
+
+<Warning>
+
+**Breaking!** The `allowJs` and `checkJs` are removed from default compiler options.
+
+</Warning>
+
+As a reminder, from now TSTyche sets the following default compiler options:
+
+```json
+{
+  "allowImportingTsExtensions": true, // not set for TypeScript 4.x
+  "exactOptionalPropertyTypes": true,
+  "jsx": "preserve",
+  "module": "nodenext",
+  "moduleResolution": "nodenext",
+  "noUncheckedIndexedAccess": true,
+  "resolveJsonModule": true,
+  "strict": true,
+  "target": "esnext",
+  "verbatimModuleSyntax": true // not set for TypeScript 4.x
+}
+```
