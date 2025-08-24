@@ -167,15 +167,17 @@ describe.only("ConfigFileOptions", () => {
 });
 ```
 
-Tests can be selected by their name straight from the command line through the [`--only`](../reference/command-line.mdx#only) and [`--skip`](../reference/command-line.mdx#skip) filters:
+<Tip>
+
+You can select specific tests directly from the command line using the [`--only`](../reference/command-line.mdx#only) and [`--skip`](../reference/command-line.mdx#skip) filters. The following example runs only the test named `configFile` while skipping the test named `failFast`:
 
 ```shell
 tstyche --only configFile --skip failFast
 ```
 
-## Filtering Assertions
+</Tip>
 
-TSTyche assertions support the [run mode flags](../reference/expect-api.mdx#run-mode-flags) too. Besides focusing and skipping you can also mark them as failing. A supposed to fail assertion raises an error only if it passes.
+TSTyche assertions support the [run mode flags](../reference/expect-api.mdx#run-mode-flags) too.
 
 ```ts
 import { expect } from "tstyche";
@@ -183,8 +185,5 @@ import type * as tstyche from "tstyche/tstyche";
 
 expect.skip<Pick<tstyche.ConfigFileOptions, "failFast">>().type.toBe<{
   failFast?: boolean;
-}>();
-expect.fail<Pick<tstyche.ConfigFileOptions, "target">>().type.toBe<{
-  target?: Array<string>;
 }>();
 ```
