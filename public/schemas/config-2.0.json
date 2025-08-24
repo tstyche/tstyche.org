@@ -1,41 +1,41 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
   "properties": {
     "failFast": {
-      "default": false,
       "description": "Stop running tests after the first failed assertion.",
+      "default": false,
       "type": "boolean"
     },
     "rootPath": {
-      "default": "./",
       "description": "The path to a directory containing files of a test project.",
+      "default": "./",
       "type": "string"
     },
     "target": {
+      "description": "The list of TypeScript versions to be tested against.",
       "default": [
         "current"
       ],
-      "description": "The list of TypeScript versions to be tested against.",
-      "items": {
-        "pattern": "^([45]\\.[0-9](\\.[0-9])?)|beta|current|latest|next|rc$",
-        "type": "string"
-      },
       "type": "array",
-      "uniqueItems": true
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^([45]\\.[0-9](\\.[0-9])?)|beta|current|latest|next|rc$"
+      }
     },
     "testFileMatch": {
+      "description": "The list of glob patterns matching the test files.",
       "default": [
         "**/*.tst.*",
         "**/__typetests__/*.test.*",
         "**/typetests/*.test.*"
       ],
-      "description": "The list of glob patterns matching the test files.",
+      "type": "array",
+      "uniqueItems": true,
       "items": {
         "type": "string"
-      },
-      "type": "array",
-      "uniqueItems": true
+      }
     }
-  },
-  "type": "object"
+  }
 }
