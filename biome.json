@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.2/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
 
   "json": {
     "parser": {
@@ -8,7 +8,7 @@
   },
 
   "files": {
-    "includes": ["**", "!**/.next/**", "!**/public/_pagefind", "!**/public/schemas", "!**/cspell.json"]
+    "includes": ["**", "!**/.next", "!**/public/_pagefind", "!**/public/schemas", "!**/cspell.json"]
   },
 
   "formatter": {
