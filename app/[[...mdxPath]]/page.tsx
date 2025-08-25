@@ -25,8 +25,18 @@ const Wrapper = getMDXComponents().wrapper;
 export default async function Page(props: Props) {
   const params = await props.params;
   const { default: MDXContent, toc, metadata, sourceCode } = await importPage(params.mdxPath);
+
+  if (params.mdxPath != null) {
+    return (
+      <Wrapper toc={toc} metadata={metadata} sourceCode={sourceCode}>
+        <MDXContent {...props} params={params} />
+      </Wrapper>
+    );
+  }
+
+  // TODO return landing page as JSX
   return (
-    <Wrapper toc={toc} metadata={metadata} sourceCode={sourceCode}>
+    <Wrapper toc={toc} metadata={metadata} sourceCode={null}>
       <MDXContent {...props} params={params} />
     </Wrapper>
   );
