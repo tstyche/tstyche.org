@@ -1,4 +1,4 @@
-import { Note, Warning } from "@/components/Advice";
+import { Note, Tip, Warning } from "@/components/Advice";
 
 # Expect API
 
@@ -296,7 +296,7 @@ test("bind", () => {
 
 ### `.toBeAssignableTo()` [#to-be-assignable-to]
 
-Checks if the source type is assignable to the target type. The opposite of the [`.toBeAssignableWith()`](#to-be-assignable-with) matcher.
+Checks if the source type is assignable to the target type.
 
 ```ts twoslash
 import { expect, test } from "tstyche";
@@ -310,6 +310,19 @@ test("Set", () => {
 });
 ```
 
+<Tip>
+
+Use the [`.toBeAssignableWith()`](#to-be-assignable-to) matcher to test type assignability from the different target to source perspective.
+
+As the best practice, always keep the type under test on the left hand side of the assertion. This makes the test easier to read:
+
+```diff
+- expect("abc").type.toBeAssignableTo<Awaitable<string>>();
++ expect<Awaitable<string>>().type.toBeAssignableWith("abc");
+```
+
+</Tip>
+
 ---
 
 **Signatures.** The target type can be passed as a type argument or inferred from an expression:
@@ -321,7 +334,7 @@ test("Set", () => {
 
 ### `.toBeAssignableWith()` [#to-be-assignable-with]
 
-Checks if the source type is assignable with the target type. The opposite of the [`.toBeAssignableTo()`](#to-be-assignable-to) matcher.
+Checks if the source type is assignable with the target type.
 
 ```ts twoslash
 import { expect, test } from "tstyche";
@@ -336,6 +349,19 @@ test("Awaitable", () => {
   expect<Awaitable<string>>().type.not.toBeAssignableWith(Promise.resolve(123));
 });
 ```
+
+<Tip>
+
+Use the [`.toBeAssignableTo()`](#to-be-assignable-to) matcher to test type assignability from the different source to target perspective.
+
+As the best practice, always keep the type under test on the left hand side of the assertion. This makes the test easier to read:
+
+```diff
+- expect<Set<string>>.type.toBeAssignableWith(new Set(["abc"]));
++ expect(new Set(["abc"])).type.toBeAssignableTo<Set<string>>();
+```
+
+</Tip>
 
 ---
 
