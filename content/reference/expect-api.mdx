@@ -86,11 +86,11 @@ expect(configSample).type.toBeAssignableTo<{ timeout?: number }>();
 
 ## `expect()`
 
-The `expect()` function builds an assertion. It must be followed by the `.type` modifier and a [matcher](#matchers). Optionally a [run mode flag](#run-mode-flags) can be appended. `expect()` can be nested inside code.
+The `expect()` function builds an assertion. It must be followed by the `.type` modifier and a [matcher](#matchers). Optionally, a [run mode flag](#run-mode-flags) can be appended. `expect()` can be nested inside code.
 
 ---
 
-**Signatures.** The source type can be passed as a type argument or inferred from an expression:
+**Signatures.** The source type can be provided either as a type argument or inferred from an expression:
 
 ```ts
 expect<Source>()
@@ -175,11 +175,11 @@ expect<Pick<Queue<string>, "size">>().type.toBe<{ readonly size: number }>();
 
 ## Matchers
 
-A matcher is the last element of the assertion chain. It holds an assumption to check.
+A matcher is the final element in the assertion chain. It defines the condition to check.
 
 ### `.not` [#not]
 
-To negate the condition, prepend `.not` before any matcher:
+To negate a matcher, prepend `.not` before it:
 
 ```ts
 import { expect } from "tstyche";
@@ -190,7 +190,7 @@ expect<number>().type.not.toBe<string>();
 
 ### `.toAcceptProps()` [#to-accept-props]
 
-Checks if the JSX component accepts props of the given type.
+Checks if the JSX component accepts the given props.
 
 <Warning>
 
@@ -222,7 +222,7 @@ test("accepts props?", () => {
 
 ---
 
-**Signatures.** The props type can be passed as a type argument or inferred from an expression:
+**Signatures.** The props type can be provided either as a type argument or inferred from an expression:
 
 ```ts
 .toAcceptProps<Target>()
@@ -255,7 +255,7 @@ test("MethodLikeKeys", () => {
 
 ---
 
-**Signatures.** The target type can be passed as a type argument or inferred from an expression:
+**Signatures.** The target type can be provided either as a type argument or inferred from an expression:
 
 ```ts
 .toBe<Target>()
@@ -325,7 +325,7 @@ As the best practice, always keep the type under test on the left hand side of t
 
 ---
 
-**Signatures.** The target type can be passed as a type argument or inferred from an expression:
+**Signatures.** The target type can be provided either as a type argument or inferred from an expression:
 
 ```ts
 .toBeAssignableTo<Target>()
@@ -365,7 +365,7 @@ As the best practice, always keep the type under test on the left hand side of t
 
 ---
 
-**Signatures.** The target type can be passed as a type argument or inferred from an expression:
+**Signatures.** The target type can be provided either as a type argument or inferred from an expression:
 
 ```ts
 .toBeAssignableWith<Target>()
@@ -396,10 +396,10 @@ test("isSameLength", () => {
 
 ---
 
-**Signature.** The `target` should list zero or more given arguments:
+**Signature.** The matcher accepts zero or more arguments:
 
 ```ts
-.toBeCallableWith(...target: Array<unknown>)
+.toBeCallableWith(...args: Array<unknown>)
 ```
 
 ### `.toBeConstructableWith()` [#to-be-constructable-with]
@@ -433,10 +433,10 @@ test("Pair", () => {
 
 ---
 
-**Signature.** The `target` should list zero or more given arguments:
+**Signature.** The matcher accepts zero or more arguments:
 
 ```ts
-.toBeConstructableWith(...target: Array<unknown>)
+.toBeConstructableWith(...args: Array<unknown>)
 ```
 
 ### `.toHaveProperty()` [#to-have-property]
@@ -470,7 +470,7 @@ test("Worker", () => {
 
 ---
 
-**Signature.** The `key` argument can be passed as a string, number or symbol:
+**Signature.** The `key` argument can be a string, number or symbol:
 
 ```ts
 .toHaveProperty(key: string | number | symbol)
@@ -516,7 +516,7 @@ type M = Matcher<>;
 
 ---
 
-**Signature.** The `target` argument is optional. It can be one or more substrings, numeric codes or regular expressions:
+**Signature.** The matcher accepts one or more substrings, numeric codes or regular expressions:
 
 ```ts
 .toRaiseError(...target: Array<string | number | RegExp>)
