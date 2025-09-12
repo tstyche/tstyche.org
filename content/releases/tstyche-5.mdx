@@ -61,6 +61,24 @@ pnpm add -D tstyche@next
 
 </Warning>
 
+### Matchers
+
+<Warning>
+
+**Breaking!** The `.toBeAssignableWith()` matcher is rename to `.toBeAssignableFrom()`.
+
+```diff
+import { expect } from "tstyche";
+
+- expect<Awaitable<string>>().type.toBeAssignableWith("abc");
++ expect<Awaitable<string>>().type.toBeAssignableFrom("abc");
+
+- expect<Awaitable<string>>().type.not.toBeAssignableWith(123);
++ expect<Awaitable<string>>().type.not.toBeAssignableFrom(123);
+```
+
+</Warning>
+
 ### Comment Directives
 
 ### `// @tstyche fixme` [#fixme]
