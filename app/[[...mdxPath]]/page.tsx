@@ -36,7 +36,7 @@ export default async function Page(props: Props) {
 
   // TODO return landing page as JSX
   return (
-    <Wrapper toc={toc} metadata={metadata} sourceCode={null}>
+    <Wrapper toc={toc} metadata={metadata} sourceCode={sourceCode}>
       <MDXContent {...props} params={params} />
     </Wrapper>
   );

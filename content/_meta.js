@@ -3,9 +3,10 @@ export default {
     display: "hidden",
     theme: {
       breadcrumb: false,
+      copyPage: false,
+      pagination: false,
       sidebar: false,
       toc: false,
-      pagination: false,
     },
   },
 
