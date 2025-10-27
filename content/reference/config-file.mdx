@@ -57,37 +57,44 @@ Use the [`--showConfig`](./command-line.mdx#show-config) command line option to 
 
 </Tip>
 
-### `checkSourceFiles` [#check-source-files]
+### `checkDeclarationFiles` [#check-declaration-files]
 
 - Default: `true`
 - Type: `boolean`
 
-Enable type error reporting for source files.
+Check declaration files for type errors.
 
-To maximize performance TSTyche only checks types of test and fixture files. When `checkSourceFiles` is enabled, type errors are also reported for imported or ambient files of a project. Only the files within the `node_modules` directory are not checked.
+To maximize performance TSTyche only checks types of test and fixture files. When `checkDeclarationFiles` is enabled, type errors are also reported for declaration and ambient files. In other words, all `.d.ts` files of the projected are checked. The files within the `node_modules` directory are not checked.
 
-It is recommended to enable this option when:
-
-- a project has handcrafted or generated type declarations,
-- or type test fixtures are used (for instance, fixtures can be handy to test declaration merging).
+It is recommended to enable this option when a project has handcrafted or generated type declarations.
 
 ### `checkSuppressedErrors` [#check-suppressed-errors]
 
-- Default: `false`
+- Default: `true`
 - Type: `boolean`
 
 Check errors silenced by `// @ts-expect-error` directives in the test files.
 
 When this option is enabled, the runner reads the text after `// @ts-expect-error` and checks if it matches the actual error message:
 
-```ts twoslash
-// @ts-expect-error Cannot find name 'add'
+```ts
+// @ts-expect-error Cannot find name 'add'.
 console.log(add);
 ```
 
 If a message does not match or is not specified, an error is reported.
 
-To ignore a directive, append the `!` character after it: `// @ts-expect-error!`.
+Use `...` to truncate long error messages:
+
+```ts
+// @ts-expect-error Argument of type ... is not assignable to parameter of type 'never'.
+```
+
+To ignore a directive, append the `!` character after it:
+
+```ts
+// @ts-expect-error! This is wrong.
+```
 
 ### `failFast` [#fail-fast]
 
@@ -178,7 +185,7 @@ This issue can be solved by adding `.not.toBeNever()` check. `rejectNeverType` d
 
 The `never` type is allowed with:
 
-- all matchers when type is explicit, like `.toBeAssignableWith<never>()`;
+- all matchers when type is explicit, like `.toBeAssignableFrom<never>()`;
 - `.toRaiseError()`, but not `.not.toRaiseError()`.
 
 </Note>
@@ -242,21 +249,23 @@ The `rootPath` should point to the root of the project:
 
 ### `target` [#target]
 
-- Default: `["current"]`; or `["latest"]`, if TypeScript is not installed.
-- Type: `Array<string>`
+- Default: `"*"`
+- Type: `string`
 
-The list of TypeScript versions to be tested against.
+The range of TypeScript versions to be tested against.
 
 The following can be specified:
 
-- `"current"` is the version of TypeScript currently installed in the project,
-- minor releases, like `"5.2"` or `"4.9"`, resolves to the latest version in the serries (for example, `"4.9"` resolves to version 4.9.5),
-- patch releases, like `"5.3.2"` or `"4.8.4"`,
+- `"*"`, uses the locally installed TypeScript if available, otherwise falls back to the latest version of TypeScript,
+- minor releases, like `"5.6"`, resolves to the latest version in the series (for example, `"5.6"` resolves to version 5.6.3),
+- patch releases, like `"5.8.2"`,
 - `"beta"`, `"latest"`, `"next"` or `"rc"` distribution [tags](https://npmjs.com/package/typescript?activeTab=versions) of the `typescript` package.
+
+To specify multiple versions, provide a single string with versions separated by `||`:
 
 ```json
 {
-  "target": ["4.9", "5.3.2", "latest"]
+  "target": "5.6 || 5.8.2 || latest"
 }
 ```
 
@@ -279,13 +288,13 @@ Ranges and versions can be combined:
 
 ```json
 {
-  "target": [">=5.0 <5.3", "5.4.2", ">5.5"]
+  "target": ">=5.0 <5.3 || 5.4.2 || >5.5"
 }
 ```
 
 <Tip>
 
-Use the [`--list`](./command-line.mdx#list) command line option to inspect the list of supported versions.
+Use the [`--list`](./command-line.mdx#list) command line option to inspect the list of supported TypeScript versions.
 
 </Tip>
 

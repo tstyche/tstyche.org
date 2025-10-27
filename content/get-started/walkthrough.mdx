@@ -76,7 +76,7 @@ interface ConfigFileOptions { failFast?: boolean; target?: Array<string> }
 // ---cut-end---
 
 test("all options are optional", () => {
-  expect<ConfigFileOptions>().type.toBeAssignableWith({});
+  expect<ConfigFileOptions>().type.toBeAssignableFrom({});
 });
 
 describe("ConfigFileOptions", () => {

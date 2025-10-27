@@ -16,7 +16,7 @@ tstyche
 tstyche query-params
 
 # Test against specific versions of TypeScript
-tstyche --target '5.3, 5.5.2, >=5.7'
+tstyche --target '5.3 || 5.5.2 || >=5.7'
 ```
 
 Only the files matched by the [`testFileMatch`](./config-file.mdx#test-file-match) patterns can be selected. The search strings are matched with the portion of the path relative to the current directory. The matching is case insensitive.
@@ -35,7 +35,7 @@ An option does not take a value, if its type is not specified. Otherwise, the pa
 
 - **boolean** is interpreted as `true`, if the value is omitted or set to `true`; or as `false`, if set to `false`,
 - **string** is simply a string,
-- **list** can hold one or several values separated by commas: `--target 4.9` or `--target 4.9,latest`.
+- **list** can hold one or several values separated by commas: `--reporters 'list, summary'`.
 
 Relative paths are resolved relative to the current directory.
 
@@ -68,11 +68,7 @@ Fetch the specified versions of the `typescript` package and exit.
 `--fetch` must be used together with the [`target`](./config-file.mdx#target) configuration option or the [`--target`](#target) command line option. The versions specified via the [`--target`](#target) command line option are added, if it is provided; otherwise the versions listed in the [`target`](./config-file.mdx#target) array in the configuration file are added.
 
 ```shell
-# Fetch TypeScript 4.9.5
-tstyche --fetch --target 4.9
-
-# Fetch specific versions of TypeScript
-tstyche --fetch --target '5.5, >=5.8'
+tstyche --fetch --target '5.5 || >=5.8'
 ```
 
 ### `--help` [#help]
@@ -156,26 +152,20 @@ tstyche --skip internal
 
 ### `--target` [#target]
 
-- Type: list of strings
+- Type: string
 
-The list of TypeScript versions to be tested against.
+The range of TypeScript versions to be tested against.
 
 The following can be specified:
 
-- `current` is the version of TypeScript currently installed in the project,
-- minor releases, like `5.2` or `4.9`, resolves to the latest version in the serries (for example, `4.9` resolves to version 4.9.5),
-- patch releases, like `5.3.2` or `4.8.4`,
+- minor releases, like `5.6`, resolves to the latest version in the series (for example, `5.6` resolves to version 5.6.3),
+- patch releases, like `5.8.2`,
 - `beta`, `latest`, `next` or `rc` distribution [tags](https://npmjs.com/package/typescript?activeTab=versions) of the `typescript` package.
 
+To specify multiple versions, provide a single string with versions separated by `||`:
+
 ```shell
-# Run tests using TypeScript 4.9.5
-tstyche --target 4.9
-
-# Run tests using the latest version of TypeScript
-tstyche --target latest
-
-# Test against specific versions of TypeScript
-tstyche --target '5.0, 5.3.2, next'
+tstyche --target '5.6 || 5.8.2 || latest'
 ```
 
 #### Ranges
@@ -193,9 +183,10 @@ For example, the range `>=5.5` gets expanded to: `5.5`, `5.6`, `5.7` and so on. 
 
 To set an upper bound, the intersection of two ranges can be used: `>=5.0 <5.3`. Here only `5.0`, `5.1` and `5.2` are be included.
 
+Ranges and versions can be combined:
+
 ```shell
-# Ranges and versions can be combined
-tstyche --target '>=5.0 <5.3, 5.4.2, >5.5'
+tstyche --target '>=5.0 <5.3 || 5.4.2 || >5.5'
 ```
 
 <Tip>

@@ -29,7 +29,7 @@
     "@types/node": "^24.6.2",
     "@types/react": "^19.2.0",
     "pagefind": "^1.4.0",
-    "tstyche": "^4.3.0",
+    "tstyche": "^5.0.0",
     "typescript": "^5.9.3"
   }
 }

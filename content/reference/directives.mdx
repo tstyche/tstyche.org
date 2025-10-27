@@ -15,7 +15,7 @@ This feature is available since [TSTyche 4.0](../releases/tstyche-4.mdx).
 Only a single-line comment is considered to be a directive if its text starts with `@tstyche` namespace followed by the directive keyword. An argument must be provided if a directive requires it. Optionally, a note can be added after two or more hyphens.
 
 ```ts
-// @tstyche if { target: [">=5.7"] } -- Only when TypeScript 5.7 or above is used
+// @tstyche if { target: ">=5.7" } -- Only when TypeScript 5.7 or above is used
 ```
 
 <Tip>
@@ -38,10 +38,41 @@ When a comment directive is used in the wrong scope, it holds no special meaning
 
 </Warning>
 
+### `// @tstyche fixme` [#fixme]
+
+- Scope: a single assertion or a test helper
+
+Marks an `expect()`, `test()` or `describe()` as supposed to fail.
+
+```ts twoslash
+import { expect, it } from "tstyche";
+
+declare function test(cb: () => unknown): void;
+declare function test(cb: () => Promise<unknown>): Promise<void>;
+
+expect(test(() => {})).type.toBe<void>();
+// @tstyche fixme -- This should work, see: #265
+expect(test(() => Promise.resolve())).type.toBe<Promise<void>>();
+
+it("() => unknown", () => {
+  expect(test(() => {})).type.toBe<void>();
+});
+
+// @tstyche fixme -- Known bug, see: #345
+it("() => Promise<unknown>", () => {
+  expect(test(() => Promise.resolve())).type.toBe<Promise<void>>();
+});
+```
+
+The runner implements the following logic:
+
+- when an `expect()` is marked, make sure it actually fails,
+- when a `test()` or `describe()` is marked, check if it has a failing child.
+
 ### `// @tstyche if` [#if]
 
 - Scope: a single assertion or a test helper, or the whole test file
-- Argument type: `{ target: Array<string> }`
+- Argument type: `{ target: string }`
 
 Run an `expect()`, `test()` or `describe()` only when the specified condition matches.
 
@@ -55,10 +86,10 @@ function isUint8Array(target: unknown): target is Uint8Array {
 test("isUint8Array", () => {
   const unknowns: Array<unknown> = [];
 
-  // @tstyche if { target: [">=5.7"] } -- Before TypeScript 5.7, 'Uint8Array' was not generic
+  // @tstyche if { target: ">=5.7" } -- Before TypeScript 5.7, 'Uint8Array' was not generic
   expect(unknowns.filter(isUint8Array)).type.toBe<Array<Uint8Array<ArrayBufferLike>>>();
 
-  // @tstyche if { target: ["<5.7"] }
+  // @tstyche if { target: "<5.7" }
   expect(unknowns.filter(isUint8Array)).type.toBe<Array<Uint8Array>>();
 });
 ```

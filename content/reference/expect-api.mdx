@@ -67,11 +67,11 @@ config = { silent: true, timeout: 800 };
 
 // Just like above, object literal may only specify known properties
 expect({ silent: true, timeout: 800 }).type.not.toBeAssignableTo<{ timeout?: number }>();
-expect<{ timeout?: number }>().type.not.toBeAssignableWith({ silent: true, timeout: 800 });
+expect<{ timeout?: number }>().type.not.toBeAssignableFrom({ silent: true, timeout: 800 });
 
 // But object types are allowed to have excess properties
 expect<{ silent: true; timeout: 800 }>().type.toBeAssignableTo<{ timeout?: number }>();
-expect<{ timeout?: number }>().type.toBeAssignableWith<{ silent: true; timeout: 800 }>();
+expect<{ timeout?: number }>().type.toBeAssignableFrom<{ silent: true; timeout: 800 }>();
 ```
 
 Generally these failures prevent outdated assertions hanging around in your tests. If the excess property checks is not what you need, follow the above link to learn how to get around them. For example, you can pass a reference instead of an object literal:
@@ -230,6 +230,46 @@ test("bind", () => {
 });
 ```
 
+### `.toBeAssignableFrom()` [#to-be-assignable-from]
+
+Checks if the source type is assignable from the target type.
+
+```ts twoslash
+import { expect, test } from "tstyche";
+
+type Awaitable<T> = T | PromiseLike<T>;
+
+test("Awaitable", () => {
+  expect<Awaitable<string>>().type.toBeAssignableFrom("abc");
+  expect<Awaitable<string>>().type.toBeAssignableFrom(Promise.resolve("abc"));
+
+  expect<Awaitable<string>>().type.not.toBeAssignableFrom(123);
+  expect<Awaitable<string>>().type.not.toBeAssignableFrom(Promise.resolve(123));
+});
+```
+
+<Tip>
+
+Use the [`.toBeAssignableTo()`](#to-be-assignable-to) matcher to test the relationship in the reverse direction.
+
+As the best practice, always keep the type under test on the left hand side of the assertion. This makes the test easier to read:
+
+```diff
+- expect<Set<string>>.type.toBeAssignableFrom(new Set(["abc"]));
++ expect(new Set(["abc"])).type.toBeAssignableTo<Set<string>>();
+```
+
+</Tip>
+
+---
+
+**Signatures.** The target type can be provided either as a type argument or inferred from an expression:
+
+```ts
+.toBeAssignableFrom<Target>()
+.toBeAssignableFrom(target: unknown)
+```
+
 ### `.toBeAssignableTo()` [#to-be-assignable-to]
 
 Checks if the source type is assignable to the target type.
@@ -248,13 +288,13 @@ test("Set", () => {
 
 <Tip>
 
-Use the [`.toBeAssignableWith()`](#to-be-assignable-with) matcher to test the relationship in the reverse direction.
+Use the [`.toBeAssignableFrom()`](#to-be-assignable-from) matcher to test the relationship in the reverse direction.
 
 As the best practice, always keep the type under test on the left hand side of the assertion. This makes the test easier to read:
 
 ```diff
 - expect("abc").type.toBeAssignableTo<Awaitable<string>>();
-+ expect<Awaitable<string>>().type.toBeAssignableWith("abc");
++ expect<Awaitable<string>>().type.toBeAssignableFrom("abc");
 ```
 
 </Tip>
@@ -266,46 +306,6 @@ As the best practice, always keep the type under test on the left hand side of t
 ```ts
 .toBeAssignableTo<Target>()
 .toBeAssignableTo(target: unknown)
-```
-
-### `.toBeAssignableWith()` [#to-be-assignable-with]
-
-Checks if the source type is assignable with the target type.
-
-```ts twoslash
-import { expect, test } from "tstyche";
-
-type Awaitable<T> = T | PromiseLike<T>;
-
-test("Awaitable", () => {
-  expect<Awaitable<string>>().type.toBeAssignableWith("abc");
-  expect<Awaitable<string>>().type.toBeAssignableWith(Promise.resolve("abc"));
-
-  expect<Awaitable<string>>().type.not.toBeAssignableWith(123);
-  expect<Awaitable<string>>().type.not.toBeAssignableWith(Promise.resolve(123));
-});
-```
-
-<Tip>
-
-Use the [`.toBeAssignableTo()`](#to-be-assignable-to) matcher to test the relationship in the reverse direction.
-
-As the best practice, always keep the type under test on the left hand side of the assertion. This makes the test easier to read:
-
-```diff
-- expect<Set<string>>.type.toBeAssignableWith(new Set(["abc"]));
-+ expect(new Set(["abc"])).type.toBeAssignableTo<Set<string>>();
-```
-
-</Tip>
-
----
-
-**Signatures.** The target type can be provided either as a type argument or inferred from an expression:
-
-```ts
-.toBeAssignableWith<Target>()
-.toBeAssignableWith(target: unknown)
 ```
 
 ### `.toBeCallableWith()` [#to-be-callable-with]
