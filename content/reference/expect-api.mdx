@@ -433,22 +433,19 @@ test("Matchers", () => {
 });
 ```
 
-It is recommended to pass a substring of an error message to the matcher. Alternatively a numeric error code can be provided. If the source type raises several errors, the matcher will require an argument for each of them.
+If the source type raises several errors, the matcher will require an argument for each of them.
 
-<Warning>
+<Note>
 
-Avoid the `// @ts-expect-error` comments in your type tests, instead always use `.toRaiseError()`. The comment suppresses syntax errors, hence it turns typos into falsy passing tests. For example, the following is passing despite two syntax errors:
+TSTyche is able to check error messages suppressed by the `// @ts-expect-error` directives in the test files. It is recommended to use the `// @ts-expect-error` instead of `.toRaiseError()`. To learn more, see the documentation of the [`checkSuppressedErrors`](./config-file.mdx#check-suppressed-errors) option.
 
-```ts twoslash
-interface Matchers<R, T = unknown> {
-  [key: string]: (expected: T) => R;
-}
+</Note>
 
-// @ts-expect-error: requires a type argument
-type M = Matcher<>;
-```
+<Tip>
 
-</Warning>
+To indicate the purpose of a test, use matchers like [`.toBeCallableWith()`](#to-be-callable-with) or [`.toHaveProperty()`](#to-have-property) instead of expecting an error.
+
+</Tip>
 
 ---
 
