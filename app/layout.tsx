@@ -28,7 +28,6 @@ export const metadata: Metadata = {
 
 const navbar = (
   <Navbar
-    chatLink="https://discord.gg/gCSasd3QJq"
     logo={
       <svg
         fill="none"
