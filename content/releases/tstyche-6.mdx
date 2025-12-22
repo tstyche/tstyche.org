@@ -17,10 +17,15 @@ TSTyche 6.0 ships with a major rewrite of the `.toBe()` matcher. The new impleme
 
 The rewrite makes sure TSTyche will be able to support TypeScript 7 in the future (for more details, see: [#443](https://github.com/tstyche/tstyche/issues/443)).
 
-The new implementation also brings in several improvements to the matcher. For instance, now it considers the following types as identical:
+The new implementation brings in several improvements to the matcher. It considers the following types as identical:
 
-- `{ a: string } & { b: number }`, `{ b: number } & { a: string }` and `{ a: string; b: number }`
+- `{ a: string } & { b: number }` and `{ a: string; b: number }`
 - `((a: string) => string) & ((b: number) => number)` and `{ (a: string): string; (b: number): number }`
+
+Previously ignored, the `this` parameter and `const` type parameter modifier are now taken into account:
+
+- `(this: unknown) => void` is not the same as `() => void`
+- `<const T>(arg: T) => T` is not the same as `<T>(arg: T) => T`
 
 The above works with any complexity and at any depth. This is really exciting!
 
@@ -60,7 +65,7 @@ pnpm add -D tstyche@next
 
 <Warning>
 
-**Breaking!** Support for TypeScript `<=5.3` is dropped.
+**Breaking!** The minimum supported TypeScript version is `5.4`. Support for TypeScript `<=5.3` is dropped.
 
 </Warning>
 
