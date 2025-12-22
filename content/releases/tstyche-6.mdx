@@ -13,23 +13,7 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 ## TSTyche 6.0  [#tstyche-6-0]
 
-TSTyche 6.0 ships with a major rewrite of the `.toBe()` matcher. The new implementation compares types by checking their structure. Previously, the internal `.isTypeIdenticalTo()` method of the type checker was used, but that solution will not work with TypeScript 7.
-
-The rewrite makes sure TSTyche will be able to support TypeScript 7 in the future (for more details, see: [#443](https://github.com/tstyche/tstyche/issues/443)).
-
-The new implementation brings in several improvements to the matcher. It considers the following types as identical:
-
-- `{ a: string } & { b: number }` and `{ a: string; b: number }`
-- `((a: string) => string) & ((b: number) => number)` and `{ (a: string): string; (b: number): number }`
-
-Previously ignored, the `this` parameter and `const` type parameter modifier are now taken into account:
-
-- `(this: unknown) => void` is not the same as `() => void`
-- `<const T>(arg: T) => T` is not the same as `<T>(arg: T) => T`
-
-The above works with any complexity and at any depth. This is really exciting!
-
-The new implementation is enabled by default. Overall, it does a great job, but there might be some gaps. Use the [`legacyToBe`](#legacy-to-be) option to switch back to the legacy patch-based implementation.
+TSTyche 6.0 ships with a major rewrite of the `.toBe()` matcher. The new implementation compares types by checking their structure. Previously, the internal `.isTypeIdenticalTo()` method of the type checker was used, but that approach will not work with TypeScript 7. The rewrite ensures TSTyche can support TypeScript 7 in the future (to follow updates, subscribe to issue [#443](https://github.com/tstyche/tstyche/issues/443)).
 
 <Warning>
 
@@ -60,6 +44,22 @@ pnpm add -D tstyche@next
 </Tabs>
 
 </Warning>
+
+### Matchers
+
+#### `.toBe()` [#to-be]
+
+The new implementation of `.toBe()` brings several improvements to the matcher. It considers the following types as identical:
+
+- `{ a: string } & { b: number }` and `{ a: string; b: number }`;
+- `((a: string) => string) & ((b: number) => number)` and `{ (a: string): string; (b: number): number }`.
+
+Previously ignored, the `this` parameter and the `const` type parameter modifier are now taken into account:
+
+- `(this: unknown) => void` is not `() => void`;
+- `<const T>(arg: T) => T` is not `<T>(arg: T) => T`.
+
+The above works with any complexity and at any depth.
 
 ### TypeScript Versions
 
