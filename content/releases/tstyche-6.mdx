@@ -45,6 +45,14 @@ pnpm add -D tstyche@next
 
 </Warning>
 
+### TypeScript Versions
+
+<Warning>
+
+**Breaking!** The minimum supported TypeScript version is `5.4`. Support for TypeScript `<=5.3` is dropped.
+
+</Warning>
+
 ### Matchers
 
 #### `.toBe()` [#to-be]
@@ -59,18 +67,4 @@ Previously ignored, the `this` parameter and the `const` type parameter modifier
 - `(this: unknown) => void` is not `() => void`;
 - `<const T>(arg: T) => T` is not `<T>(arg: T) => T`.
 
-The above works with any complexity and at any depth.
-
-### TypeScript Versions
-
-<Warning>
-
-**Breaking!** The minimum supported TypeScript version is `5.4`. Support for TypeScript `<=5.3` is dropped.
-
-</Warning>
-
-### Configuration
-
-#### `legacyToBe` [#legacy-to-be]
-
-Use the legacy patch-based implementation of the `.toBe()` matcher.
+All of the above works with any complexity and at any depth.
