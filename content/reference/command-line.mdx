@@ -16,7 +16,7 @@ tstyche
 tstyche query-params
 
 # Test against specific versions of TypeScript
-tstyche --target '5.3 || 5.5.2 || >=5.7'
+tstyche --target '5.4 || 5.6.2 || >=5.8'
 ```
 
 Only the files matched by the [`testFileMatch`](./config-file.mdx#test-file-match) patterns can be selected. The search strings are matched with the portion of the path relative to the current directory. The matching is case insensitive.
@@ -99,23 +99,6 @@ tstyche --only external
 
 Remove all fetched versions the `typescript` package and exit.
 
-### `--plugins` [#plugins]
-
-- Type: list of strings
-
-The list of plugins to use.
-
-The following can be specified:
-
-- name of a package: `"tstyche-plugin"`,
-- or a path: `"./custom-plugin.js"`.
-
-```shell
-tstyche --plugins tstyche-plugin,./custom-plugin.js
-```
-
-To learn more, see the [Plugins](../guides/plugins.mdx) page.
-
 ### `--reporters` [#reporters]
 
 - Type: list of strings
@@ -181,12 +164,12 @@ Supported operators:
 
 For example, the range `>=5.5` gets expanded to: `5.5`, `5.6`, `5.7` and so on. In the future this list will include newly released versions as well.
 
-To set an upper bound, the intersection of two ranges can be used: `>=5.0 <5.3`. Here only `5.0`, `5.1` and `5.2` are be included.
+To set an upper bound, the intersection of two ranges can be used: `>=5.4 <5.6`. Here only `5.4` and `5.5` are included.
 
 Ranges and versions can be combined:
 
 ```shell
-tstyche --target '>=5.0 <5.3 || 5.4.2 || >5.5'
+tstyche --target '>=5.4 <5.6 || 5.6.2 || >=5.7'
 ```
 
 <Tip>
