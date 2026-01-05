@@ -70,7 +70,7 @@ The new implementation of `.toBe()` brings several improvements to the matcher. 
 - `{ a: string } & { b: number }` and `{ a: string; b: number }`;
 - `((a: string) => string) & ((b: number) => number)` and `{ (a: string): string; (b: number): number }`.
 
-Previously ignored, `this` parameter, `const` type parameter modifier or `NoInfer` marker are now taken into account:
+Previously ignored, `this` parameters, `const` type parameters or `NoInfer` markers are now taken into account:
 
 - `(this: unknown) => void` is not `() => void`;
 - `<const T>(arg: T) => T` is not `<T>(arg: T) => T`;
