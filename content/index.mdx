@@ -56,7 +56,7 @@ test("milliseconds", () => {
 
 Here is the list of all matchers:
 
-- `.toBe()`, `.toBeAssignableFrom()`, `.toBeAssignableTo()` compare types or types of expression,
+- `.toBe()`, `.toBeAssignableFrom()`, `.toBeAssignableTo()` compare types or types of expressions,
 - `.toAcceptProps()` checks the type of JSX component props,
 - `.toBeApplicable` ensures that the decorator function can be applied,
 - `.toBeCallableWith()` checks whether a function is callable with the given arguments,
@@ -71,4 +71,10 @@ The `tstyche` command is the heart of TSTyche. For example, it can select test f
 tstyche query-params --only multiple --target '>=5.6'
 ```
 
-This simple! (And it has watch mode too.)
+And there is even more what TSTyche can do:
+
+- check messages of errors silenced by `// @ts-expect-error`,
+- generate type tests from a data table,
+- run tests in watch mode.
+
+For the details, see the [Walkthrough](./get-started/walkthrough.mdx) page.

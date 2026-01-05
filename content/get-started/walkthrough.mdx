@@ -32,7 +32,7 @@ To learn more, see the [TypeScript Versions](../guides/typescript-versions.mdx) 
 The downside of `// @ts-expect-error` is that it hides any errors found in the line following the comment. To address that, TSTyche requires a fragment of the error message after `// @ts-expect-error` and checks if it matches the actual error:
 
 ```ts twoslash
-// @ts-expect-error Cannot find name 'add'
+// @ts-expect-error  Cannot find name 'add'.
 console.log(add);
 ```
 
@@ -134,6 +134,12 @@ expect.skip<Pick<tstyche.ConfigFileOptions, "failFast">>().type.toBe<{
   failFast?: boolean;
 }>();
 ```
+
+## Generate Tests
+
+To mark a test file as a template, add the [`// @tstyche template`](../reference/directives.mdx#template) comment directive at the top. When the directive is found, the default export of a file is interpreted as a type test text.
+
+To learn more, see the [Template Test Files](../guides/template-test-files.mdx) page.
 
 ## Integrate into Unit Tests
 

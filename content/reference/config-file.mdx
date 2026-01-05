@@ -78,7 +78,7 @@ Check errors silenced by `// @ts-expect-error` directives in the test files.
 When this option is enabled, the runner reads the text after `// @ts-expect-error` and checks if it matches the actual error message:
 
 ```ts
-// @ts-expect-error Cannot find name 'add'.
+// @ts-expect-error  Cannot find name 'add'.
 console.log(add);
 ```
 
@@ -87,13 +87,13 @@ If a message does not match or is not specified, an error is reported.
 Use `...` to truncate long error messages:
 
 ```ts
-// @ts-expect-error Argument of type ... is not assignable to parameter of type 'never'.
+// @ts-expect-error  Argument of type ... is not assignable to parameter of type 'never'.
 ```
 
 To ignore a directive, append the `!` character after it:
 
 ```ts
-// @ts-expect-error! This is wrong.
+// @ts-expect-error!  This is wrong.
 ```
 
 ### `failFast` [#fail-fast]
