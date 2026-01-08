@@ -2,7 +2,7 @@ import { ArrowRight } from "@carbon/icons-react";
 import Link from "next/link";
 import { Code } from "./Code";
 
-export function Everything() {
+export function Prologue() {
   return (
     <>
       <div className="rounded-md text-center border border-blue-600 py-2 dark:border-blue-500">

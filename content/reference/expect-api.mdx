@@ -170,23 +170,36 @@ test("accepts props?", () => {
 Checks if the source type is the same as the target type.
 
 ```ts twoslash
-import { expect, test } from "tstyche";
+import { expect } from "tstyche";
 
-type MethodLike = (...args: any) => any;
-
-type MethodLikeKeys<T> = keyof {
-  [K in keyof T as Required<T>[K] extends MethodLike ? K : never]: T[K];
+type AsyncProps<T> = {
+  [K in keyof T]+?: T[K] | Promise<T[K]>;
 };
 
-interface Sample {
-  description: string;
-  getLength: () => number;
-  getWidth?: () => number;
-}
+type WithLoading<T> = T & { loading: boolean };
 
-test("MethodLikeKeys", () => {
-  expect<MethodLikeKeys<Sample>>().type.toBe<"getLength" | "getWidth">();
-});
+expect<WithLoading<AsyncProps<{ query: string }>>>().type.toBe<{
+  query?: string | Promise<string>;
+  loading: boolean;
+}>();
+```
+
+The types are compared programmatically by walking their structure. As you see in the above example, the matcher treats `{ a: string } & { b: number }` and `{ a: string; b: number }` as equivalent.
+
+The implementation allows granular checks of every detail. For example, it distinguishes between types with and without the `NoInfer` marker:
+
+```ts twoslash
+import { expect } from "tstyche";
+
+const infersLiteralType = <T>(value: T) => value;
+const blocksTypeInference = <T>(value: NoInfer<T>) => value;
+
+expect(infersLiteralType("kiwi")).type.toBe<"kiwi">();
+expect(blocksTypeInference("kiwi")).type.toBe<unknown>();
+
+// Identical input results in a different return type,
+// therefore the matcher treats these signatures as non-equivalent
+expect(infersLiteralType).type.not.toBe(blocksTypeInference);
 ```
 
 ---

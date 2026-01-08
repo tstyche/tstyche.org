@@ -1,6 +1,7 @@
-import { Everything } from "@/components/Everything";
+import { Prologue } from "@/components/Prologue";
+import { Cards } from "nextra/components";
 
-<Everything />
+<Prologue />
 
 ## Helpers
 
@@ -28,30 +29,21 @@ To group and organize tests, TSTyche has:
 
 ## Assertions
 
-The assertions can be used to write type tests (like in the above example) or mixed in your unit tests:
+The `expect` style assertions can check either the inferred type of an expression (as in the example above) or a type directly:
 
 ```ts twoslash
-import assert from "node:assert";
-import test from "node:test";
-import * as tstyche from "tstyche";
+import { expect } from "tstyche";
 
-function milliseconds(value: number) {
-  if (typeof value === "number" && !Number.isNaN(value)) {
-    return value * 1000;
-  }
+type AsyncProps<T> = {
+  [K in keyof T]+?: Promise<T[K]> | T[K];
+};
 
-  throw new Error("Not a number");
-}
+type WithLoading<T> = T & { loading: boolean };
 
-test("milliseconds", () => {
-  const sample = milliseconds(10);
-
-  assert.equal(sample, 10_000);
-  tstyche.expect(sample).type.toBe<number>();
-
-  // Will pass as a type test and not throw at runtime
-  tstyche.expect(milliseconds).type.not.toBeCallableWith("20");
-});
+expect<WithLoading<AsyncProps<{ id: string }>>>().type.toBe<{
+  id?: Promise<string> | string;
+  loading: boolean;
+}>();
 ```
 
 Here is the list of all matchers:
@@ -76,3 +68,12 @@ It is that simple! Actually, TSTyche does even more:
 - checks messages of errors suppressed by `// @ts-expect-error`,
 - generates type tests from a data table,
 - runs tests in watch mode.
+
+## Try It Out
+
+Try TSTyche online on StackBlitz:
+
+[![Open in StackBlitz][starter-badge]][starter-url]
+
+[starter-badge]: https://developer.stackblitz.com/img/open_in_stackblitz.svg
+[starter-url]: https://stackblitz.com/fork/github/tstyche/tstyche-starter?file=README.md&title=TSTyche%20Starter%20Project&view=editor
