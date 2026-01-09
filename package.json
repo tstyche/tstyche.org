@@ -25,7 +25,7 @@
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.8",
+    "@biomejs/biome": "^2.3.11",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "pagefind": "^1.4.0",
