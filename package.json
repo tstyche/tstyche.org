@@ -15,14 +15,14 @@
     "@carbon/icons-react": "^11.71.0",
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/ibm-plex-sans": "^5.2.8",
-    "@tailwindcss/postcss": "^4.1.17",
-    "next": "^16.0.7",
+    "@tailwindcss/postcss": "^4.1.18",
+    "next": "^16.1.1",
     "nextra": "^4.6.1",
     "nextra-theme-docs": "^4.6.1",
     "postcss": "^8.5.6",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
-    "tailwindcss": "^4.1.17"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
