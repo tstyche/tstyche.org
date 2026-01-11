@@ -90,7 +90,7 @@ interface Sample {
 expect<MethodLikeKeys<Sample>>().type.toBe<"getLength" | "getWidth">();
 ```
 
-Here the `expect()` function defines an easy to read assertion. There are two method like keys in the `Sample` interface, hence the resulting type must be `"getLength" | "getWidth"`.
+Here the `expect()` function defines an assertion. There are two method like keys in the `Sample` interface, hence the resulting type must be `"getLength" | "getWidth"`.
 
 <Tip>
 
