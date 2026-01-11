@@ -35,10 +35,11 @@ TSTyche 6.0 ships with a major rewrite of the `.toBe()` matcher. The new impleme
 
 #### `.toBe()` [#to-be]
 
-The new implementation of `.toBe()` brings several improvements to the matcher. It considers the following types as identical:
+The new implementation of `.toBe()` brings several improvements to the matcher. Now it considers the following types as identical:
 
 - `{ a: string } & { b: number }` and `{ a: string; b: number }`;
-- `((a: string) => string) & ((b: number) => number)` and `{ (a: string): string; (b: number): number }`.
+- `((a: string) => string) & ((b: number) => number)` and `{ (a: string): string; (b: number): number }`;
+- `({ a: string } | { b: number }) & ({ a: string } | { b: number })` and `{ a: string } | { a: string; b: number } | { b: number }`.
 
 Previously ignored, `this` parameters, `const` type parameters or `NoInfer` markers are now taken into account:
 
