@@ -9,7 +9,7 @@ An overview of the most important aspects of TSTyche.
 
 The TSTyche test runner does not execute the code. Instead, it passes the code through TypeScript’s type checker and reports back with the result. In a way, you can see TSTyche as a type checker with benefits.
 
-To learn more, see the [Introduction](./introduction.mdx) page.
+To learn more, see the [Introduction](../explanations/why-tstyche.mdx) page.
 
 ## Test Against Specific Version of TypeScript
 
@@ -137,9 +137,49 @@ expect.skip<Pick<tstyche.ConfigFileOptions, "failFast">>().type.toBe<{
 
 ## Generate Tests
 
-To mark a test file as a template, add the [`// @tstyche template`](../reference/directives.mdx#template) comment directive at the top. When the directive is found, the default export of a file is interpreted as a type test text.
+When the `// @tstyche template` comment directive is placed at the top of file, its default export is interpreted as a type test text.
+
+```ts twoslash
+// @tstyche template
+
+let testText = `import { expect, test } from "tstyche";
+`;
+
+for (const source of ["string", "number"]) {
+  testText += `test("is ${source} a string?", () => {
+  expect<${source}>().type.toBe<string>();
+});
+`;
+}
+
+export default testText;
+```
 
 To learn more, see the [Template Test Files](../guides/template-test-files.mdx) page.
+
+## Run Programmatically
+
+The `tstyche/tag` entry point provides a tagged template function that runs TSTyche programmatically using a [`zx`](https://github.com/google/zx) inspired template literal API.
+
+```ts twoslash
+import path from "node:path";
+function getFixtureUrl(tesFileMeta: ImportMeta) {
+  return path.dirname(tesFileMeta.dirname);
+}
+// ---cut---
+import test from "node:test";
+import tstyche from "tstyche/tag";
+
+test("generate types", async () => {
+  const fixtureUrl = getFixtureUrl(import.meta);
+
+  // ...
+
+  await tstyche`--quiet --root ${fixtureUrl}`;
+});
+```
+
+To learn more, see the [Programmatic Usage](../guides/programmatic-usage.mdx#tstyche-tag) page.
 
 ## Integrate into Unit Tests
 

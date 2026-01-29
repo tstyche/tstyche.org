@@ -1,4 +1,4 @@
-import { Note } from "@/components/Advice";
+import { Note, Tip } from "@/components/Advice";
 
 # Programmatic Usage
 
@@ -6,11 +6,54 @@ The programmatic APIs allow integrating TSTyche with other tools.
 
 ## Requirements
 
-If you plan to use TypeScript, the lowest supported version is `5.4`. The `module` and `moduleResolution` compiler options must be set to `"node16"`.
+If you plan to use TypeScript, the lowest supported version is `5.4`. The `module` and `moduleResolution` compiler options must be set to at least `"node16"`.
 
-## Entry Point
+## `tstyche/tag` [#tstyche-tag]
 
-The programmatic APIs can be imported from the `tstyche/tstyche` entry point:
+The `tstyche/tag` entry point provides a tagged template function that runs TSTyche programmatically.
+
+The function runs in the same process, streaming error messages and test results to the `stderr` and `stdout` in real-time.
+
+<Tip>
+
+Use the [`--quiet`](../reference/command-line.mdx#quiet) command line option to suppress standard output and focus solely on errors.
+
+</Tip>
+
+### Usage
+
+Call the function with the same arguments you would pass to the tstyche command:
+
+```ts twoslash
+import tstyche from "tstyche/tag";
+
+// Equivalent to 'tstyche query-params --only multiple'
+await tstyche`query-params --only multiple`;
+```
+
+The function returns a promise that resolves if the test run is successful and rejects if it fails, making it suitable for runtime tests:
+
+```ts twoslash
+import path from "node:path";
+function getFixtureUrl(tesFileMeta: ImportMeta) {
+  return path.dirname(tesFileMeta.dirname);
+}
+// ---cut---
+import test from "node:test";
+import tstyche from "tstyche/tag";
+
+test("generate types", async () => {
+  const fixtureUrl = getFixtureUrl(import.meta);
+
+  // ...
+
+  await tstyche`--quiet --root ${fixtureUrl}`;
+});
+```
+
+## `tstyche/tstyche` [#tstyche-tstyche]
+
+The full programmatic APIs is available from the `tstyche/tstyche` entry point:
 
 ```ts
 import { Runner } from "tstyche/tstyche";
@@ -18,7 +61,13 @@ import { Runner } from "tstyche/tstyche";
 console.log(Runner.version);
 ```
 
-## `Runner`
+<Note>
+
+This is consider a power user feature. More documentation may or may not be provided in the future.
+
+</Note>
+
+### `Runner`
 
 The `tstyche` command is responsible to read configuration and to select test files. That is done before test runner is invoked.
 
@@ -33,9 +82,3 @@ const runner = new Runner(resolvedConfig);
 
 await runner.run(["./typetests/toBeNumber.tst.ts"]);
 ```
-
-<Note>
-
-This is consider a power user feature. More documentation may or may not be provided in the future.
-
-</Note>

@@ -11,6 +11,63 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 </Note>
 
+## TSTyche 6.1  [#tstyche-6-1]
+
+TSTyche 6.1 ships with the new `tstyche/tag` entry point as well as the `--quiet` and `--root` command line options.
+
+### `tstyche/tag` [#tstyche-tag]
+
+The `tstyche/tag` entry point provides a tagged template function that runs TSTyche programmatically using a [`zx`](https://github.com/google/zx) inspired template literal API.
+
+The function runs in the same process, streaming error messages and test results to the `stderr` and `stdout` in real-time.
+
+<Tip>
+
+Use the [`--quiet`](#quiet) command line option to suppress standard output and focus solely on errors.
+
+</Tip>
+
+#### Usage
+
+Call the function with the same arguments you would pass to the tstyche command:
+
+```ts twoslash
+import tstyche from "tstyche/tag";
+
+// Equivalent to 'tstyche query-params --only multiple'
+await tstyche`query-params --only multiple`;
+```
+
+The function returns a promise that resolves if the test run is successful and rejects if it fails, making it suitable for runtime tests:
+
+```ts twoslash
+import path from "node:path";
+function getFixtureUrl(tesFileMeta: ImportMeta) {
+  return path.dirname(tesFileMeta.dirname);
+}
+// ---cut---
+import test from "node:test";
+import tstyche from "tstyche/tag";
+
+test("generate types", async () => {
+  const fixtureUrl = getFixtureUrl(import.meta);
+
+  // ...
+
+  await tstyche`--quiet --root ${fixtureUrl}`;
+});
+```
+
+### Command Line
+
+#### `--quiet` [#quiet]
+
+Silence all test runner output except errors and warnings.
+
+#### `--root` [#root]
+
+The path to a directory containing files of a test project.
+
 ## TSTyche 6.0  [#tstyche-6-0]
 
 TSTyche 6.0 ships with a major rewrite of the `.toBe()` matcher. The new implementation compares types by checking their structure. Previously, the internal `.isTypeIdenticalTo()` method of the type checker was used, but that approach will not work with TypeScript 7. The rewrite ensures TSTyche can support TypeScript 7 in the future (to follow updates, subscribe to issue [#443](https://github.com/tstyche/tstyche/issues/443)).
@@ -37,15 +94,15 @@ TSTyche 6.0 ships with a major rewrite of the `.toBe()` matcher. The new impleme
 
 The new implementation of `.toBe()` brings several improvements to the matcher. Now it considers the following types as identical:
 
-- `{ a: string } & { b: number }` and `{ a: string; b: number }`;
-- `((a: string) => string) & ((b: number) => number)` and `{ (a: string): string; (b: number): number }`;
-- `({ a: string } | { b: number }) & ({ a: string } | { b: number })` and `{ a: string } | { a: string; b: number } | { b: number }`.
+* `{ a: string } & { b: number }` and `{ a: string; b: number }`;
+* `((a: string) => string) & ((b: number) => number)` and `{ (a: string): string; (b: number): number }`;
+* `({ a: string } | { b: number }) & ({ a: string } | { b: number })` and `{ a: string } | { a: string; b: number } | { b: number }`.
 
 Previously ignored, `this` parameters, `const` type parameters or `NoInfer` markers are now taken into account:
 
-- `(this: unknown) => void` is not `() => void`;
-- `<const T>(arg: T) => T` is not `<T>(arg: T) => T`;
-- `<T>(arg: NoInfer<T>) => T` is not `<T>(arg: T) => T`.
+* `(this: unknown) => void` is not `() => void`;
+* `<const T>(arg: T) => T` is not `<T>(arg: T) => T`;
+* `<T>(arg: NoInfer<T>) => T` is not `<T>(arg: T) => T`.
 
 <Tip>
 

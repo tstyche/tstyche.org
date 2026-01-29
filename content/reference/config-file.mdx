@@ -7,7 +7,21 @@ The behavior of TSTyche can be customized through a configuration file.
 
 ## Usage
 
-To configure TSTyche add `tstyche.config.json` file to the root of the project. Or point to your configuration file using the [`--config`](./command-line.mdx#config) command line option. The defaults are used, if a configuration file is not provided.
+To configure TSTyche add a `tstyche.config.json` file to the project.
+
+By default, the configuration file is loaded from the current directory. When the [`--root`](./command-line.mdx#root) command line option is set, the configuration file is searched for in that directory.
+
+Use the [`--config`](./command-line.mdx#config) command line option to point to a specific configuration file explicitly.
+
+If no configuration file is discovered or provided, the built-in defaults are used.
+
+<Tip>
+
+Use the [`--showConfig`](./command-line.mdx#show-config) command line option to inspect the resolved configuration.
+
+</Tip>
+
+## Syntax
 
 The configuration file must contain an object. Comments, unquoted keys, single quotes or trailing commas are allowed:
 
@@ -50,12 +64,6 @@ The below pattern can be used to specify the version of TSTyche:
 Options passed through the [command line](./command-line.mdx) override the ones from the configuration file.
 
 Relative paths are resolved relative to the configuration file.
-
-<Tip>
-
-Use the [`--showConfig`](./command-line.mdx#show-config) command line option to inspect the resolved configuration.
-
-</Tip>
 
 ### `checkDeclarationFiles` [#check-declaration-files]
 
@@ -113,6 +121,13 @@ Stop running tests after the first failure.
 The list of glob patterns to match the fixture files. The patterns are matched with the portion of the path relative to the [`rootPath`](#root-path) directory. The matching is case insensitive.
 
 To maximize performance TSTyche only checks types of [test](#test-file-match) and fixture files.
+
+### `quiet` [#quiet]
+
+- Default: `false`
+- Type: `boolean`
+
+Silence all test runner output except errors and warnings.
 
 ### `rejectAnyType` [#reject-any-type]
 
@@ -195,14 +210,14 @@ To learn more, see the [Reporters](../guides/reporters.mdx) page.
 
 ### `rootPath` [#root-path]
 
-- Default: the path to the directory from which the configuration file was loaded or the current directory
+- Default: the current directory; or the path to the directory from which the configuration file was loaded
 - Type: `string`
 
 The path to a directory containing files of a test project.
 
-To collect the test files, the file tree is walked starting from the `rootPath` directory. Later during the test run, the lookup of `tsconfig.json` for each test file starts at the directory containing the file and ends at the `rootPath`.
+To collect the test files, the file tree is walked starting from the the root directory. Later during the test run, the lookup of `tsconfig.json` for each test file starts at the directory containing the file and ends at the the root directory.
 
-This means that all test files to be run and TSConfig files to load the compiler configuration from must be within the `rootPath`.
+This means that all test files to be run and TSConfig files to load the compiler configuration from must be within the the root directory.
 
 For instance, if you prefer to keep the TSTyche configuration file in a `./config` directory:
 

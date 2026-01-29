@@ -4,85 +4,11 @@ import { Note, Tip, Warning } from "@/components/Advice";
 
 TSTyche includes the `expect` flavoured assertions to compare types.
 
-## Type Inference Caveats
-
-If an expression is passed as the target or the source of an assertion, TSTyche will use the TypeScript’s type checker to infer its type. This section is a reminder of some aspects of the inference process (like type widening or excess property checks) that may be misinterpreted.
-
 <Note>
 
-TSTyche sees exactly the same types which you see in code editor’s hover messages. To learn more, see the [Introduction](../get-started/introduction.mdx) page.
+TSTyche uses TypeScript’s API to infer types of expressions. For a reminder of some nuanced aspects of the inference, see the [Type Inference](../explanations/type-inference.mdx) page.
 
 </Note>
-
-### Type Widening
-
-In mutable context a [literal type is inferred](https://typescriptlang.org/docs/handbook/2/everyday-types.html#literal-inference) as its base type:
-
-```ts twoslash
-import { expect } from "tstyche";
-
-const two = { a: 2, b: [3, 3] };
-//    ^^^
-
-expect(two).type.toBe<{ a: number; b: number[] }>();
-```
-
-To tell to the type checker that a type should not be widened, use [type assertions](https://typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions):
-
-```ts twoslash
-import { expect } from "tstyche";
-
-const six = { a: 6 as const, b: [9, 9] as 9[] };
-//    ^^^
-
-expect(six).type.toBe<{ a: 6; b: 9[] }>();
-```
-
-<Note>
-
-It is also possible to use the `const` type assertion to convert the entire object, but in this case a different type is created:
-
-```ts twoslash
-import { expect } from "tstyche";
-
-const ten = { a: 6, b: [9, 9] } as const;
-//    ^^^
-
-expect(ten).type.toBe<{ readonly a: 6; readonly b: readonly [9, 9] }>();
-```
-
-</Note>
-
-### Excess Property Checks
-
-If passed as arguments, the object literals undergo the [excess property checks](https://typescriptlang.org/docs/handbook/2/objects.html#excess-property-checks):
-
-```ts twoslash
-// @errors: 2353
-import { expect } from "tstyche";
-
-let config: { timeout?: number } = {};
-
-config = { silent: true, timeout: 800 };
-
-// Same as above, object literal may only specify known properties
-expect({ silent: true, timeout: 800 }).type.not.toBeAssignableTo<{ timeout?: number }>();
-expect<{ timeout?: number }>().type.not.toBeAssignableFrom({ silent: true, timeout: 800 });
-
-// But object types are allowed to have excess properties
-expect<{ silent: true; timeout: 800 }>().type.toBeAssignableTo<{ timeout?: number }>();
-expect<{ timeout?: number }>().type.toBeAssignableFrom<{ silent: true; timeout: 800 }>();
-```
-
-Generally these failures prevent outdated assertions hanging around in your tests. If the excess property checks is not what you need, follow the above link to learn how to get around them. For example, you can pass a reference instead of an object literal:
-
-```ts twoslash
-import { expect } from "tstyche";
-
-const configSample = { silent: true, timeout: 800 };
-
-expect(configSample).type.toBeAssignableTo<{ timeout?: number }>();
-```
 
 ## `expect()`
 

@@ -23,7 +23,7 @@ Only the files matched by the [`testFileMatch`](./config-file.mdx#test-file-matc
 
 <Tip>
 
-If [glob patterns](<https://en.wikipedia.org/wiki/Glob_(programming)>) are supported in your shell, you can use them as well.
+Use the [`--showConfig`](#show-config) command line option to inspect the resolved configuration.
 
 </Tip>
 
@@ -38,12 +38,6 @@ An option does not take a value, if its type is not specified. Otherwise, the pa
 - **list** can hold one or several values separated by commas: `--reporters 'list, summary'`.
 
 Relative paths are resolved relative to the current directory.
-
-<Tip>
-
-Use the [`--showConfig`](#show-config) command line option to inspect the resolved configuration.
-
-</Tip>
 
 ### `--config` [#config]
 
@@ -99,6 +93,12 @@ tstyche --only external
 
 Remove all fetched versions the `typescript` package and exit.
 
+### `--quiet` [#quiet]
+
+- Type: boolean
+
+Silence all test runner output except errors and warnings.
+
 ### `--reporters` [#reporters]
 
 - Type: list of strings
@@ -116,6 +116,26 @@ tstyche --reporters list,tstyche-reporter,./custom-reporter.js
 ```
 
 To learn more, see the [Reporters](../guides/reporters.mdx) page.
+
+### `--root` [#root]
+
+- Type: string
+
+The path to a directory containing files of a test project.
+
+To collect the test files, the file tree is walked starting from the root directory. Later during the test run, the lookup of `tsconfig.json` for each test file starts at the directory containing the file and ends at the root directory.
+
+This means that all test files to be run and TSConfig files to load the compiler configuration from must be within the root directory.
+
+<Note>
+
+When the `--root` command line option is set, the configuration file is searched for in that directory. To avoid this, set an explicit [`--config`](#config) path as well:
+
+```shell
+tstyche --config ./tstyche.json --root ./example
+```
+
+</Note>
 
 ### `--showConfig` [#show-config]
 

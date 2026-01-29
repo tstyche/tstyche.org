@@ -14,5 +14,6 @@ export default {
   project: "Project",
   guides: "Guides",
   reference: "Reference",
+  explanations: "Explanations",
   releases: "What’s New",
 };
