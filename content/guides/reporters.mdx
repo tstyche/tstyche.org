@@ -1,4 +1,4 @@
-import { Tip } from "@/components/Advice";
+import { Note, Tip } from "@/components/Advice";
 
 # Reporters
 
@@ -22,15 +22,25 @@ Or use the [`reporters`](../reference/config-file.mdx#reporters) configuration o
 
 ## Built-in Reporters
 
+<Note>
+
 By default, the built-in `list` and `summary` reporters are used.
+
+</Note>
+
+### `dot`
+
+Prints a row of dots (`·`) for passing test files and crosses (`×`) for failed ones. Failures are listed at the end of the run.
 
 ### `list`
 
-If only one test file is selected, lists each test case and their status. Otherwise, only names of test files and their status are listed. The details of every failing test are included.
+Prints the status followed by the file name for each test file. Failures are listed immediately after the file finishes.
+
+For single-file runs or when [`--verbose`](../reference/command-line.mdx#verbose) is enabled, the reporter includes the full test tree.
 
 ### `summary`
 
-Prints out a summary of all tests. It does not include any details of test failure. The summary is disabled in watch mode.
+Prints a concise summary of the test run. Failure details are omitted. In watch mode the reporter produces no output.
 
 ## Custom Reporter
 
