@@ -13,7 +13,7 @@
       "type": "string"
     },
     "target": {
-      "description": "The list of TypeScript versions to be tested against.",
+      "description": "The list of TypeScript versions to test against.",
       "default": [
         "current"
       ],
