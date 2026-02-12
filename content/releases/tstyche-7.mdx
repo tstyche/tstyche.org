@@ -1,0 +1,93 @@
+import { Tabs } from "nextra/components";
+import { Note, Tip, Warning } from "@/components/Advice";
+
+# Release Notes
+
+This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from previous version.
+
+<Note>
+
+The detailed changelog can be found in [TSTyche repository on GitHub](https://github.com/tstyche/tstyche/blob/main/CHANGELOG.md).
+
+</Note>
+
+## TSTyche 7.0  [#tstyche-7-0]
+
+TSTyche 7.0 ships with a revamped implementation of the `tsconfig` option, allowing users to pass an inline JSON string directly.
+
+<Warning>
+
+Keep in mind that TSTyche 7.0 is still in beta. More breaking changes may be introduced before the stable version is released. To install the latest beta version, use the `next` distribution tag:
+
+<Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
+<Tabs.Tab>
+
+```shell
+npm add -D tstyche@next
+```
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+```shell
+yarn add -D tstyche@next
+```
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+```shell
+pnpm add -D tstyche@next
+```
+
+</Tabs.Tab>
+</Tabs>
+
+</Warning>
+
+### Configuration File
+
+<Warning>
+
+**Breaking!** Default configuration file location has changed. Now `./tstyche.json` is loaded instead of `./tstyche.config.json`.
+
+</Warning>
+
+#### `rootPath` [#root-path]
+
+<Warning>
+
+**Breaking!** The `rootPath` configuration option is removed.
+
+</Warning>
+
+Now the root directory is always set to the current directory. Or, when the [`--root`](../reference/command-line.mdx#root) command line option is set, to the provided path.
+
+#### `tsconfig` [#tsconfig]
+
+`baseline` is the new name of `ignore`.
+
+```diff
+{
+- "tsconfig": "ignore"
++ "tsconfig": "baseline"
+}
+```
+
+##### Inline JSON
+
+TSConfig can be provided as an inline JSON string. The implementation creates a synthetic TSConfig file in the project root.
+
+Configuration file:
+
+```json
+{
+  "tsconfig": "{\"extends\":\"./tsconfig.json\",\"compilerOptions\":{\"lib\":[\"es2020\"]},\"include\":[\"**/*\"]}"
+}
+```
+
+Command line:
+
+```shell
+tstyche --tsconfig '{"extends":"./tsconfig.json","compilerOptions":{"lib":["es2020"]},"include":["**/*"]}'
+```
