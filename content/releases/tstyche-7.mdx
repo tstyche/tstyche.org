@@ -45,13 +45,30 @@ pnpm add -D tstyche@next
 
 </Warning>
 
-### Configuration File
+### Configuration
 
 <Warning>
 
 **Breaking!** Default configuration file location has changed. Now `./tstyche.json` is loaded instead of `./tstyche.config.json`.
 
 </Warning>
+
+#### `checkSuppressedErrors` [#check-suppressed-errors]
+
+Checking for errors suppressed by `@ts-expect-error` directives in multi-line comments is now enabled.
+
+This is useful in contexts where single line comments are not supported. For example, in TSX files:
+
+```jsx
+function ProfileCard(props: { userName: string }) {
+  return <>{props.userName}</>;
+}
+
+<>
+  {/* @ts-expect-error  Type 'boolean' is not assignable to type 'string'. */}
+  <ProfileCard userName={true} />
+</>;
+```
 
 #### `rootPath` [#root-path]
 
@@ -91,3 +108,11 @@ Command line:
 ```shell
 tstyche --tsconfig '{"extends":"./tsconfig.json","compilerOptions":{"lib":["es2020"]},"include":["**/*"]}'
 ```
+
+### Programmatic Usage
+
+<Warning>
+
+**Breaking!** The `tstyche/tstyche` entry point is renamed to `tstyche/api`.
+
+</Warning>
