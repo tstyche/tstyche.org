@@ -13,7 +13,7 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 ## TSTyche 7.0  [#tstyche-7-0]
 
-TSTyche 7.0 ships with a revamped implementation of the `tsconfig` option, allowing users to pass an inline JSON string directly.
+TSTyche 7.0 ships with the new `.toBeInstantiableWith()` matcher and redesigned `tsconfig` option.
 
 <Warning>
 
@@ -44,6 +44,44 @@ pnpm add -D tstyche@next
 </Tabs>
 
 </Warning>
+
+### Matchers
+
+#### `.toBeInstantiableWith()` [#to-be-instantiable-with]
+
+The `.toBeInstantiableWith()` matcher checks if a generic is instantiable with the given type arguments.
+
+```ts twoslash
+import { type _, expect } from "tstyche";
+
+interface Matchers<R, T = unknown> {
+  [key: string]: (expected: T) => R;
+}
+
+expect<Matchers<_>>().type.toBeInstantiableWith<[void]>();
+expect<Matchers<_>>().type.toBeInstantiableWith<[void, string]>();
+
+expect<Matchers<_>>().type.not.toBeInstantiableWith<[]>();
+```
+
+<Tip>
+
+The `_` type can be used to fill in the required type arguments.
+
+</Tip>
+
+This matcher works with generic interfaces, type aliases, classes and functions:
+
+```ts twoslash
+import { expect } from "tstyche";
+
+function map<T, U>(array: Array<T>, transform: (item: T) => U): Array<U> {
+  return array.map(transform);
+}
+
+expect(map).type.toBeInstantiableWith<[string, number]>();
+expect(map).type.not.toBeInstantiableWith<[string]>();
+```
 
 ### Configuration
 
