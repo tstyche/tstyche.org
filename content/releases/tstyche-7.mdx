@@ -91,6 +91,18 @@ expect(map).type.not.toBeInstantiableWith<[string]>();
 
 </Warning>
 
+#### Schema
+
+The configuration schema now ships with the package and can be referenced locally:
+
+```json
+{
+  "$schema": "./node_modules/tstyche/schemas/config.json"
+}
+```
+
+Thanks to [@f15u](https://github.com/f15u) for the idea!
+
 #### `checkSuppressedErrors` [#check-suppressed-errors]
 
 Checking for errors suppressed by `@ts-expect-error` directives in multi-line comments is now enabled.
