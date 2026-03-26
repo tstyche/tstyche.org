@@ -16,7 +16,7 @@ The `expect()` function builds an assertion. It must be followed by the `.type` 
 
 ---
 
-**Signatures.** The source type can be provided either as a type argument or inferred from an expression:
+**Signatures.** The source type must be provided either as a type argument or inferred from an expression.
 
 ```ts
 expect<Source>()
@@ -84,11 +84,10 @@ test("accepts props?", () => {
 
 ---
 
-**Signatures.** The props type can be provided either as a type argument or inferred from an expression:
+**Signature.** The props must be provided as an object literal.
 
 ```ts
-.toAcceptProps<Target>()
-.toAcceptProps(target: unknown)
+.toAcceptProps(props: Record<string, unknown>)
 ```
 
 ### `.toBe()` [#to-be]
@@ -130,7 +129,7 @@ expect(infersLiteralType).type.not.toBe(blocksTypeInference);
 
 ---
 
-**Signatures.** The target type can be provided either as a type argument or inferred from an expression:
+**Signatures.** The target type must be provided either as a type argument or inferred from an expression.
 
 ```ts
 .toBe<Target>()
@@ -202,7 +201,7 @@ As the best practice, always keep the type under test on the left hand side of t
 
 ---
 
-**Signatures.** The target type can be provided either as a type argument or inferred from an expression:
+**Signatures.** The target type must be provided either as a type argument or inferred from an expression.
 
 ```ts
 .toBeAssignableFrom<Target>()
@@ -240,7 +239,7 @@ As the best practice, always keep the type under test on the left hand side of t
 
 ---
 
-**Signatures.** The target type can be provided either as a type argument or inferred from an expression:
+**Signatures.** The target type must be provided either as a type argument or inferred from an expression.
 
 ```ts
 .toBeAssignableTo<Target>()
@@ -271,7 +270,7 @@ test("isSameLength", () => {
 
 ---
 
-**Signature.** The matcher accepts zero or more arguments:
+**Signature.** The matcher accepts zero or more arguments.
 
 ```ts
 .toBeCallableWith(...args: Array<unknown>)
@@ -308,7 +307,7 @@ test("Pair", () => {
 
 ---
 
-**Signature.** The matcher accepts zero or more arguments:
+**Signature.** The matcher accepts zero or more arguments.
 
 ```ts
 .toBeConstructableWith(...args: Array<unknown>)
@@ -345,7 +344,7 @@ test("Worker", () => {
 
 ---
 
-**Signature.** The `key` argument can be a string, number or symbol:
+**Signature.** The `key` argument must be a string, number or symbol.
 
 ```ts
 .toHaveProperty(key: string | number | symbol)
