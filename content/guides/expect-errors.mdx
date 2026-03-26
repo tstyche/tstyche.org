@@ -15,7 +15,7 @@ In the following example type test, the import was lost during refactoring. The 
 add(2);
 ```
 
-Because `@ts-expect-error` suppresses *any* errors on the following line, type tests using it cast too wide a net. The APIs under test might change, be renamed, or be removed, but the test will keep passing.
+Because `@ts-expect-error` suppresses *any* errors on the following line, type tests using it cast too wide a net. This results in misleading tests. The APIs under test might change, be renamed, or be removed, yet the tests will fail to catch regressions.
 
 ## The Ability Matchers
 
