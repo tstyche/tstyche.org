@@ -1,0 +1,75 @@
+import { Note } from "@/components/Advice";
+
+# Expect Errors
+
+When testing invalid code, use the ability matchers to avoid the `@ts-expect-error` trap. If the error message matters, TSTyche can also verify what `@ts-expect-error` suppresses.
+
+## The `@ts-expect-error` Trap
+
+The use of `@ts-expect-error` directives in type tests is a popular approach to test that a certain piece of code is invalid.
+
+In the following example type test, the import was lost during refactoring. The code will compile and the test will appear to pass, although the actual error is `Cannot find name 'add'`:
+
+```ts twoslash
+// @ts-expect-error Requires 2 arguments
+add(2);
+```
+
+Because `@ts-expect-error` suppresses *any* errors on the following line, type tests using it cast too wide a net. The APIs under test might change, be renamed, or be removed, but the test will keep passing.
+
+## The Ability Matchers
+
+TSTyche ships with the ability matchers like `.toBeCallableWith()` that address the problem described above:
+
+```ts twoslash
+// @errors: 2304
+import { expect } from "tstyche";
+
+expect(add).type.not.toBeCallableWith(2);
+```
+
+The ability matchers communicate the intent of a test and are designed to handle even the most complex cases like generic types:
+
+```ts twoslash
+import { expect, test } from "tstyche";
+
+type FormFieldGetter = <T, K extends keyof T>(form: T, field: K) => T[K];
+
+const userForm = {
+  name: "Alice",
+  email: "alice@example.com",
+};
+
+test("FormFieldGetter", () => {
+  expect<FormFieldGetter>().type.toBeCallableWith(userForm, "name");
+  expect<FormFieldGetter>().type.not.toBeCallableWith(userForm, "age");
+});
+```
+
+The following ability matchers are available:
+
+- [`.toAcceptProps()`](../reference/expect-api.mdx#to-accept-props) checks if a JSX component accepts the given props
+- [`.toBeApplicable`](../reference/expect-api.mdx#to-be-applicable) checks if a decorator is applicable to the given class or class member
+- [`.toBeCallableWith()`](../reference/expect-api.mdx#to-be-callable-with) checks if a function is callable with the given arguments
+- [`.toBeConstructableWith()`](../reference/expect-api.mdx#to-be-constructable-with) checks if a class is constructable with the given arguments
+- [`.toHaveProperty()`](../reference/expect-api.mdx#to-have-property) checks if a type has the given property
+
+<Note>
+
+The available matchers cover most of the cases where invalid code is being tested. If you find something missing, please open an issue.
+
+</Note>
+
+### How They Work
+
+The ability matchers work by erasing their syntax.
+
+```ts twoslash
+// @noErrors
+expect(add).type.not.toBeCallableWith(2);
+      (add)                          (2); // after erasing
+```
+
+The test file is checked for type errors, the matcher syntax is erased (similar to the above example) and the code is checked again. If there are new errors, the assertion is reported as failing or, when negated with `.not`, as passing.
+
+In a way, the ability matchers are similar to `@ts-expect-error`, but are far more precise and expressive.
