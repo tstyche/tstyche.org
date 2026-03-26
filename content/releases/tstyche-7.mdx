@@ -83,6 +83,16 @@ expect(map).type.toBeInstantiableWith<[string, number]>();
 expect(map).type.not.toBeInstantiableWith<[string]>();
 ```
 
+#### `.toRaiseError()`
+
+<Warning>
+
+**Breaking!** The `.toRaiseError()` matcher is deprecated and planned to be removed. The suggested replacement is the ability matchers (like [`.toBeCallableWith()`](../reference/expect-api.mdx#to-be-callable-with) or [`.toBeConstructableWith()`](../reference/expect-api.mdx#to-be-constructable-with)). They better communicate the intent of a test and, unlike `.toRaiseError()`, work without introducing type errors in the test code.
+
+To learn more, see the [Expect Errors](../guides/expect-errors.mdx) page.
+
+</Warning>
+
 ### Configuration
 
 <Warning>
