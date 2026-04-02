@@ -10,13 +10,13 @@ The compiler options are loaded from the nearest `tsconfig.json`.
 TSTyche searches for the nearest `tsconfig.json` that includes the file in question. The path of the discovered TSConfig file is included in the report:
 
 ```ansi
-[34muses[0m TypeScript 5.8.3[90m with ./typetests/tsconfig.json[0m
+[34muses[0m TypeScript 5.9.3[90m with ./typetests/tsconfig.json[0m
 ```
 
 If a particular test file is not included in any of the TSConfig files found in enclosing directories, [default compiler options](#default-compiler-options) are set. The report will look like this:
 
 ```ansi
-[34muses[0m TypeScript 5.8.3
+[34muses[0m TypeScript 5.9.3[90m with baseline TSConfig[0m
 ```
 
 To specify the path to `tsconfig.json` explicitly, pass it with the [`--tsconfig`](../reference/command-line.mdx#tsconfig) command line option or use the [`tsconfig`](../reference/config-file.mdx#tsconfig) configuration option.
@@ -30,6 +30,33 @@ tsc --project ./typetests/tsconfig.json --showConfig
 ```
 
 </Tip>
+
+## Default Compiler Options
+
+TSTyche sets the following default compiler options:
+
+```json
+{
+  "allowJs": true,
+  "checkJs": true,
+  "allowImportingTsExtensions": true,
+  "exactOptionalPropertyTypes": true,
+  "jsx": "preserve",
+  "module": "nodenext",
+  "moduleResolution": "nodenext",
+  "noUncheckedIndexedAccess": true,
+  "noUncheckedSideEffectImports": true, // only for TypeScript >=5.6
+  "resolveJsonModule": true,
+  "strict": true,
+  "target": "esnext"
+}
+```
+
+<Note>
+
+Your code editor may have set different default compiler options. This is the reason why TSTyche might see typings different from the editor. If that is an issue, add a `tsconfig.json` file to a project and it will be used by both TSTyche and the editor.
+
+</Note>
 
 ### Language Service Plugins
 
@@ -70,31 +97,3 @@ And add it to the language service [`plugins`](https://typescriptlang.org/tsconf
   }
 }
 ```
-
-## Default Compiler Options
-
-TSTyche sets the following default compiler options:
-
-```json
-{
-  "allowJs": true,
-  "checkJs": true,
-  "allowImportingTsExtensions": true,
-  "exactOptionalPropertyTypes": true,
-  "jsx": "preserve",
-  "module": "nodenext",
-  "moduleResolution": "nodenext",
-  "noUncheckedIndexedAccess": true,
-  "noUncheckedSideEffectImports": true, // only for TypeScript >=5.6
-  "resolveJsonModule": true,
-  "strict": true,
-  "target": "esnext",
-  "verbatimModuleSyntax": true
-}
-```
-
-<Note>
-
-Your code editor may have set different default compiler options. This is the reason why TSTyche might see typings different from the editor. If that is an issue, add a `tsconfig.json` file to a project and it will be used by both TSTyche and the editor.
-
-</Note>

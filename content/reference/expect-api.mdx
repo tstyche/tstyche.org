@@ -19,7 +19,7 @@ The `expect()` function builds an assertion. It must be followed by the `.type` 
 **Signatures.** The source type must be provided either as a type argument or inferred from an expression.
 
 ```ts
-expect<Source>()
+expect<S>()
 expect(source: unknown)
 ```
 
@@ -132,7 +132,7 @@ expect(infersLiteralType).type.not.toBe(blocksTypeInference);
 **Signatures.** The target type must be provided either as a type argument or inferred from an expression.
 
 ```ts
-.toBe<Target>()
+.toBe<T>()
 .toBe(target: unknown)
 ```
 
@@ -204,7 +204,7 @@ As the best practice, always keep the type under test on the left hand side of t
 **Signatures.** The target type must be provided either as a type argument or inferred from an expression.
 
 ```ts
-.toBeAssignableFrom<Target>()
+.toBeAssignableFrom<T>()
 .toBeAssignableFrom(target: unknown)
 ```
 
@@ -242,7 +242,7 @@ As the best practice, always keep the type under test on the left hand side of t
 **Signatures.** The target type must be provided either as a type argument or inferred from an expression.
 
 ```ts
-.toBeAssignableTo<Target>()
+.toBeAssignableTo<T>()
 .toBeAssignableTo(target: unknown)
 ```
 
@@ -313,6 +313,50 @@ test("Pair", () => {
 .toBeConstructableWith(...args: Array<unknown>)
 ```
 
+### `.toBeInstantiableWith()` [#to-be-instantiable-with]
+
+The `.toBeInstantiableWith()` matcher checks if a generic is instantiable with the given type arguments.
+
+```ts twoslash
+import { type _, expect } from "tstyche";
+
+interface Matchers<R, T = unknown> {
+  [key: string]: (expected: T) => R;
+}
+
+expect<Matchers<_>>().type.toBeInstantiableWith<[void]>();
+expect<Matchers<_>>().type.toBeInstantiableWith<[void, string]>();
+
+expect<Matchers<_>>().type.not.toBeInstantiableWith<[]>();
+```
+
+<Tip>
+
+The `_` type can be used to fill in the required type arguments.
+
+</Tip>
+
+This matcher works with generic interfaces, type aliases, classes and functions:
+
+```ts twoslash
+import { expect } from "tstyche";
+
+function map<T, U>(array: Array<T>, transform: (item: T) => U): Array<U> {
+  return array.map(transform);
+}
+
+expect(map).type.toBeInstantiableWith<[string, number]>();
+expect(map).type.not.toBeInstantiableWith<[string]>();
+```
+
+---
+
+**Signature.** The type arguments must be provided as tuple type.
+
+```ts
+.toBeInstantiableWith<T extends [...args: Array<unknown>]>();
+```
+
 ### `.toHaveProperty()` [#to-have-property]
 
 Checks if a property key exists on the source type.
@@ -352,43 +396,10 @@ test("Worker", () => {
 
 ### `.toRaiseError()` [#to-raise-error]
 
-Checks if the source type raises an error.
+<Warning>
 
-```ts twoslash
-// @noErrors
-import { expect, test } from "tstyche";
+The `.toRaiseError()` matcher is deprecated and planned to be removed. The suggested replacement is the ability matchers (like [`.toBeCallableWith()`](../reference/expect-api.mdx#to-be-callable-with) or [`.toBeConstructableWith()`](../reference/expect-api.mdx#to-be-constructable-with)). They better communicate the intent of a test and, unlike `.toRaiseError()`, work without introducing type errors in the test code.
 
-interface Matchers<R, T = unknown> {
-  [key: string]: (expected: T) => R;
-}
+To learn more, see the [Expect Errors](../guides/expect-errors.mdx) page.
 
-test("Matchers", () => {
-  expect<Matchers<void, string>>().type.not.toRaiseError();
-
-  expect<Matchers<void>>().type.not.toRaiseError();
-
-  expect<Matchers>().type.toRaiseError("requires between 1 and 2 type arguments");
-});
-```
-
-If the source type raises several errors, the matcher will require an argument for each of them.
-
-<Note>
-
-TSTyche is able to check error messages suppressed by `@ts-expect-error` directives in the test files. It is recommended to use `@ts-expect-error` instead of `.toRaiseError()`. To learn more, see the documentation of the [`checkSuppressedErrors`](./config-file.mdx#check-suppressed-errors) option.
-
-</Note>
-
-<Tip>
-
-To indicate the purpose of a test, use matchers like [`.toBeCallableWith()`](#to-be-callable-with) or [`.toHaveProperty()`](#to-have-property) instead of expecting an error.
-
-</Tip>
-
----
-
-**Signature.** The matcher accepts one or more substrings, numeric codes or regular expressions:
-
-```ts
-.toRaiseError(...target: Array<string | number | RegExp>)
-```
+</Warning>

@@ -202,23 +202,74 @@ Use the [`--list`](./command-line.mdx#list) command line option to inspect the l
 
 - Type: string
 
-The look up strategy to be used to find the TSConfig file.
+The TSConfig to load. The following is possible:
 
-The following can be specified:
+- automatically discover the nearest `tsconfig.json` file (default),
+- use default compiler options,
+- load a specific `tsconfig.json` file,
+- provide the TSConfig as an inline JSON string.
 
-- `findup`, find the nearest `tsconfig.json` that includes a particular test file,
-- `ignore`, do not look for any `tsconfig.json` and use [default compiler options](../project/compiler-options.mdx#default-compiler-options),
-- or, if a path is specified, load `tsconfig.json` from that path.
+<Warning>
+
+When TSConfig file does not include the test file in question, [default compiler options](../project/compiler-options.mdx#default-compiler-options) will be set.
+
+</Warning>
+
+#### Discover
+
+By default, TSTyche searches for the nearest `tsconfig.json` that includes the file in question.
+
+```shell
+tstyche --tsconfig findup
+```
+
+Example output:
+
+```ansi
+[34muses[0m TypeScript 5.9.3[90m with ./typetests/tsconfig.json[0m
+```
+
+#### Use Defaults
+
+Skip TSConfig lookup and use [default compiler options](../project/compiler-options.mdx#default-compiler-options).
+
+```shell
+tstyche --tsconfig baseline
+```
+
+Example output:
+
+```ansi
+[34muses[0m TypeScript 5.9.3[90m with baseline TSConfig[0m
+```
+
+#### Custom TSConfig
+
+Specify a custom `tsconfig.json` path.
 
 ```shell
 tstyche --tsconfig ./tsconfig.test.json
 ```
 
-<Warning>
+Example output:
 
-If TSConfig file does not include a test file in question, [default compiler options](../project/compiler-options.mdx#default-compiler-options) are set.
+```ansi
+[34muses[0m TypeScript 5.9.3[90m with ./tsconfig.test.json[0m
+```
 
-</Warning>
+#### Inline JSON
+
+Provide an inline TSConfig string. The implementation creates a synthetic TSConfig file in the root directory.
+
+```shell
+tstyche --tsconfig '{"extends":"./tsconfig.json","compilerOptions":{"lib":["es2020"]},"include":["**/*"]}'
+```
+
+Example output:
+
+```ansi
+[34muses[0m TypeScript 5.9.3[90m with inline TSConfig[0m
+```
 
 ### `--update` [#update]
 

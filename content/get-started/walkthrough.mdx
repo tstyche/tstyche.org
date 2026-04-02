@@ -128,7 +128,7 @@ TSTyche assertions support the [run mode flags](../reference/expect-api.mdx#run-
 
 ```ts
 import { expect } from "tstyche";
-import type { ConfigFileOptions } from "tstyche/tstyche";
+import type { ConfigFileOptions } from "tstyche/api";
 
 expect.skip<Pick<ConfigFileOptions, "failFast">>().type.toBe<{
   failFast?: boolean;
@@ -224,7 +224,7 @@ test("toMilliseconds", () => {
 
 Use the [`testFileMatch`](../reference/config-file.mdx#test-file-match) configuration option to include files in the test run:
 
-```json filename="./tstyche.config.json"
+```json filename="./tstyche.json"
 {
   "testFileMatch": ["**/*.test.ts", "**/*.tst.ts"]
 }

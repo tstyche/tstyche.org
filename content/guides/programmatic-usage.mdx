@@ -51,12 +51,12 @@ test("generate types", async () => {
 });
 ```
 
-## `tstyche/tstyche` [#tstyche-tstyche]
+## `tstyche/api` [#tstyche-api]
 
-The full programmatic APIs is available from the `tstyche/tstyche` entry point:
+The full programmatic APIs is available from the `tstyche/api` entry point:
 
 ```ts
-import { Runner } from "tstyche/tstyche";
+import { Runner } from "tstyche/api";
 
 console.log(Runner.version);
 ```
@@ -74,7 +74,7 @@ The `tstyche` command is responsible to read configuration and to select test fi
 To run the tests, the `Runner` class can be used directly. All you have to do is to provide configuration and list of the test files:
 
 ```ts
-import { Config, Runner } from "tstyche/tstyche";
+import { Config, Runner } from "tstyche/api";
 
 const resolvedConfig = Config.resolve();
 const runner = new Runner(resolvedConfig);
