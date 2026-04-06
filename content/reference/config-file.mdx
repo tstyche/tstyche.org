@@ -91,28 +91,7 @@ It is recommended to enable this option when a project has handcrafted or genera
 
 Check errors silenced by `@ts-expect-error` directives in the test files.
 
-When this option is enabled, the runner reads the text after `@ts-expect-error` and checks if it matches the actual error message:
-
-```ts
-let config: { timeout?: number } = {};
-
-// @ts-expect-error  Object literal may only specify known properties
-config = { silent: true };
-```
-
-If a message does not match or is not specified, an error is reported.
-
-Use `...` to truncate long error messages:
-
-```ts
-// @ts-expect-error  Argument of type ... is not assignable to parameter of type 'never'.
-```
-
-To ignore a directive, append the `!` character after it:
-
-```ts
-// @ts-expect-error!  This is wrong.
-```
+To learn more, see the [Expect Errors](../guides/expect-errors.mdx#when-the-error-matters) page.
 
 ### `failFast` [#fail-fast]
 

@@ -1,4 +1,4 @@
-import { Note } from "@/components/Advice";
+import { Note, Tip } from "@/components/Advice";
 
 # Expect Errors
 
@@ -74,3 +74,44 @@ expect(add).type.not.toBeCallableWith(2);
 The test file is checked for type errors, the matcher syntax is erased (similar to the above example) and the code is checked again. If there are new errors, the assertion is reported as failing or, when negated with `.not`, as passing.
 
 In a way, the ability matchers are similar to `@ts-expect-error`, but are far more precise and expressive.
+
+## When the Error Matters
+
+For complex type interactions, `@ts-expect-error` is the most natural fit:
+
+```ts twoslash
+import { test } from "tstyche";
+
+declare function pipe<T>(source: T, ...target: Array<(source: T) => T>): void;
+declare function pick<T, K extends keyof T>(key: K): <K extends keyof T>(object: T) => Pick<T, K>;
+
+test("pick", () => {
+  pipe({ valid: true }, pick("valid"));
+  // @ts-expect-error Argument of type '"invalid"' is not assignable to parameter of type '"valid"'
+  pipe({ valid: true }, pick("invalid"));
+});
+```
+
+`.not.toBeCallableWith()` cannot be used here, because the type error only surfaces when `pick()` is passed to `pipe()`, a broader context that the matcher cannot replicate.
+
+For such cases, TSTyche reads the message after `@ts-expect-error` and verifies that it matches the actual error.
+
+<Tip>
+
+When a type is designed to produce a specific error message, `@ts-expect-error` with a message is a good way to verify it.
+
+</Tip>
+
+### Usage
+
+To truncate parts of a long error message, use `...`:
+
+```ts
+// @ts-expect-error Argument of type ... is not assignable to parameter of type 'never'
+```
+
+To ignore a directive, append the `!` character after it:
+
+```ts
+// @ts-expect-error! This is wrong
+```

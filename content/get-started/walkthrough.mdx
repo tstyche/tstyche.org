@@ -29,20 +29,9 @@ To learn more, see the [TypeScript Versions](../guides/typescript-versions.mdx) 
 
 ## Expect Errors
 
-The downside of `@ts-expect-error` directives is that they hide any errors found in the line following the comment. To address that, TSTyche requires a fragment of the error message after `@ts-expect-error` and checks if it matches the actual error:
+To test invalid code, TSTyche ships with ability matchers like [`.not.toBeCallableWith()`](../reference/expect-api.mdx#to-be-callable-with) that communicate the intent of a test without exposing type errors in the test code. For cases where the error message matters, TSTyche also reads the message after `@ts-expect-error` and verifies it matches the actual error.
 
-```ts twoslash
-// @ts-expect-error  Cannot find name 'add'.
-console.log(add);
-```
-
-To learn more, see the documentation of the [`checkSuppressedErrors`](../reference/config-file.mdx#check-suppressed-errors) option.
-
-<Tip>
-
-To indicate the purpose of a test, use matchers like [`.toBeCallableWith()`](../reference/expect-api.mdx#to-be-callable-with) or [`.toBeConstructableWith()`](../reference/expect-api.mdx#to-be-constructable-with) instead of `@ts-expect-error`.
-
-</Tip>
+To learn more, see the [Expect Errors](../guides/expect-errors.mdx) page.
 
 ## Select Test Files
 
