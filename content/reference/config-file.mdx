@@ -123,7 +123,7 @@ Silence all test runner output except errors and warnings.
 
 Reject the `any` type passed as an argument to the `expect()` function or a matcher.
 
-For instance, the following test is passing even when the return type by mistake resolves to `any`:
+For instance, the following test is passing even when the return type accidentally resolves to `any`:
 
 ```ts twoslash
 // @noErrors
@@ -134,7 +134,7 @@ expect(query({ payload: "sample" })).type.toBeAssignableTo<string>();
 expect(query({ payload: 123 })).type.toBeAssignableTo<number>();
 ```
 
-This issue can be solved by adding `.not.toBeAny()` check. `rejectAnyType` does the same, but without repetitive boilerplate code.
+This issue can be solved by adding `.not.toBe<any>()` check. `rejectAnyType` does the same, but without the boilerplate.
 
 <Note>
 
@@ -149,7 +149,7 @@ The `any` type is allowed with all matchers when type is explicit, like `.not.to
 
 Reject the `never` type passed as an argument to the `expect()` function or a matcher.
 
-For instance, the following test is passing even when the `Result` type by mistake resolves to `never`:
+For instance, the following test is passing even when the `Result` type accidentally resolves to `never`:
 
 ```ts twoslash
 // @noErrors
@@ -160,11 +160,11 @@ expect(getResult("sample")).type.toBe<Result<string>>();
 expect(getResult(123)).type.toBe<Result<number>>();
 ```
 
-This issue can be solved by adding `.not.toBeNever()` check. `rejectNeverType` does the same, but without repetitive boilerplate code.
+This issue can be solved by adding `.not.toBe<never>()` check. `rejectNeverType` does the same, but without the boilerplate.
 
 <Note>
 
-The `never` type is allowed with all matchers when type is explicit, like `.toBeAssignableFrom<never>()`.
+The `never` type is allowed with all matchers when type is explicit, like `.not.toBe<never>()`.
 
 </Note>
 

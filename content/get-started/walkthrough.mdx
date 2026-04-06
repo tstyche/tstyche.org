@@ -33,6 +33,12 @@ To test invalid code, TSTyche ships with ability matchers like [`.not.toBeCallab
 
 To learn more, see the [Expect Errors](../guides/expect-errors.mdx) page.
 
+## Reject Unexpected `any` and `never`
+
+When a type unexpectedly resolves to `any` or `never`, tests may still pass, silently masking the issue. TSTyche rejects these types automatically, without repetitive `.not.toBe<any>()` or `.not.toBe<never>()` checks.
+
+To learn more, see the [`rejectAnyType`](../reference/config-file.mdx#reject-any-type) and [`rejectNeverType`](../reference/config-file.mdx#reject-never-type) options.
+
 ## Select Test Files
 
 Passing one or more search strings to the `tstyche` command runs only the test files with matching paths. For example, if a project structure look like this:
