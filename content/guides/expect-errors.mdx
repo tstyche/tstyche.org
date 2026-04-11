@@ -46,6 +46,12 @@ test("FormFieldGetter", () => {
 });
 ```
 
+<Tip>
+
+To make it clear why a negated assertion passes, pair it with a positive one, changing only a single element. In the example above, `"age"` is the culprit.
+
+</Tip>
+
 The following ability matchers are available:
 
 - [`.toAcceptProps()`](../reference/expect-api.mdx#to-accept-props) checks if a JSX component accepts the given props
