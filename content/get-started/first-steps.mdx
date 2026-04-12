@@ -3,7 +3,7 @@ import { Note, Tip } from "@/components/Advice";
 
 # First Steps
 
-Learn by example how to use TSTyche.
+Write, run and fix your first type test.
 
 ## Prerequisites
 
@@ -17,41 +17,39 @@ TSTyche supports and tests only against the Long Term Support (LTS) releases of 
 
 ## Install TSTyche
 
-Use your favorite package manager to add `tstyche` (and optionally `typescript`) to a project:
+Use your favorite package manager to add `tstyche` to a project:
 
 <Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
 <Tabs.Tab>
 
 ```shell
-npm add -D tstyche typescript
+npm add -D tstyche
 ```
 
 </Tabs.Tab>
 <Tabs.Tab>
 
 ```shell
-yarn add -D tstyche typescript
+yarn add -D tstyche
 ```
 
 </Tabs.Tab>
 <Tabs.Tab>
 
 ```shell
-pnpm add -D tstyche typescript
+pnpm add -D tstyche
 ```
 
 </Tabs.Tab>
 </Tabs>
 
-It is recommended to create a [`tsconfig.json`](https://typescriptlang.org/docs/handbook/tsconfig-json.html) file as well. Run `tsc --init` and TypeScript will generate it.
-
 <Note>
 
-The following steps assume that you installed the `typescript` package and added the `tsconfig.json` file. TSTyche works just fine without a TSConfig file and TypeScript installed.
+By default, TSTyche loads the locally installed TypeScript. When `typescript` is not installed, the latest version is used.
 
 </Note>
 
-## Define a Type
+## Write Your First Type Test
 
 Create a `MethodLikeKeys.ts` file with the following content:
 
@@ -63,11 +61,9 @@ export type MethodLikeKeys<T> = keyof {
 };
 ```
 
-The `MethodLikeKeys` utility should construct a union type by picking up names of method like keys of the `T` type.
+The `MethodLikeKeys` utility should construct a union type by picking up names of method-like keys of the `T` type.
 
-## Add a Type Test
-
-Create a `MethodLikeKeys.tst.ts` file in the same directory:
+Now create a `MethodLikeKeys.tst.ts` file in the same directory:
 
 ```ts twoslash filename="./MethodLikeKeys.tst.ts"
 // @filename: ./MethodLikeKeys.ts
@@ -90,7 +86,7 @@ interface Sample {
 expect<MethodLikeKeys<Sample>>().type.toBe<"getLength" | "getWidth">();
 ```
 
-Here the `expect()` function defines an assertion. There are two method like keys in the `Sample` interface, hence the resulting type must be `"getLength" | "getWidth"`.
+Here the `expect()` function defines an assertion. There are two method-like keys in the `Sample` interface, hence the resulting type must be `"getLength" | "getWidth"`.
 
 <Tip>
 
@@ -100,7 +96,7 @@ By convention, it is recommended to suffix the unit tests with `.test.*` and the
 
 ## Run the Type Test
 
-All is set. Tell TSTyche to run the type test:
+Run TSTyche from your terminal:
 
 <Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
 <Tabs.Tab>
@@ -126,10 +122,10 @@ pnpm tstyche
 </Tabs.Tab>
 </Tabs>
 
-You should see similar report:
+You should see a report similar to this:
 
 ```ansi
-[34muses[0m TypeScript 5.8.3[90m with ./tsconfig.json[0m
+[34muses[0m TypeScript 5.8.3[90m with baseline TSConfig[0m
 
 [31mfail[0m [90m./[0mMethodLikeKeys.tst.ts
 
@@ -144,13 +140,9 @@ You should see similar report:
       [90m at [0m[36m./MethodLikeKeys.tst.ts[0m[90m:10:44[0m
 ```
 
-On the first line you see the TypeScript version used for this test run. It is followed by a path to the TSConfig file from which the compiler configuration was loaded.
+## Fix and Re-run
 
-The rest reports that the test has failed and explains the problem.
-
-## Iterate
-
-The `getWidth` key is marked as optional and was not picked up by the `MethodLikeKeys` type. Here is the fixed type:
+The `getWidth` key is marked as optional and was not picked up by the `MethodLikeKeys` type. Wrapping the lookup with `Required<T>` ensures optional keys are not skipped:
 
 ```ts twoslash
 type MethodLike = (...args: any) => any;
@@ -161,10 +153,18 @@ export type MethodLikeKeys<T> = keyof {
 };
 ```
 
-Run the test again and it will pass:
+Run the test again:
 
 ```ansi
-[34muses[0m TypeScript 5.8.3[90m with ./tsconfig.json[0m
+[34muses[0m TypeScript 5.8.3[90m with baseline TSConfig[0m
 
 [32mpass[0m [90m./[0mMethodLikeKeys.tst.ts
 ```
+
+## What’s Next
+
+You now know the core loop: define a type, write an assertion, run TSTyche and iterate. From here, you can explore:
+
+- [Walkthrough](./walkthrough.mdx) — a tour of the most important features of TSTyche.
+- [Expect API](../reference/expect-api.mdx) — the full list of available matchers.
+- [File Structure](../project/file-structure.mdx) — how TSTyche discovers test files and how to configure it.
