@@ -1,0 +1,42 @@
+# Introduction
+
+A type test runner — the missing piece in the TypeScript toolchain.
+
+## Why a Type Test Runner?
+
+Take a look at any popular JavaScript test runner. It is a command line tool. It has `test()` and `describe()` helpers with `.only` and `.skip` modifiers. It is able to select test files using a pattern or to run a specific test file. And it reports success in green and failures in red.
+
+Now let’s look at the `typescript` package. It consists of the compiler (`tsc`) and the language server (`tsserver`). Both of them wrap around the same type checking API. `tsc` is called from the command line, it emits code and reports found errors in red. `tsserver` provides information for text editors and reports found errors in red.
+
+Although both of these tools do report errors, their tasks do not include testing types. In other words, neither of them has features that a test runner has.
+
+## Why TSTyche?
+
+The `tstyche` command is the third member of the team. It wraps around the same type checking API and brings the full test runner experience to types.
+
+Because TSTyche uses the type checking API, it checks messages of errors suppressed by `@ts-expect-error` directives and has everything needed to test against specific TypeScript versions.
+
+TSTyche exists because developers deserve a feature-rich and robust test runner for their types.
+
+## How TSTyche Works
+
+To enable type testing TSTyche, loads the `typescript` package installed in your project and checks types programmatically. TSTyche does not require any dependencies to be installed, which is why it has a minimal install size of around 300kB.
+
+TSTyche wraps around TypeScript’s [language service API](https://github.com/microsoft/TypeScript/wiki/Using-the-Language-Service-API) that is designed to do the absolute minimum work required to answer a query. If only a single test file is selected for a run, there is no need to waste time type checking the whole program.
+
+The language service API is also used by text editors like Visual Studio Code. This means TSTyche sees exactly the same types that you see in hover messages.
+
+## Goals of the Project
+
+TSTyche is built for projects of any size — from a small utility library to a large monorepo. It aims to be:
+
+- lightweight
+- performant
+- predictable
+- scalable
+
+## The Name
+
+The name of TSTyche is abbreviated from TypeScript **ty**pe **che**ck. In the early stages of development the library was conceived as a type checker. Later it became a type test runner, but the name remained.
+
+In Greek mythology, [Tyche](https://en.wikipedia.org/wiki/Tyche) was the goddess of fortune and prosperity.
