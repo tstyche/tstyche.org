@@ -3,11 +3,11 @@ import { Note, Tip } from "@/components/Advice";
 
 # File Structure
 
-An important step in type testing is to take care that any accidental types do not leak into test files. The following strategies help to ensure isolation of your tests.
+This page covers several project structure strategies. Pick the one that suits your needs.
 
 ## Dedicated Directory
 
-It is recommended to keep type test files in a dedicated directory. For instance, you can name it `__typetests__`:
+Keeping type test files in a dedicated directory is the recommended approach. It separates concerns and makes isolation straightforward.
 
 <FileTree>
   <FileTree.Folder name="src" open>
@@ -21,7 +21,7 @@ It is recommended to keep type test files in a dedicated directory. For instance
   <FileTree.File name="tsconfig.json" />
 </FileTree>
 
-Here the root `tsconfig.json` specifies the compiler configuration of the project. Extend from it and reuse the configuration for type testing:
+The root `tsconfig.json` holds the compiler configuration of the project. Extend from it and reuse the configuration for type testing:
 
 ```json filename="./src/__typetests__/tsconfig.json"
 {
@@ -36,17 +36,17 @@ Here the root `tsconfig.json` specifies the compiler configuration of the projec
 }
 ```
 
-The above configuration prevents loading global scope typings from `@types/*` packages and includes only the files needed for type testing.
+This configuration prevents loading global scope typings from `@types/*` packages. It includes only the files needed for type testing.
 
 <Tip>
 
-By convention, it is recommended to suffix the unit tests with `.test.*` and the type tests with `.tst.*`. The latter ones are only statically analyzed and are not meant to be executed, hence the missing `e` in the suffix.
+By convention, unit tests are suffixed with `.test.*` and type tests with `.tst.*`. The latter ones are only statically analyzed and are not meant to be executed, hence the missing `e` in the suffix.
 
 </Tip>
 
 ## Shared Directory
 
-It is also possible to keep unit and type test files in a single shared directory:
+Unit and type test files can also share a single directory:
 
 <FileTree>
   <FileTree.Folder name="src" open>
@@ -63,7 +63,7 @@ It is also possible to keep unit and type test files in a single shared director
   <FileTree.File name="tstyche.json" />
 </FileTree>
 
-Remember to specify the `types` list of the `compilerOptions`. Keep it as minimal as possible to avoid any global typings leaking into your type tests:
+Keep the TSConfig as focused as possible to avoid global typings leaking into your type tests:
 
 ```json filename="./src/__tests__/tsconfig.json"
 {
@@ -88,7 +88,7 @@ To use type testing assertions in [unit tests](../get-started/walkthrough.mdx#in
 
 ## Next to Source Files
 
-Isolation of type tests placed next to source files is complicated, but not impossible. A hypothetical project could look like this:
+Isolation of type tests placed next to source files requires a bit more configuration. A project structure could look like this:
 
 <FileTree>
   <FileTree.Folder name="src" open>
@@ -103,7 +103,7 @@ Isolation of type tests placed next to source files is complicated, but not impo
   <FileTree.File name="tstyche.json" />
 </FileTree>
 
-The `references` field could be used to define the project in the root `tsconfig.json`:
+The `references` field can be used to define the project in the root `tsconfig.json`:
 
 ```json filename="./tsconfig.json"
 {
@@ -117,7 +117,7 @@ The `references` field could be used to define the project in the root `tsconfig
 }
 ```
 
-And `tsconfig.test.json` can extend it like this:
+`tsconfig.test.json` can then extend it:
 
 ```json filename="./tsconfig.test.json"
 {
