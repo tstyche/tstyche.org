@@ -140,6 +140,12 @@ You should see a report similar to this:
       [90m at [0m[36m./MethodLikeKeys.tst.ts[0m[90m:10:44[0m
 ```
 
+<Note>
+
+TSTyche does not execute the code. Instead, it analyzes types programmatically and reports the test run results. To learn more, see the [Introduction](./introduction.mdx) page.
+
+</Note>
+
 ## Fix and Re-run
 
 The `getWidth` key is marked as optional and was not picked up by the `MethodLikeKeys` type. Wrapping the lookup with `Required<T>` ensures optional keys are not skipped:
