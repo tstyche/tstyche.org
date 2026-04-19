@@ -20,9 +20,9 @@ Use the [`--list`](../reference/command-line.mdx#list) command line option to in
 
 </Tip>
 
-## Version Compatibility Strategies
+## Compatibility Strategies
 
-Projects that declare TypeScript compatibility mostly specify:
+Projects declare TypeScript compatibility in one of two ways:
 
 - a single version (only version `x.y` is supported)
 - a range of versions (version `x.y` or above is supported)
@@ -37,7 +37,7 @@ Projects that declare TypeScript compatibility mostly specify:
 
 If the `typescript` package is installed, TSTyche will load it. Otherwise, the latest version is used.
 
-To test against a different version, pass it with the [`--target`](../reference/command-line.mdx#target) command line option or use the [`target`](../reference/config-file.mdx#target) configuration option.
+To test against a different version, pass the version with the [`--target`](../reference/command-line.mdx#target) command line option or use the [`target`](../reference/config-file.mdx#target) configuration option.
 
 The TypeScript version is shown in the output:
 
@@ -52,9 +52,9 @@ The TypeScript version is shown in the output:
 **TS7 support.** TypeScript 7 is not yet included in the ranges and `6.0` is the upper bound.
 </Warning>
 
-Keep in mind that TypeScript follows the Semantic Versioning specification only [partly](https://github.com/microsoft/TypeScript/wiki/TypeScript's-Release-Process). A patch release is still strictly only a bug fix, but a minor release may introduce breaking changes. This means an upgrade from `5.6` to `5.7` can break types.
+TypeScript follows the Semantic Versioning specification [partially](https://github.com/microsoft/TypeScript/wiki/TypeScript's-Release-Process). A patch release holds only bug fixes, but a minor release may introduce breaking changes. This means an upgrade from `5.6` to `5.7` can break types.
 
-For instance, if the lowest compatible TypeScript version is `5.6`, testing against all minor versions starting from that one is recommended:
+If the lowest compatible TypeScript version is `5.6`, test against all minor versions from that point:
 
 ```shell
 tstyche --target '>=5.6'
@@ -62,7 +62,7 @@ tstyche --target '>=5.6'
 
 This command will test using TypeScript `5.6`, `5.7`, `5.8` and so on. Newly released versions are added to the list as soon as they become available.
 
-The report will include three (or more) versions of TypeScript:
+The report will include each tested version of TypeScript:
 
 ```ansi
 [34muses[0m TypeScript 5.6.3[90m with ./tsconfig.json[0m
@@ -82,7 +82,7 @@ Running tests against many versions of TypeScript is slow. Use ranges only in co
 
 ## Handling Changes
 
-Changes between TypeScript versions can be handled using the [`// @tstyche if`](../reference/directives.mdx#if) comment directive:
+The [`// @tstyche if`](../reference/directives.mdx#if) directive handles changes between TypeScript versions:
 
 ```ts twoslash
 import { expect, test } from "tstyche";
@@ -102,7 +102,7 @@ test("isUint8Array", () => {
 });
 ```
 
-If this directive is used at the top of the file, the whole test file will run only when the specified condition matches.
+Placing this directive at the top of the file applies the condition to the whole file.
 
 ## Early Warnings
 
@@ -114,15 +114,15 @@ If this directive is used at the top of the file, the whole test file will run o
 
 TSTyche supports `beta`, `latest`, `next` and `rc` as the target tags. Use them as one-off commands or in continuous integration workflows.
 
-To catch the breaking changes early, consider setting up a workflow that runs tests once a day against `typescript@next`. A GitHub Actions example is available in the [`tstyche/ts-nightly-example`](https://github.com/tstyche/ts-nightly-example) repository.
+To catch breaking changes early, set up a workflow that runs tests once a day against `typescript@next`. A GitHub Actions example is available in the [`tstyche/ts-nightly-example`](https://github.com/tstyche/ts-nightly-example) repository.
 
 ## The Store
 
-The TSTyche store is a lightweight package manager that downloads the requested version of the `typescript` package. It keeps packages in a global cache. This means packages are shared across projects.
+The TSTyche store is responsible for downloading and caching versions of the `typescript` package. It keeps packages in a global cache, so they are shared across projects.
 
 To know how to resolve tags like `latest` or `next`, every two hours the store fetches metadata of the `typescript` package from the registry.
 
-These are the command line options dedicated to the store:
+The following command line options manage the store:
 
 - [`--fetch`](../reference/command-line.mdx#fetch) downloads the specified TypeScript versions
 - [`--list`](../reference/command-line.mdx#list) prints the list of supported TypeScript versions
