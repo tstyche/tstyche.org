@@ -6,7 +6,7 @@ The comment directives are single-line comments that serve as inline configurati
 
 ## Usage
 
-Only a single-line comment is considered to be a directive if its text starts with `@tstyche` namespace followed by the directive keyword. An argument must be provided if a directive requires it. Optionally, a note can be added after two or more hyphens.
+A directive must be a single-line comment starting with the `@tstyche` namespace followed by the directive keyword. Some directives require an argument. A note may follow after two or more hyphens.
 
 ```ts
 // @tstyche if { target: ">=5.7" } -- Only when TypeScript 5.7 or above is used
@@ -22,9 +22,9 @@ The argument text is parsed as a JSON string, but unquoted keys, single quotes o
 
 The scope of a directive can be:
 
-- the whole test file (use it at the top of the file),
-- a single assertion or a test helper (place it above any `expect()`, `test()` or `describe()`),
-- or both of the above.
+- the whole test file (place it at the top of the file)
+- a single assertion or a test helper (place it above any `expect()`, `test()` or `describe()`)
+- or both of the above
 
 <Warning>
 
@@ -36,7 +36,7 @@ When placed in the wrong scope, a comment directive holds no special meaning.
 
 - Scope: a single assertion or a test helper
 
-Marks an `expect()`, `test()` or `describe()` as supposed to fail.
+Marks an `expect()`, `test()` or `describe()` as failing.
 
 ```ts twoslash
 import { expect, it } from "tstyche";
@@ -58,17 +58,17 @@ it("() => Promise<unknown>", () => {
 });
 ```
 
-The runner implements the following logic:
+The runner behaves as follows:
 
-- when an `expect()` is marked, make sure it actually fails,
-- when a `test()` or `describe()` is marked, check if it has a failing child.
+- when an `expect()` is marked, verify that it actually fails
+- when a `test()` or `describe()` is marked, verify that it has at least one failing child
 
 ### `// @tstyche if` [#if]
 
 - Scope: a single assertion or a test helper, or the whole test file
 - Argument type: `{ target: string }`
 
-Run an `expect()`, `test()` or `describe()` only when the specified condition matches.
+Marks an `expect()`, `test()` or `describe()` to run only when the specified condition matches.
 
 ```ts twoslash
 import { expect, test } from "tstyche";
@@ -94,7 +94,7 @@ Placing this directive at the top of the file applies the condition to the whole
 
 - Scope: the whole test file
 
-Marks a test file as a template. When the directive is found, the default export of a file is interpreted as a type test text.
+Marks a test file as a template. When the directive is found, the default export is interpreted as type test text.
 
 For example, the following:
 
