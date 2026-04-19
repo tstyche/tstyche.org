@@ -78,14 +78,6 @@ Keep the TSConfig as focused as possible to avoid global typings leaking into yo
 }
 ```
 
-To use type testing assertions in [unit tests](../get-started/walkthrough.mdx#integrate-into-unit-tests), configure TSTyche to include the unit test files in the test run:
-
-```json filename="./tstyche.json"
-{
-  "testFileMatch": ["**/*.test.ts", "**/*.tst.ts"]
-}
-```
-
 ## Next to Source Files
 
 Isolation of type tests placed next to source files requires a bit more configuration. A project structure could look like this:
