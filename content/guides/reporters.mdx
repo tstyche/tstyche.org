@@ -2,7 +2,7 @@ import { Note, Tip } from "@/components/Advice";
 
 # Reporters
 
-The reporters allow to customize output of TSTyche.
+Reporters control how TSTyche formats test results.
 
 ## Usage
 
@@ -22,11 +22,7 @@ Or use the [`reporters`](../reference/config-file.mdx#reporters) configuration o
 
 ## Built-in Reporters
 
-<Note>
-
-By default, the built-in `list` and `summary` reporters are used.
-
-</Note>
+By default, TSTyche uses the `list` and `summary` reporters.
 
 ### `dot`
 
@@ -40,7 +36,7 @@ For single-file runs or when [`--verbose`](../reference/command-line.mdx#verbose
 
 ### `summary`
 
-Prints a concise summary of the test run. Failure details are omitted. In watch mode the reporter produces no output.
+Prints a concise summary of the test run. Failure details are omitted. In watch mode, the reporter produces no output.
 
 ## Custom Reporter
 
@@ -52,7 +48,7 @@ If you are publishing your reporter to `npm`, use the following naming pattern: 
 
 </Tip>
 
-The module must export a class that takes `resolvedConfig` as a constructor argument and implements the `on()` method:
+The module must export a class that implements the `on()` method. The constructor receives `resolvedConfig` as its argument:
 
 ```js
 export default class CustomReporter {
