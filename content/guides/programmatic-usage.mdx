@@ -2,17 +2,17 @@ import { Note, Tip } from "@/components/Advice";
 
 # Programmatic Usage
 
-The programmatic APIs allow integrating TSTyche with other tools.
+Use the programmatic API to run TSTyche from scripts or integrate it with other tools.
 
 ## Requirements
 
-If you plan to use TypeScript, the lowest supported version is `5.4`. The `module` and `moduleResolution` compiler options must be set to at least `"node16"`.
+The lowest supported TypeScript version is `5.4`. The `module` and `moduleResolution` compiler options must be set to at least `"node16"`.
 
 ## `tstyche/tag` [#tstyche-tag]
 
-The `tstyche/tag` entry point provides a tagged template function that runs TSTyche programmatically.
+To run TSTyche from within a script or a runtime test, the `tstyche/tag` entry point provides a tagged template function.
 
-The function runs in the same process, streaming error messages and test results to the `stderr` and `stdout` in real-time.
+The function runs in the same process, streaming error messages and test results to `stderr` and `stdout` in real-time.
 
 <Tip>
 
@@ -22,7 +22,7 @@ Use the [`--quiet`](../reference/command-line.mdx#quiet) command line option to 
 
 ### Usage
 
-Call the function with the same arguments you would pass to the tstyche command:
+Call the function with the same arguments you would pass to the `tstyche` command:
 
 ```ts twoslash
 import tstyche from "tstyche/tag";
@@ -31,7 +31,7 @@ import tstyche from "tstyche/tag";
 await tstyche`query-params --only multiple`;
 ```
 
-The function returns a promise that resolves if the test run is successful and rejects if it fails, making it suitable for runtime tests:
+The function returns a promise that resolves if the test run is successful and rejects if it fails:
 
 ```ts twoslash
 import path from "node:path";
@@ -53,7 +53,7 @@ test("generate types", async () => {
 
 ## `tstyche/api` [#tstyche-api]
 
-The full programmatic APIs is available from the `tstyche/api` entry point:
+The full programmatic API is available from the `tstyche/api` entry point:
 
 ```ts
 import { Runner } from "tstyche/api";
@@ -61,17 +61,9 @@ import { Runner } from "tstyche/api";
 console.log(Runner.version);
 ```
 
-<Note>
-
-This is consider a power user feature. More documentation may or may not be provided in the future.
-
-</Note>
-
 ### `Runner`
 
-The `tstyche` command is responsible to read configuration and to select test files. That is done before test runner is invoked.
-
-To run the tests, the `Runner` class can be used directly. All you have to do is to provide configuration and list of the test files:
+The `tstyche` command reads configuration and selects test files before invoking the `Runner`. The same can be done programmatically:
 
 ```ts
 import { Config, Runner } from "tstyche/api";
@@ -79,6 +71,11 @@ import { Config, Runner } from "tstyche/api";
 const resolvedConfig = Config.resolve();
 const runner = new Runner(resolvedConfig);
 
-
 await runner.run(["./typetests/toBeNumber.tst.ts"]);
 ```
+
+<Note>
+
+This is considered a power user feature. To learn more, read the [source code](https://github.com/tstyche/tstyche) or open an issue with your integration questions.
+
+</Note>
