@@ -1,12 +1,12 @@
-import { Note, Tip, Warning } from "@/components/Advice";
+import { Warning } from "@/components/Advice";
 
 # Type Inference
 
-This page explores some nuanced aspects of TypeScript’s type inference.
+This page explains the aspects of TypeScript type inference that commonly affect type tests.
 
 ## Type Widening
 
-In mutable context a [literal type is inferred](https://typescriptlang.org/docs/handbook/2/everyday-types.html#literal-inference) as its base type:
+In a mutable context a [literal type is inferred](https://typescriptlang.org/docs/handbook/2/everyday-types.html#literal-inference) as its base type:
 
 ```ts twoslash
 import { expect } from "tstyche";
@@ -17,7 +17,7 @@ const two = { a: 2, b: [3, 3] };
 expect(two).type.toBe<{ a: number; b: number[] }>();
 ```
 
-To tell to the type checker that a type should not be widened, use [type assertions](https://typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions):
+To prevent widening, use [type assertions](https://typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions):
 
 ```ts twoslash
 import { expect } from "tstyche";
@@ -30,7 +30,7 @@ expect(six).type.toBe<{ a: 6; b: 9[] }>();
 
 <Warning>
 
-It is also possible to use the `const` type assertion to convert the entire object, but in this case a different type is created:
+Using the `const` type assertion on the entire object is also possible, but it creates a different type than individual assertions would:
 
 ```ts twoslash
 import { expect } from "tstyche";
@@ -45,7 +45,7 @@ expect(ten).type.toBe<{ readonly a: 6; readonly b: readonly [9, 9] }>();
 
 ## Excess Property Checks
 
-If passed as arguments, the object literals undergo the [excess property checks](https://typescriptlang.org/docs/handbook/2/objects.html#excess-property-checks):
+When passed as arguments, object literals undergo [excess property checks](https://typescriptlang.org/docs/handbook/2/objects.html#excess-property-checks):
 
 ```ts twoslash
 // @errors: 2353
@@ -64,11 +64,9 @@ expect<{ silent: true; timeout: 800 }>().type.toBeAssignableTo<{ timeout?: numbe
 expect<{ timeout?: number }>().type.toBeAssignableFrom<{ silent: true; timeout: 800 }>();
 ```
 
-Generally these failures prevent outdated assertions hanging around in your tests.
+In most cases, these failures are helpful — they prevent outdated assertions from accumulating in your tests.
 
-<Tip>
-
-If the excess property checks is not what you need, follow the above link to learn how to get around them. For example, pass a reference instead of an object literal:
+If excess property checks are not what you need, see the TypeScript [Handbook](https://typescriptlang.org/docs/handbook/2/objects.html#excess-property-checks) on how to get around them. For example, pass a reference instead of an object literal:
 
 ```ts twoslash
 import { expect } from "tstyche";
@@ -77,5 +75,3 @@ const configSample = { silent: true, timeout: 800 };
 
 expect(configSample).type.toBeAssignableTo<{ timeout?: number }>();
 ```
-
-</Tip>
