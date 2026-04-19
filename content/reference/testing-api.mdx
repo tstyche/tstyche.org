@@ -2,11 +2,11 @@ import { Tip, Warning } from "@/components/Advice";
 
 # Testing API
 
-TSTyche ships testing helpers and run mode flags to organize, select and filter tests to run.
+TSTyche ships testing helpers to organize tests and run mode flags to focus or skip them.
 
 ## Run Mode Flags
 
-To select groups or tests to run, append the run mode flags to any [`describe()`](#describe) or [`test()`](#test) function. The flags are inherited from the parent.
+To focus or skip groups and tests, append the run mode flags to any `describe()` or `test()`. The flags are inherited from the parent.
 
 ```ts twoslash
 import { describe, expect, test } from "tstyche";
@@ -36,11 +36,11 @@ test.todo("to be implemented");
 
 ### `.only`
 
-Marks a group or a test as focused. When there are focused groups, tests or assertions in a file, only those will run.
+Marks a group or a test as focused. When there are focused groups, tests or [assertions](./expect-api.mdx#run-mode-flags) in a file, only those will run.
 
 ### `.skip`
 
-Marks a group or a test as skipped. The test runner will ignore anything skipped and will suppress any type errors raised within the bodies of the `callback` functions.
+Marks a group or a test as skipped. The test runner will ignore anything skipped and will suppress type errors inside the skipped `callback` functions.
 
 ### `.todo`
 
@@ -48,13 +48,13 @@ Marks a group or a test as yet to be implemented. It does everything that the `.
 
 <Tip>
 
-You can use the `.only` and `.skip` flags with the [`expect()`](./expect-api.mdx#run-mode-flags) function as well.
+Use the `// @tstyche fixme` comment directive to mark any `test()` or `describe()` as failing. To learn more, see the [Comment Directives](./directives.mdx#fixme) page.
 
 </Tip>
 
 ## Testing Helpers
 
-TSTyche does not require to use the helper functions. For instance, instead of callbacks you can use [block statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block) to scope variables or code comments to name the tests:
+Using the helper functions is optional. For instance, instead of callbacks, you can use [block statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block) to scope variables, or code comments to name the tests:
 
 ```ts twoslash
 import { expect } from "tstyche";
@@ -65,11 +65,11 @@ import { expect } from "tstyche";
 }
 ```
 
-This also works, but the helpers have more to offer. First, they provide the [run mode flags](#run-mode-flags) to select tests to run. Second, you can filter tests by name from the command line through the [`--only`](./command-line.mdx#only) and [`--skip`](./command-line.mdx#skip) options.
+Both approaches work, but the helpers have more to offer. First, they provide the [run mode flags](#run-mode-flags). Second, you can filter tests by name from the command line through the [`--only`](./command-line.mdx#only) and [`--skip`](./command-line.mdx#skip) options.
 
 <Warning>
 
-Keep in mind that the runner does not execute the code, therefor the `name` argument must always be a string literal.
+The `name` argument must always be a string literal, because the runner does not execute the code.
 
 </Warning>
 
