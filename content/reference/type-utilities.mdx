@@ -2,7 +2,7 @@ import { Note } from "@/components/Advice";
 
 # Type Utilities
 
-TypeScript ships utility types like `Omit` or `Pick` that reshape types. When testing types of expressions, use the `omit()` or `pick()` utilities to have same results.
+TypeScript ships utility types like `Omit` or `Pick` to reshape types. When testing types of expressions, use the `omit()` or `pick()` utilities to get the same results.
 
 <Note>
 
@@ -12,7 +12,7 @@ The utilities only reshape types. At runtime they return the same object that wa
 
 ## `omit()` [#omit]
 
-The `omit()` type utility reshapes type of the given object by removing the specified keys:
+The `omit()` type utility reshapes the type of the given object by removing the specified keys:
 
 ```ts twoslash
 import { expect, omit, pick } from "tstyche";
@@ -41,7 +41,7 @@ expect<Omit<Queue<string>, "enqueue" | "entries">>().type.toBe<{
 
 ## `pick()` [#pick]
 
-The `pick()` type utility reshapes type of the given object by keeping only the specified keys:
+The `pick()` type utility reshapes the type of the given object by keeping only the specified keys:
 
 ```ts twoslash
 import { expect, omit, pick } from "tstyche";
