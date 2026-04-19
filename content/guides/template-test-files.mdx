@@ -2,11 +2,11 @@ import { Warning } from "@/components/Advice";
 
 # Template Test Files
 
-Generate type tests using a data table.
+When testing a type against many inputs, TSTyche can generate tests from a template file.
 
 ## Usage
 
-To mark a test file as a template, add the [`// @tstyche template`](../reference/directives.mdx#template) comment directive at the top. When the directive is found, the default export of a file is interpreted as a type test text.
+To mark a test file as a template, place the [`// @tstyche template`](../reference/directives.mdx#template) comment directive at the top. When the directive is found, the default export is interpreted as type test text.
 
 For example, the following:
 
@@ -40,6 +40,6 @@ test("is number a string?", () => {
 
 <Warning>
 
-The type test text is loaded using the `import()` expression and replaced programmatically keeping the same file name. Therefore, this must be a TypeScript file and it must be executed at the same time. Fortunately, running TypeScript code with Node.js is now [possible](https://nodejs.org/api/typescript.html#type-stripping).
+The type test text is loaded via `import()` and replaced programmatically under the same file name. Therefore, the template must be a TypeScript file that Node.js can execute directly without transpilation. Fortunately, running TypeScript code with Node.js is now [possible](https://nodejs.org/api/typescript.html#type-stripping).
 
 </Warning>
