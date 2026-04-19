@@ -6,20 +6,20 @@ When testing invalid code, use the ability matchers to avoid the `@ts-expect-err
 
 ## The `@ts-expect-error` Trap
 
-The use of `@ts-expect-error` directives in type tests is a popular approach to test that a certain piece of code is invalid.
+Using `@ts-expect-error` directives in type tests is a popular approach to test that a certain piece of code is invalid.
 
-In the following example type test, the import was lost during refactoring. The code will compile and the test will appear to pass, although the actual error is `Cannot find name 'add'`:
+In the following example, the import was lost during refactoring. The code will compile and the test will appear to pass, although the actual error is `Cannot find name 'add'`:
 
 ```ts twoslash
 // @ts-expect-error Requires 2 arguments
 add(2);
 ```
 
-Because `@ts-expect-error` suppresses *any* errors on the following line, type tests using it cast too wide a net. This results in misleading tests. The APIs under test might change, be renamed, or be removed, yet the tests will fail to catch regressions.
+Because `@ts-expect-error` suppresses *any* errors on the following line, type tests using it cast too wide a net. This results in misleading tests. The APIs under test might change, be renamed, or be removed, yet the tests will miss regressions.
 
 ## The Ability Matchers
 
-TSTyche ships with the ability matchers like `.toBeCallableWith()` that address the problem described above:
+TSTyche ships with the ability matchers like `.toBeCallableWith()` that address the `@ts-expect-error` trap:
 
 ```ts twoslash
 // @errors: 2304
@@ -28,7 +28,7 @@ import { expect } from "tstyche";
 expect(add).type.not.toBeCallableWith(2);
 ```
 
-The ability matchers communicate the intent of a test and are designed to handle even the most complex cases like generic types:
+The ability matchers communicate the intent of a test and can handle complex cases like generic types:
 
 ```ts twoslash
 import { expect, test } from "tstyche";
@@ -77,9 +77,9 @@ expect(add).type.not.toBeCallableWith(2);
       (add)                          (2); // after erasing
 ```
 
-The test file is checked for type errors, the matcher syntax is erased (similar to the above example) and the code is checked again. If there are new errors, the assertion is reported as failing or, when negated with `.not`, as passing.
+The test file is checked for type errors, the matcher syntax is erased (as shown above) and the code is checked again. If there are new errors, the assertion is reported as failing or, when negated with `.not`, as passing.
 
-In a way, the ability matchers are similar to `@ts-expect-error`, but are far more precise and expressive.
+The ability matchers are similar to `@ts-expect-error`, but are far more precise and expressive.
 
 ## When the Error Matters
 
@@ -100,7 +100,7 @@ test("pick", () => {
 
 `.not.toBeCallableWith()` cannot be used here, because the type error only surfaces when `pick()` is passed to `pipe()`, a broader context that the matcher cannot replicate.
 
-For such cases, TSTyche reads the message after `@ts-expect-error` and verifies that it matches the actual error.
+In these cases, TSTyche reads the message after `@ts-expect-error` and verifies that it matches the actual error.
 
 <Tip>
 
@@ -108,7 +108,9 @@ When a type is designed to produce a specific error message, `@ts-expect-error` 
 
 </Tip>
 
-### Usage
+### Syntax
+
+The following syntax can be used to adjust matching of `@ts-expect-error` messages.
 
 To truncate parts of a long error message, use `...`:
 
@@ -116,7 +118,7 @@ To truncate parts of a long error message, use `...`:
 // @ts-expect-error Argument of type ... is not assignable to parameter of type 'never'
 ```
 
-To ignore a directive, append the `!` character after it:
+To ignore a directive, append `!` to the directive:
 
 ```ts
 // @ts-expect-error! This is wrong
