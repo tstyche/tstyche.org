@@ -6,7 +6,7 @@ TSTyche includes the `expect` flavoured assertions to compare types.
 
 <Note>
 
-TSTyche uses TypeScript’s API to infer types of expressions. For a reminder of some nuanced aspects of the inference, see the [Type Inference](../explanations/type-inference.mdx) page.
+TSTyche uses TypeScript API to infer types of expressions. For a reminder of some nuanced aspects of the inference, see the [Type Inference](../explanations/type-inference.mdx) page.
 
 </Note>
 
@@ -25,7 +25,7 @@ expect(source: unknown)
 
 ## Run Mode Flags
 
-To select assertions to run, append the run mode flags to the [`expect()`](#expect) function. The flags are inherited from the parent.
+To select assertions to run, append the run mode flags to the `expect()` function. The flags are inherited from the parent.
 
 ### `.only`
 
@@ -34,6 +34,12 @@ Marks an assertion as focused. When there are focused groups, tests or assertion
 ### `.skip`
 
 Marks an assertion as skipped. The test runner will ignore anything skipped and will suppress any type errors raised by the expressions or types passed to the `expect()` or a matcher function.
+
+<Tip>
+
+Use the `// @tstyche fixme` comment directive to mark any `expect()` as failing. To learn more, see the [Comment Directives](./directives.mdx#fixme) page.
+
+</Tip>
 
 ## Matchers
 
