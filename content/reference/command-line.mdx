@@ -2,11 +2,11 @@ import { Note, Tip, Warning } from "@/components/Advice";
 
 # Command Line
 
-TSTyche ships with the `tstyche` command and a set of useful options.
+The `tstyche` command accepts the following options.
 
 ## Usage
 
-When called without arguments, the `tstyche` command runs all test files matched by the [`testFileMatch`](./config-file.mdx#test-file-match) patterns. To select particular files, pass one or more arguments:
+When called without arguments, the `tstyche` command runs all test files matched by the [`testFileMatch`](./config-file.mdx#test-file-match) patterns. To select specific files, pass one or more search strings:
 
 ```shell
 # Run all tests
@@ -14,12 +14,9 @@ tstyche
 
 # Only run the matching test file
 tstyche query-params
-
-# Test against specific versions of TypeScript
-tstyche --target '5.4 || 5.6.2 || >=5.8'
 ```
 
-Only the files matched by the [`testFileMatch`](./config-file.mdx#test-file-match) patterns can be selected. The search strings are matched with the portion of the path relative to the current directory. The matching is case insensitive.
+Only files matched by the [`testFileMatch`](./config-file.mdx#test-file-match) patterns can be selected this way. The search strings are matched case insensitively against the portion of the path relative to the current directory.
 
 <Tip>
 
@@ -31,11 +28,11 @@ Use the [`--showConfig`](#show-config) command line option to inspect the resolv
 
 Options passed through the command line override the ones from the [configuration file](./config-file.mdx).
 
-An option does not take a value, if its type is not specified. Otherwise, the parsing logic of the option value depends on its type:
+An option does not take a value if its type is not specified. Otherwise, how the option value is parsed depends on its type:
 
-- **boolean** is interpreted as `true`, if the value is omitted or set to `true`; or as `false`, if set to `false`,
-- **string** is simply a string,
-- **list** can hold one or several values separated by commas: `--reporters 'list, summary'`.
+- **boolean** is interpreted as `true` if the value is omitted or set to `true`; or as `false` if set to `false`
+- **string** is simply a string
+- **list** can hold one or more values separated by commas: `--reporters 'list, summary'`
 
 Relative paths are resolved relative to the current directory.
 
@@ -59,7 +56,7 @@ Stop running tests after the first failure.
 
 Fetch the specified versions of the `typescript` package and exit.
 
-`--fetch` must be used together with the [`target`](./config-file.mdx#target) configuration option or the [`--target`](#target) command line option. The versions specified via the [`--target`](#target) command line option are added, if it is provided; otherwise the versions listed in the [`target`](./config-file.mdx#target) array in the configuration file are added.
+`--fetch` must be used together with [`--target`](#target) or the [`target`](./config-file.mdx#target) configuration option. When `--target` is provided, those versions are fetched; otherwise the versions from the configuration file are fetched.
 
 ```shell
 tstyche --fetch --target '5.5 || >=5.8'
@@ -81,7 +78,9 @@ Print the list of selected test files and exit.
 
 - Type: string
 
-Only run tests with matching name. The given string is matched against the name of every `test()` or `describe()` entry. The matching is case insensitive.
+Only run tests with a matching name.
+
+The given string is matched against the name of every `test()` or `describe()` entry. The matching is case insensitive.
 
 `--only` does not override the [`.skip`](./expect-api.mdx#skip) run mode flag. If both `--only` and [`--skip`](#skip) filters select a test, it gets skipped.
 
@@ -91,7 +90,7 @@ tstyche --only external
 
 ### `--prune` [#prune]
 
-Remove all fetched versions the `typescript` package and exit.
+Remove all fetched versions of the `typescript` package and exit.
 
 ### `--quiet` [#quiet]
 
@@ -107,9 +106,9 @@ The list of reporters to use.
 
 The following can be specified:
 
-- built-in reporter: `"list"` or `"summary"`,
-- name of the package: `"tstyche-reporter"`,
-- or a path: `"./custom-reporter.js"`.
+- built-in reporter: `dot`, `list` or `summary`
+- name of a package: `tstyche-reporter`
+- a path: `./custom-reporter.js`
 
 ```shell
 tstyche --reporters list,tstyche-reporter,./custom-reporter.js
@@ -121,15 +120,15 @@ To learn more, see the [Reporters](../guides/reporters.mdx) page.
 
 - Type: string
 
-The path to a directory containing files of a test project.
+The path to the root directory of a test project.
 
-To collect the test files, the file tree is walked starting from the root directory. Later during the test run, the lookup of `tsconfig.json` for each test file starts at the directory containing the file and ends at the root directory.
+To collect the test files, TSTyche walks the file tree starting from the root directory. Later during the test run, TSTyche searches for `tsconfig.json` starting from the directory containing the test file, up to the root directory.
 
 This means that all test files to be run and TSConfig files to load the compiler configuration from must be within the root directory.
 
 <Note>
 
-When the `--root` command line option is set, the configuration file is searched for in that directory. To avoid this, set an explicit [`--config`](#config) path as well:
+When the `--root` command line option is set, TSTyche searches for the configuration file in that directory. To avoid this, set an explicit [`--config`](#config) path as well:
 
 ```shell
 tstyche --config ./tstyche.json --root ./example
@@ -145,7 +144,9 @@ Print the resolved configuration and exit.
 
 - Type: string
 
-Skip tests with matching name. The given string is matched against the name of every `test()` or `describe()` entry. The matching is case insensitive.
+Skip tests with a matching name.
+
+The given string is matched against the name of every `test()` or `describe()` entry. The matching is case insensitive.
 
 `--skip` overrides the [`.only`](./expect-api.mdx#only) run mode flag. If both `--skip` and [`--only`](#only) filters select a test, it gets skipped.
 
@@ -157,13 +158,13 @@ tstyche --skip internal
 
 - Type: string
 
-The range of TypeScript versions test against.
+The TypeScript version or range of versions to test against.
 
 The following can be specified:
 
-- minor releases, like `5.6`, resolves to the latest version in the series (for example, `5.6` resolves to version 5.6.3),
-- patch releases, like `5.8.2`,
-- `beta`, `latest`, `next` or `rc` distribution [tags](https://npmjs.com/package/typescript?activeTab=versions) of the `typescript` package.
+- a minor release, like `5.6`, resolves to the latest version in the series (for example, `5.6` resolves to version 5.6.3)
+- a patch release, like `5.8.2`
+- `beta`, `latest`, `next` or `rc` distribution [tags](https://npmjs.com/package/typescript?activeTab=versions) of the `typescript` package
 
 To specify multiple versions, provide a single string with versions separated by `||`:
 
@@ -173,18 +174,18 @@ tstyche --target '5.6 || 5.8.2 || latest'
 
 #### Ranges
 
-Version ranges allow testing on a range of TypeScript versions. The range must be specified using an operator and a minor version.
+Version ranges allow testing against a range of TypeScript versions. The range must be specified using an operator and a minor version.
 
 Supported operators:
 
-- `>`, greater than,
-- `>=`, greater than or equal,
-- `<`, less than,
-- `<=`, less than or equal.
+- `>`, greater than
+- `>=`, greater than or equal
+- `<`, less than
+- `<=`, less than or equal
 
-For example, the range `>=5.5` gets expanded to: `5.5`, `5.6`, `5.7` and so on. In the future this list will include newly released versions as well.
+For example, the range `>=5.5` gets expanded to: `5.5`, `5.6`, `5.7` and so on. Newly released versions are added to the list as soon as they become available.
 
-To set an upper bound, the intersection of two ranges can be used: `>=5.4 <5.6`. Here only `5.4` and `5.5` are included.
+To set an upper bound, the intersection of two ranges can be used: `>=5.4 <5.6`. In this case, only `5.4` and `5.5` are included.
 
 Ranges and versions can be combined:
 
@@ -194,7 +195,7 @@ tstyche --target '>=5.4 <5.6 || 5.6.2 || >=5.7'
 
 <Tip>
 
-Use the [`--list`](./command-line.mdx#list) command line option to inspect the list of supported versions.
+Use the [`--list`](#list) command line option to inspect the list of supported versions.
 
 </Tip>
 
@@ -202,16 +203,18 @@ Use the [`--list`](./command-line.mdx#list) command line option to inspect the l
 
 - Type: string
 
-The TSConfig to load. The following is possible:
+The TSConfig to load.
 
-- automatically discover the nearest `tsconfig.json` file (default),
-- use default compiler options,
-- load a specific `tsconfig.json` file,
-- provide the TSConfig as an inline JSON string.
+The following can be specified:
+
+- `findup`, automatically discovers the nearest `tsconfig.json` file (default)
+- `baseline`, uses default compiler options
+- a path, like `./tsconfig.test.json`, loads a specific `tsconfig.json` file
+- an inline JSON string, provides TSConfig directly
 
 <Warning>
 
-When TSConfig file does not include the test file in question, [default compiler options](../project/compiler-options.mdx#default-compiler-options) will be set.
+If a particular test file is not included in a TSConfig file, TSTyche falls back to [default compiler options](../project/compiler-options.mdx#default-compiler-options).
 
 </Warning>
 
@@ -259,7 +262,7 @@ Example output:
 
 #### Inline JSON
 
-Provide an inline TSConfig string. The implementation creates a synthetic TSConfig file in the root directory.
+Provide an inline TSConfig string.
 
 ```shell
 tstyche --tsconfig '{"extends":"./tsconfig.json","compilerOptions":{"lib":["es2020"]},"include":["**/*"]}'
@@ -275,7 +278,7 @@ Example output:
 
 Fetch the `typescript` package metadata from the registry and exit.
 
-The list of available TypeScript versions is updated every two hours. Use this option, if you want to force the update.
+The list of available TypeScript versions is updated every two hours. Use this option to force the update.
 
 ### `--verbose` [#verbose]
 
@@ -289,10 +292,12 @@ Print the TSTyche version number and exit.
 
 ### `--watch` [#watch]
 
-Watch for changes and rerun related test files. Current implementation is watching the TSTyche configuration file and the test files for changes.
+Watch for changes and rerun related test files.
+
+Files are watched recursively using the [`fs.watch()`](https://nodejs.org/docs/latest/api/fs.html#fswatchfilename-options-listener) method that relies on file system events. In some cases this feature is [not available](https://nodejs.org/docs/latest/api/fs.html#availability). For example, it does not work on network file systems.
 
 <Note>
 
-Files are watched recursively using the [`fs.watch()`](https://nodejs.org/docs/latest/api/fs.html#fswatchfilename-options-listener) method that relies on file system events. In some cases this feature is [not available](https://nodejs.org/docs/latest/api/fs.html#availability). For example, it does not work on network file systems.
+Currently, TSTyche watches the configuration file and the test files.
 
 </Note>
