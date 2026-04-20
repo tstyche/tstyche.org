@@ -2,17 +2,17 @@ import { Note, Tip, Warning } from "@/components/Advice";
 
 # Expect API
 
-TSTyche includes the `expect` flavoured assertions to compare types.
+TSTyche ships `expect` style assertions to check types.
 
 <Note>
 
-TSTyche uses TypeScript API to infer types of expressions. For a reminder of some nuanced aspects of the inference, see the [Type Inference](../explanations/type-inference.mdx) page.
+TSTyche uses TypeScript API to infer types of expressions. For an overview of the aspects of TypeScript type inference that commonly affect type tests, see the [Type Inference](../explanations/type-inference.mdx) page.
 
 </Note>
 
 ## `expect()`
 
-The `expect()` function builds an assertion. It must be followed by the `.type` modifier and a [matcher](#matchers). Optionally, a [run mode flag](#run-mode-flags) can be appended. `expect()` can be nested inside code.
+The `expect()` function builds an assertion. It must be followed by the `.type` modifier and a [matcher](#matchers). Optionally, a [run mode flag](#run-mode-flags) can be appended. `expect()` can be nested inside other expressions.
 
 ---
 
@@ -25,7 +25,7 @@ expect(source: unknown)
 
 ## Run Mode Flags
 
-To select assertions to run, append the run mode flags to the `expect()` function. The flags are inherited from the parent.
+To focus or skip assertions, append the run mode flags to the `expect()` function. The flags are inherited from the parent.
 
 ### `.only`
 
@@ -33,7 +33,7 @@ Marks an assertion as focused. When there are focused groups, tests or assertion
 
 ### `.skip`
 
-Marks an assertion as skipped. The test runner will ignore anything skipped and will suppress any type errors raised by the expressions or types passed to the `expect()` or a matcher function.
+Marks an assertion as skipped. The test runner will ignore anything skipped and will suppress type errors inside the skipped assertion.
 
 <Tip>
 
@@ -115,9 +115,9 @@ expect<WithLoading<AsyncProps<{ query: string }>>>().type.toBe<{
 }>();
 ```
 
-The types are compared programmatically by walking their structure. As you see in the above example, the matcher treats `{ a: string } & { b: number }` and `{ a: string; b: number }` as equivalent.
+The types are compared structurally. As shown in the example above, the matcher treats `{ a: string } & { b: number }` and `{ a: string; b: number }` as equivalent.
 
-The implementation allows granular checks of every detail. For example, it distinguishes between types with and without the `NoInfer` marker:
+The matcher allows granular checks of every detail. For example, it distinguishes between types with and without the `NoInfer` marker:
 
 ```ts twoslash
 import { expect } from "tstyche";
@@ -146,7 +146,7 @@ expect(infersLiteralType).type.not.toBe(blocksTypeInference);
 
 Checks if the decorator function can be applied to a class or a class member.
 
-Differently from other matchers, `.toBeApplicable` must be used as a decorator:
+Unlike other matchers, `.toBeApplicable` must be used as a decorator:
 
 ```ts twoslash
 import { expect, test } from "tstyche";
@@ -166,7 +166,7 @@ test("bind", () => {
       this.#name = name;
     }
 
-    @(expect(bind).type.toBeApplicable) // <-- and here it is!
+    @(expect(bind).type.toBeApplicable) // <-- used as a decorator here
     toString() {
       return `Hello, my name is ${this.#name}.`;
     }
@@ -196,7 +196,7 @@ test("Awaitable", () => {
 
 Use the [`.toBeAssignableTo()`](#to-be-assignable-to) matcher to test the relationship in the reverse direction.
 
-As the best practice, always keep the type under test on the left hand side of the assertion. This makes the test easier to read:
+As a best practice, always keep the type under test on the left hand side of the assertion. This makes the test easier to read:
 
 ```diff
 - expect<Set<string>>.type.toBeAssignableFrom(new Set(["abc"]));
@@ -234,7 +234,7 @@ test("Set", () => {
 
 Use the [`.toBeAssignableFrom()`](#to-be-assignable-from) matcher to test the relationship in the reverse direction.
 
-As the best practice, always keep the type under test on the left hand side of the assertion. This makes the test easier to read:
+As a best practice, always keep the type under test on the left hand side of the assertion. This makes the test easier to read:
 
 ```diff
 - expect("abc").type.toBeAssignableTo<Awaitable<string>>();
@@ -321,7 +321,7 @@ test("Pair", () => {
 
 ### `.toBeInstantiableWith()` [#to-be-instantiable-with]
 
-The `.toBeInstantiableWith()` matcher checks if a generic is instantiable with the given type arguments.
+Checks if a generic is instantiable with the given type arguments.
 
 ```ts twoslash
 import { type _, expect } from "tstyche";
@@ -357,7 +357,7 @@ expect(map).type.not.toBeInstantiableWith<[string]>();
 
 ---
 
-**Signature.** The type arguments must be provided as tuple type.
+**Signature.** The type arguments must be provided as a tuple type.
 
 ```ts
 .toBeInstantiableWith<T extends [...args: Array<unknown>]>();
@@ -402,9 +402,11 @@ test("Worker", () => {
 
 ### `.toRaiseError()` [#to-raise-error]
 
+Checks if the type raises an error.
+
 <Warning>
 
-The `.toRaiseError()` matcher is deprecated and planned to be removed. The suggested replacement is the ability matchers (like [`.toBeCallableWith()`](../reference/expect-api.mdx#to-be-callable-with) or [`.toBeConstructableWith()`](../reference/expect-api.mdx#to-be-constructable-with)). They better communicate the intent of a test and, unlike `.toRaiseError()`, work without introducing type errors in the test code.
+The `.toRaiseError()` matcher is deprecated and planned to be removed. The suggested replacement is the ability matchers (like [`.toBeCallableWith()`](../reference/expect-api.mdx#to-be-callable-with) or [`.toBeConstructableWith()`](../reference/expect-api.mdx#to-be-constructable-with)). They communicate the intent of a test more clearly and work without introducing type errors in the test code.
 
 To learn more, see the [Expect Errors](../guides/expect-errors.mdx) page.
 
