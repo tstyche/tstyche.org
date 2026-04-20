@@ -3,17 +3,17 @@ import { Note, Tip, Warning } from "@/components/Advice";
 
 # Configuration File
 
-The behavior of TSTyche can be customized through a configuration file.
+TSTyche can be configured through a configuration file.
 
 ## Usage
 
-To configure TSTyche add a `tstyche.json` file to the project.
+To configure TSTyche, add a `tstyche.json` file to the project.
 
-By default, the configuration file is loaded from the current directory. When the [`--root`](./command-line.mdx#root) command line option is set, the configuration file is searched for in that directory.
+By default, the configuration file is loaded from the current directory. When the [`--root`](./command-line.mdx#root) command line option is set, TSTyche searches for the configuration file in that directory.
 
-Use the [`--config`](./command-line.mdx#config) command line option to point to a specific configuration file explicitly.
+Use the [`--config`](./command-line.mdx#config) command line option to point to a specific configuration file.
 
-If no configuration file is discovered or provided, the built-in defaults are used.
+If no configuration file is discovered or provided, the defaults are used.
 
 <Tip>
 
@@ -23,7 +23,7 @@ Use the [`--showConfig`](./command-line.mdx#show-config) command line option to 
 
 ## Syntax
 
-The configuration file must contain an object. Comments, unquoted keys, single quotes or trailing commas are allowed:
+The configuration file must contain an object. Comments, unquoted keys, single quotes and trailing commas are allowed:
 
 ```js
 {
@@ -43,7 +43,7 @@ For maximum portability, examples on this page follow the [JSON specification](h
 
 ## Schema
 
-In-editor validation can be enabled by adding the `$schema` key:
+To enable in-editor validation, add the `$schema` key:
 
 ```json
 {
@@ -51,7 +51,7 @@ In-editor validation can be enabled by adding the `$schema` key:
 }
 ```
 
-The following pattern can be used to specify the version of TSTyche:
+To pin it to a specific TSTyche version, add a version number:
 
 ```json
 {
@@ -59,7 +59,7 @@ The following pattern can be used to specify the version of TSTyche:
 }
 ```
 
-The schema can also be referenced locally:
+To reference locally, point to `node_modules`:
 
 ```json
 {
@@ -80,9 +80,13 @@ Relative paths are resolved relative to the configuration file.
 
 Check declaration files for type errors.
 
-To maximize performance TSTyche only checks types of test and fixture files. When `checkDeclarationFiles` is enabled, type errors are also reported for declaration and ambient files. In other words, all `.d.ts` files of the projected are checked. The files within the `node_modules` directory are not checked.
+When `checkDeclarationFiles` is enabled, all the `.d.ts` files in the project (not including files from the `node_modules` directories) are checked for type errors.
 
-It is recommended to enable this option when a project has handcrafted or generated type declarations.
+<Tip>
+
+If type declarations in the project are already checked by `tsc`, this option can be disabled to improve performance. When `checkDeclarationFiles` is disabled, only test and fixture files are checked.
+
+</Tip>
 
 ### `checkSuppressedErrors` [#check-suppressed-errors]
 
@@ -107,8 +111,6 @@ Stop running tests after the first failure.
 
 The list of glob patterns to match the fixture files. The patterns are matched with the portion of the path relative to the [`root`](./command-line.mdx#root) directory. The matching is case insensitive.
 
-To maximize performance TSTyche only checks types of [test](#test-file-match) and fixture files.
-
 ### `quiet` [#quiet]
 
 - Default: `false`
@@ -123,7 +125,7 @@ Silence all test runner output except errors and warnings.
 
 Reject the `any` type passed as an argument to the `expect()` function or a matcher.
 
-For instance, the following test is passing even when the return type accidentally resolves to `any`:
+For instance, the following test passes even when the return type accidentally resolves to `any`:
 
 ```ts twoslash
 // @noErrors
@@ -134,7 +136,7 @@ expect(query({ payload: "sample" })).type.toBeAssignableTo<string>();
 expect(query({ payload: 123 })).type.toBeAssignableTo<number>();
 ```
 
-This issue can be solved by adding `.not.toBe<any>()` check. `rejectAnyType` does the same, but without the boilerplate.
+Adding `.not.toBe<any>()` solves this, but `rejectAnyType` does the same without the boilerplate.
 
 <Note>
 
@@ -149,7 +151,7 @@ The `any` type is allowed with all matchers when type is explicit, like `.not.to
 
 Reject the `never` type passed as an argument to the `expect()` function or a matcher.
 
-For instance, the following test is passing even when the `Result` type accidentally resolves to `never`:
+For instance, the following test passes even when the `Result` type accidentally resolves to `never`:
 
 ```ts twoslash
 // @noErrors
@@ -160,7 +162,7 @@ expect(getResult("sample")).type.toBe<Result<string>>();
 expect(getResult(123)).type.toBe<Result<number>>();
 ```
 
-This issue can be solved by adding `.not.toBe<never>()` check. `rejectNeverType` does the same, but without the boilerplate.
+Adding `.not.toBe<never>()` solves this, but `rejectNeverType` does the same without the boilerplate.
 
 <Note>
 
@@ -177,9 +179,9 @@ The list of reporters to use.
 
 The following can be specified:
 
-- built-in reporter: `"list"` or `"summary"`,
-- name of a package: `"tstyche-reporter"`,
-- or a path: `"./custom-reporter.js"`.
+- built-in reporter: `"dot"`, `"list"` or `"summary"`
+- name of a package: `"tstyche-reporter"`
+- a path: `"./custom-reporter.js"`
 
 ```json
 {
@@ -194,14 +196,14 @@ To learn more, see the [Reporters](../guides/reporters.mdx) page.
 - Default: `"*"`
 - Type: `string`
 
-The range of TypeScript versions to test against.
+The TypeScript version or range of versions to test against.
 
 The following can be specified:
 
-- `"*"`, uses the locally installed TypeScript if available, otherwise falls back to the latest version of TypeScript,
-- minor releases, like `"5.6"`, resolves to the latest version in the series (for example, `"5.6"` resolves to version 5.6.3),
-- patch releases, like `"5.8.2"`,
-- `"beta"`, `"latest"`, `"next"` or `"rc"` distribution [tags](https://npmjs.com/package/typescript?activeTab=versions) of the `typescript` package.
+- `"*"`, uses the locally installed TypeScript if available, otherwise falls back to the latest version
+- a minor release, like `"5.6"`, resolves to the latest version in the series (for example, `"5.6"` resolves to version 5.6.3)
+- a patch release, like `"5.8.2"`
+- `"beta"`, `"latest"`, `"next"` or `"rc"` distribution [tags](https://npmjs.com/package/typescript?activeTab=versions) of the `typescript` package
 
 To specify multiple versions, provide a single string with versions separated by `||`:
 
@@ -213,18 +215,18 @@ To specify multiple versions, provide a single string with versions separated by
 
 #### Ranges
 
-Version ranges allow testing on a range of TypeScript versions. The range must be specified using an operator and a minor version.
+Version ranges allow testing against a range of TypeScript versions. The range must be specified using an operator and a minor version.
 
 Supported operators:
 
-- `>`, greater than,
-- `>=`, greater than or equal,
-- `<`, less than,
-- `<=`, less than or equal.
+- `>`, greater than
+- `>=`, greater than or equal
+- `<`, less than
+- `<=`, less than or equal
 
-For example, the range `>=5.5` gets expanded to: `5.5`, `5.6`, `5.7` and so on. In the future this list will include newly released versions as well.
+For example, the range `>=5.5` gets expanded to: `5.5`, `5.6`, `5.7` and so on. Newly released versions are added to the list as soon as they become available.
 
-To set an upper bound, the intersection of two ranges can be used: `>=5.4 <5.6`. Here only `5.4` and `5.5` are included.
+To set an upper bound, the intersection of two ranges can be used: `>=5.4 <5.6`. In this case, only `5.4` and `5.5` are included.
 
 Ranges and versions can be combined:
 
@@ -247,24 +249,24 @@ Use the [`--list`](./command-line.mdx#list) command line option to inspect the l
 
 The list of glob patterns to match the test files. The patterns are matched with the portion of the path relative to the [`root`](./command-line.mdx#root) directory. The matching is case insensitive.
 
-Brace expansion of comma separated lists is supported. For example, `["**/tests/*.{ts,tsx}"]` or `["**/tests/*.ts{,x}"]` both expand to `["**/tests/*.ts", "**/tests/*.tsx"]`.
+Brace expansion of comma-separated lists is supported. For example, `["**/tests/*.{ts,tsx}"]` or `["**/tests/*.ts{,x}"]` both expand to `["**/tests/*.ts", "**/tests/*.tsx"]`.
 
 The following wildcards can be used:
 
-- `/` matches a path separator,
-- `?` matches any single character excluding path separators,
-- `*` matches zero or more characters excluding path separators,
-- `**` matches zero or more characters including path separators.
+- `/` matches a path separator
+- `?` matches any single character excluding path separators
+- `*` matches zero or more characters excluding path separators
+- `**` matches zero or more characters including path separators
 
-Usage examples:
+Examples:
 
-- `?` can be used to select files or directories that differ in their name by only a character: `typetests/?at.tst.ts` would match `typetests/bat.tst.ts` or `typetests/cat.tst.ts`, but not `typetests/at.tst.ts`,
-- `*` can be used to select files within a directory: `*.tst.ts` would match `Options.tst.ts`, but not `Options.test.ts` or `json/Options.tst.ts`,
-- `**` can be used to select files within nested directories: `packages/**/typetests/*.test.ts` would match `packages/typetests/api.test.ts`, `packages/core/typetests/awaitable.test.ts` or `packages/parsers/json/typetests/JsonObject.test.ts`.
+- `?` can be used to select files or directories that differ by only one character in their name: `typetests/?at.tst.ts` would match `typetests/bat.tst.ts` or `typetests/cat.tst.ts`, but not `typetests/at.tst.ts`
+- `*` can be used to select files within a directory: `*.tst.ts` would match `Options.tst.ts`, but not `Options.test.ts` or `json/Options.tst.ts`
+- `**` can be used to select files within nested directories: `packages/**/typetests/*.test.ts` would match `packages/typetests/api.test.ts`, `packages/core/typetests/awaitable.test.ts` or `packages/parsers/json/typetests/JsonObject.test.ts`
 
 <Note>
 
-The `?`, `*` and `**` wildcards do not match any path segments that start with the `.` and do not select files within the `node_modules` directories. These files or directories can only be matched if specified explicitly: `**/.generated/*.tst.*` or `node_modules/**/*.tst.*`.
+The `?`, `*` and `**` wildcards do not match any path segments that start with a `.` and do not select files within the `node_modules` directories. To match these, specify them explicitly: `**/.generated/*.tst.*` or `node_modules/**/*.tst.*`.
 
 </Note>
 
@@ -279,16 +281,18 @@ Use the [`--listFiles`](./command-line.mdx#list-files) command line option to in
 - Default: `"findup"`
 - Type: `string`
 
-The TSConfig to load. The following is possible:
+The TSConfig to load.
 
-- automatically discover the nearest `tsconfig.json` file (default),
-- use default compiler options,
-- load a specific `tsconfig.json` file,
-- provide the TSConfig as an inline JSON string.
+The following can be specified:
+
+- `"findup"`, automatically discovers the nearest `tsconfig.json` file (default)
+- `"baseline"`, uses default compiler options
+- a path, like `"./tsconfig.test.json"`, loads a specific `tsconfig.json` file
+- an inline JSON string, provides TSConfig directly
 
 <Warning>
 
-When TSConfig file does not include the test file in question, [default compiler options](../project/compiler-options.mdx#default-compiler-options) will be set.
+When a TSConfig file does not include the test file in question, [default compiler options](../project/compiler-options.mdx#default-compiler-options) will be set.
 
 </Warning>
 
@@ -342,7 +346,7 @@ Example output:
 
 #### Inline JSON
 
-Provide an inline TSConfig string. The implementation creates a synthetic TSConfig file in the root directory.
+Provide an inline TSConfig string.
 
 ```json
 {
