@@ -56,13 +56,8 @@
         "type": "string"
       }
     },
-    "rootPath": {
-      "description": "The path to a directory containing files of a test project.",
-      "default": "./",
-      "type": "string"
-    },
     "target": {
-      "description": "The range of TypeScript versions to test against.",
+      "description": "The TypeScript version or range of versions to test against.",
       "default": "*",
       "type": "string"
     },
@@ -80,7 +75,7 @@
       }
     },
     "tsconfig": {
-      "description": "The look up strategy to be used to find the TSConfig file.",
+      "description": "The TSConfig to load.",
       "default": "findup",
       "type": "string"
     },
