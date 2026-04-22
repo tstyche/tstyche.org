@@ -7,7 +7,7 @@ export function Prologue() {
     <>
       <div className="rounded-md text-center border border-blue-600 py-2 dark:border-blue-500">
         <Link href="/releases/tstyche-7">
-          TSTyche 7.0 is now available
+          TSTyche 7.1 is now available
           <ArrowRight className="inline pl-1 align-bottom" size={22} />
         </Link>
       </div>
