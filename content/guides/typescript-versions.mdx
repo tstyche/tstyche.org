@@ -50,6 +50,7 @@ The TypeScript version is shown in the output:
 <Warning>
 
 **TS7 support.** TypeScript 7 is not yet included in the ranges and `6.0` is the upper bound.
+
 </Warning>
 
 TypeScript follows the Semantic Versioning specification [partially](https://github.com/microsoft/TypeScript/wiki/TypeScript's-Release-Process). A patch release holds only bug fixes, but a minor release may introduce breaking changes. This means an upgrade from `5.6` to `5.7` can break types.
@@ -108,7 +109,7 @@ Placing this directive at the top of the file applies the condition to the whole
 
 <Warning>
 
-**TS7 support.** These tags resolve to TypeScript 7 and cannot be used. Track progress in [#443](https://github.com/tstyche/tstyche/issues/443).
+**TS7 support.** When requested for `latest`, TSTyche will fall back to `6.0`. The `beta`, `next` and `rc` tags currently cannot be used.
 
 </Warning>
 
