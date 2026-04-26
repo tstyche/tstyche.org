@@ -2,7 +2,7 @@ import { Note, Tip, Warning } from "@/components/Advice";
 
 # Release Notes
 
-This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from previous version.
+This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from a previous version.
 
 <Note>
 
@@ -12,7 +12,7 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 ## TSTyche 4.3  [#tstyche-4-3]
 
-TSTyche 4.3 ships with the new `fixtureFileMatch` configuration option.
+TSTyche 4.3 adds the new `fixtureFileMatch` configuration option.
 
 ### Configuration
 
@@ -22,17 +22,17 @@ The list of glob patterns to match the fixture files.
 
 ## TSTyche 4.2  [#tstyche-4-2]
 
-TSTyche 4.2 ships with glob brace expansion added.
+TSTyche 4.2 adds glob brace expansion.
 
 ### Configuration
 
 #### `testFileMatch` [#test-tile-match]
 
-Brace expansion of comma separated lists is now supported. For example, `["**/tests/*.{ts,tsx}"]` or `["**/tests/*.ts{,x}"]` both expand to `["**/tests/*.ts", "**/tests/*.tsx"]`.
+Brace expansion of comma-separated lists is now supported. For example, `["**/tests/*.{ts,tsx}"]` or `["**/tests/*.ts{,x}"]` both expand to `["**/tests/*.ts", "**/tests/*.tsx"]`.
 
 ## TSTyche 4.1  [#tstyche-4-1]
 
-TSTyche 4.1 ships with the new `checkSuppressedErrors` configuration option.
+TSTyche 4.1 adds the new `checkSuppressedErrors` configuration option.
 
 ### Configuration
 
@@ -92,9 +92,9 @@ import { expect } from "tstyche";
 
 #### `.toBeApplicable` [#to-be-applicable]
 
-The new `.toBeApplicable` matcher checks if the decorator function can be applied to a class or a class member.
+Checks if the decorator function can be applied to a class or a class member.
 
-Differently from other matchers, `.toBeApplicable` must be used as a decorator:
+Unlike other matchers, `.toBeApplicable` must be used as a decorator:
 
 ```ts
 import { expect, test } from "tstyche";
@@ -114,7 +114,7 @@ test("bind", () => {
       this.#name = name;
     }
 
-    @(expect(bind).type.toBeApplicable) // <-- and here it is!
+    @(expect(bind).type.toBeApplicable) // <-- used as a decorator here
     toString() {
       return `Hello, my name is ${this.#name}.`;
     }
@@ -175,7 +175,7 @@ test("Pair", () => {
 
 ### Conditional Tests
 
-The `// @tstyche if` comment directive is added to allow conditionally skipping an `expect()`, `test()` or `describe()`:
+The `// @tstyche if` comment directive allows conditionally skipping an `expect()`, `test()` or `describe()`:
 
 ```ts
 import { expect, test } from "tstyche";
@@ -195,13 +195,13 @@ test("isUint8Array", () => {
 });
 ```
 
-If this directive is used at the top of the file, the whole test file will run only when the specified condition matches.
+Placing this directive at the top of the file applies the condition to the whole file.
 
 ### Template Test Files
 
-The template test files allow generating tests using a template and data table.
+Template test files allow generating type tests programmatically.
 
-To mark a test file as a template, add the `// @tstyche template` comment directive at the top. When the directive is found, the default export of a file is interpreted as a type test text.
+To mark a test file as a template, add the `// @tstyche template` comment directive at the top. When the directive is found, the default export is interpreted as type test text.
 
 For example, the following:
 
@@ -259,7 +259,7 @@ The [`rejectNeverType`](../reference/config-file.mdx#reject-never-type) configur
 
 ### Compiler Options
 
-If your project does not have a TSConfig file, default compiler options now are much more strict:
+If your project does not have a TSConfig file, default compiler options are now stricter:
 
 ```json
 {
