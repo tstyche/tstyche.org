@@ -3,7 +3,7 @@ import { Note, Tip, Warning } from "@/components/Advice";
 
 # Release Notes
 
-This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from previous version.
+This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from a previous version.
 
 <Note>
 
@@ -43,7 +43,7 @@ TSTyche 5.0 ships with the new `// @tstyche fixme` comment directive and `checkD
 
 <Warning>
 
-**Breaking!** The `.toBeAssignableWith()` matcher is rename to `.toBeAssignableFrom()`.
+**Breaking!** The `.toBeAssignableWith()` matcher is renamed to `.toBeAssignableFrom()`.
 
 ```diff
 import { expect } from "tstyche";
@@ -61,7 +61,7 @@ import { expect } from "tstyche";
 
 ### `// @tstyche fixme` [#fixme]
 
-Marks an `expect()`, `test()` or `describe()` as supposed to fail.
+Marks an `expect()`, `test()` or `describe()` as failing.
 
 ```ts twoslash
 import { expect, it } from "tstyche";
@@ -83,10 +83,10 @@ it("() => Promise<unknown>", () => {
 });
 ```
 
-The runner implements the following logic:
+The runner behaves as follows:
 
-- when an `expect()` is marked, make sure it actually fails,
-- when a `test()` or `describe()` is marked, check if it has a failing child.
+- when an `expect()` is marked, verify that it actually fails
+- when a `test()` or `describe()` is marked, verify that it has at least one failing child
 
 ### Configuration
 
@@ -100,9 +100,13 @@ The runner implements the following logic:
 
 Check declaration files for type errors.
 
-To maximize performance TSTyche only checks types of test and fixture files. When `checkDeclarationFiles` is enabled, type errors are also reported for declaration and ambient files. In other words, all `.d.ts` files of the projected are checked. The files within the `node_modules` directory are not checked.
+When `checkDeclarationFiles` is enabled, all the `.d.ts` files in the project (not including files from the `node_modules` directories) are checked for type errors.
 
-It is recommended to enable this option when a project has handcrafted or generated type declarations.
+<Tip>
+
+If type declarations in the project are already checked by `tsc`, this option can be disabled to improve performance. When `checkDeclarationFiles` is disabled, only test and fixture files are checked.
+
+</Tip>
 
 #### `checkSuppressedErrors` [#check-suppressed-errors]
 
@@ -121,7 +125,7 @@ The [`checkSuppressedErrors`](../reference/config-file.mdx#check-suppressed-erro
 
 The default value is changed to `"*"`. When TypeScript is installed, it will use that version; otherwise, the latest version will be used.
 
-The `"current"` value is not supported any more. Use `"*"` instead.
+The `"current"` value is not supported anymore. Use `"*"` instead.
 
 </Warning>
 
@@ -140,6 +144,6 @@ The `"current"` value is not supported any more. Use `"*"` instead.
 
 The default value is changed to `"*"`. When TypeScript is installed, it will use that version; otherwise, the `latest` version will be used.
 
-The `"current"` value is not supported any more. Use `"*"` instead.
+The `"current"` value is not supported anymore. Use `"*"` instead.
 
 </Warning>
