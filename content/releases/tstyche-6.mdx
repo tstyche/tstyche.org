@@ -3,7 +3,7 @@ import { Note, Tip, Warning } from "@/components/Advice";
 
 # Release Notes
 
-This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from previous version.
+This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from a previous version.
 
 <Note>
 
@@ -13,7 +13,7 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 ## TSTyche 6.2  [#tstyche-6-2]
 
-TSTyche 6.2 ships with the new `dot` reporter the `--verbose` command line option.
+TSTyche 6.2 ships with the new `dot` reporter and the `--verbose` command line option.
 
 ### Reporters
 
@@ -37,9 +37,9 @@ TSTyche 6.1 ships with the new `tstyche/tag` entry point as well as the `--quiet
 
 ### `tstyche/tag` [#tstyche-tag]
 
-The `tstyche/tag` entry point provides a tagged template function that runs TSTyche programmatically using a [`zx`](https://github.com/google/zx) inspired template literal API.
+To run TSTyche from within a script or a runtime test, the `tstyche/tag` entry point provides a tagged template function with a [`zx`](https://github.com/google/zx) inspired API.
 
-The function runs in the same process, streaming error messages and test results to the `stderr` and `stdout` in real-time.
+The function runs in the same process, streaming error messages and test results to `stderr` and `stdout` in real-time.
 
 <Tip>
 
@@ -49,7 +49,7 @@ Use the [`--quiet`](#quiet) command line option to suppress standard output and 
 
 #### Usage
 
-Call the function with the same arguments you would pass to the tstyche command:
+Call the function with the same arguments you would pass to the `tstyche` command:
 
 ```ts twoslash
 import tstyche from "tstyche/tag";
@@ -58,7 +58,7 @@ import tstyche from "tstyche/tag";
 await tstyche`query-params --only multiple`;
 ```
 
-The function returns a promise that resolves if the test run is successful and rejects if it fails, making it suitable for runtime tests:
+The function returns a promise that resolves if the test run is successful and rejects if it fails:
 
 ```ts twoslash
 import path from "node:path";
@@ -86,7 +86,7 @@ Silence all test runner output except errors and warnings.
 
 #### `--root` [#root]
 
-The path to a directory containing files of a test project.
+The path to the root directory of a test project.
 
 ## TSTyche 6.0  [#tstyche-6-0]
 
@@ -118,7 +118,7 @@ The new implementation of `.toBe()` brings several improvements to the matcher. 
 * `((a: string) => string) & ((b: number) => number)` and `{ (a: string): string; (b: number): number }`;
 * `({ a: string } | { b: number }) & ({ a: string } | { b: number })` and `{ a: string } | { a: string; b: number } | { b: number }`.
 
-Previously ignored, `this` parameters, `const` type parameters or `NoInfer` markers are now taken into account:
+Previously ignored, `this` parameters, `const` type parameters and `NoInfer` markers are now taken into account:
 
 * `(this: unknown) => void` is not `() => void`;
 * `<const T>(arg: T) => T` is not `<T>(arg: T) => T`;
@@ -134,6 +134,6 @@ All of the above works with any complexity and at any depth.
 
 <Warning>
 
-**Breaking!** Support for plugins is removed. Most of use cases should be covered by the [comment directives](../reference/directives.mdx).
+**Breaking!** Support for plugins is removed. Most use cases should be covered by the [comment directives](../reference/directives.mdx).
 
 </Warning>

@@ -3,7 +3,7 @@ import { Note, Tip, Warning } from "@/components/Advice";
 
 # Release Notes
 
-This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from previous version.
+This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from a previous version.
 
 <Note>
 
@@ -19,7 +19,7 @@ TSTyche 7.0 ships with the new `.toBeInstantiableWith()` matcher and redesigned 
 
 #### `.toBeInstantiableWith()` [#to-be-instantiable-with]
 
-The `.toBeInstantiableWith()` matcher checks if a generic is instantiable with the given type arguments.
+Checks if a generic is instantiable with the given type arguments.
 
 ```ts twoslash
 import { type _, expect } from "tstyche";
@@ -57,7 +57,7 @@ expect(map).type.not.toBeInstantiableWith<[string]>();
 
 <Warning>
 
-**Breaking!** The `.toRaiseError()` matcher is deprecated and planned to be removed. The suggested replacement is the ability matchers (like [`.toBeCallableWith()`](../reference/expect-api.mdx#to-be-callable-with) or [`.toBeConstructableWith()`](../reference/expect-api.mdx#to-be-constructable-with)). They better communicate the intent of a test and, unlike `.toRaiseError()`, work without introducing type errors in the test code.
+**Breaking!** The `.toRaiseError()` matcher is deprecated and planned to be removed. The suggested replacement is the ability matchers (like [`.toBeCallableWith()`](../reference/expect-api.mdx#to-be-callable-with) or [`.toBeConstructableWith()`](../reference/expect-api.mdx#to-be-constructable-with)). They communicate the intent of a test more clearly and work without introducing type errors in the test code.
 
 To learn more, see the [Expect Errors](../guides/expect-errors.mdx) page.
 
@@ -85,9 +85,9 @@ Thanks to [@f15u](https://github.com/f15u) for the idea!
 
 #### `checkSuppressedErrors` [#check-suppressed-errors]
 
-Checking for errors suppressed by `@ts-expect-error` directives in multi-line comments is now enabled.
+TSTyche now checks errors suppressed by `@ts-expect-error` directives in multi-line comments.
 
-This is useful in contexts where single line comments are not supported. For example, in TSX files:
+This is useful in contexts where single-line comments are not supported. For example, in TSX files:
 
 ```jsx
 function ProfileCard(props: { userName: string }) {
@@ -108,7 +108,7 @@ function ProfileCard(props: { userName: string }) {
 
 </Warning>
 
-Now the root directory is always set to the current directory. Or, when the [`--root`](../reference/command-line.mdx#root) command line option is set, to the provided path.
+The root directory now defaults to the current directory. To use a different path, pass it with the [`--root`](../reference/command-line.mdx#root) command line option.
 
 #### `tsconfig` [#tsconfig]
 
@@ -123,7 +123,7 @@ Now the root directory is always set to the current directory. Or, when the [`--
 
 ##### Inline JSON
 
-TSConfig can be provided as an inline JSON string. The implementation creates a synthetic TSConfig file in the root directory.
+TSConfig can be provided as an inline JSON string.
 
 Configuration file:
 
