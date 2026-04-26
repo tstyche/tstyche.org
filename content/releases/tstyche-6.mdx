@@ -114,15 +114,15 @@ TSTyche 6.0 ships with a major rewrite of the `.toBe()` matcher. The new impleme
 
 The new implementation of `.toBe()` brings several improvements to the matcher. Now it considers the following types as identical:
 
-* `{ a: string } & { b: number }` and `{ a: string; b: number }`;
-* `((a: string) => string) & ((b: number) => number)` and `{ (a: string): string; (b: number): number }`;
-* `({ a: string } | { b: number }) & ({ a: string } | { b: number })` and `{ a: string } | { a: string; b: number } | { b: number }`.
+- `{ a: string } & { b: number }` and `{ a: string; b: number }`
+- `((a: string) => string) & ((b: number) => number)` and `{ (a: string): string; (b: number): number }`
+- `({ a: string } | { b: number }) & ({ a: string } | { b: number })` and `{ a: string } | { a: string; b: number } | { b: number }`
 
 Previously ignored, `this` parameters, `const` type parameters and `NoInfer` markers are now taken into account:
 
-* `(this: unknown) => void` is not `() => void`;
-* `<const T>(arg: T) => T` is not `<T>(arg: T) => T`;
-* `<T>(arg: NoInfer<T>) => T` is not `<T>(arg: T) => T`.
+- `(this: unknown) => void` is not `() => void`
+- `<const T>(arg: T) => T` is not `<T>(arg: T) => T`
+- `<T>(arg: NoInfer<T>) => T` is not `<T>(arg: T) => T`
 
 <Tip>
 
