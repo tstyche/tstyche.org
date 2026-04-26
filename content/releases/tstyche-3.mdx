@@ -3,7 +3,7 @@ import { Note, Warning } from "@/components/Advice";
 
 # Release Notes
 
-This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from previous version.
+This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from a previous version.
 
 <Note>
 
@@ -13,7 +13,7 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 ## TSTyche 3.2  [#tstyche-3-2]
 
-TSTyche 3.2 ships with the new `checkSourceFiles` configuration option.
+TSTyche 3.2 adds the new `checkSourceFiles` configuration option.
 
 ### Configuration [#configuration-3-2]
 
@@ -21,11 +21,11 @@ TSTyche 3.2 ships with the new `checkSourceFiles` configuration option.
 
 Enable type error reporting for source files.
 
-To maximize performance TSTyche only checks types of the test files. When `checkSourceFiles` is enabled, type errors are also reported for imported or ambient files of a project. Only the files within the `node_modules` directory are not checked.
+When `checkSourceFiles` is enabled, all imported or ambient `.d.ts` files in the project (not including files from the `node_modules` directories) are checked for type errors.
 
 ## TSTyche 3.1  [#tstyche-3-1]
 
-TSTyche 3.1 ships with the new `rejectAnyType` and `rejectNeverType` configuration options and adds support for testing on a range of TypeScript versions.
+TSTyche 3.1 adds the new `rejectAnyType` and `rejectNeverType` configuration options and adds support for testing on a range of TypeScript versions.
 
 ### Configuration [#configuration-3-1]
 
@@ -33,9 +33,10 @@ TSTyche 3.1 ships with the new `rejectAnyType` and `rejectNeverType` configurati
 
 Reject the `any` type passed as an argument to the `expect()` function or a matcher.
 
-For instance, the following test is passing even when the return type accidentally resolves to to `any`:
+For instance, the following test passes even when the return type accidentally resolves to `any`:
 
-```ts
+```ts twoslash
+// @noErrors
 import { query } from "query";
 import { expect } from "tstyche";
 
@@ -43,15 +44,16 @@ expect(query({ payload: "sample" })).type.toBeAssignableTo<string>();
 expect(query({ payload: 123 })).type.toBeAssignableTo<number>();
 ```
 
-This issue can be solved by adding `.not.toBe<any>()` check. `rejectAnyType` does the same, but without the boilerplate.
+Adding `.not.toBe<any>()` solves this, but `rejectAnyType` does the same without the boilerplate.
 
 #### `rejectNeverType` [#reject-never-type]
 
 Reject the `never` type passed as an argument to the `expect()` function or a matcher.
 
-For instance, the following test is passing even when the `Result` type accidentally resolves to to `never`:
+For instance, the following test passes even when the `Result` type accidentally resolves to `never`:
 
-```ts
+```ts twoslash
+// @noErrors
 import { type Result, getResult } from "result";
 import { expect } from "tstyche";
 
@@ -59,15 +61,15 @@ expect(getResult("sample")).type.toBe<Result<string>>();
 expect(getResult(123)).type.toBe<Result<number>>();
 ```
 
-This issue can be solved by adding `.not.toBe<never>()` check. `rejectNeverType` does the same, but without the boilerplate.
+Adding `.not.toBe<never>()` solves this, but `rejectNeverType` does the same without the boilerplate.
 
 #### `target` [#target]
 
-Now it is possible to specify a range of TypeScript versions.
+TSTyche now allows specifying a range of TypeScript versions.
 
-For example, the range `>=5.5` gets expanded to: `5.5`, `5.6`, `5.7` and so on. In the future this list will include newly released versions as well.
+For example, the range `>=5.5` gets expanded to: `5.5`, `5.6`, `5.7` and so on. Newly released versions are added to the list as soon as they become available.
 
-To set an upper bound, the intersection of two ranges can be used: `>=5.0 <5.3`. Here only `5.0`, `5.1` and `5.2` are included.
+To set an upper bound, the intersection of two ranges can be used: `>=5.0 <5.3`. In this case, only `5.0`, `5.1` and `5.2` are included.
 
 Ranges and versions can be combined:
 
@@ -100,7 +102,7 @@ tstyche --target '>=5.0 <5.3, 5.4.2, >5.5'
 
 ## TSTyche 3.0  [#tstyche-3-0]
 
-TSTyche 3.0 ships with the new `tsconfig` option, support of a custom `npm` registry, the new `omit()` and `pick()` type utilities, support for reporters and plugins, programmatic usage refinements and performance improvements.
+TSTyche 3.0 ships with the new `tsconfig` option, support for a custom `npm` registry, the new `omit()` and `pick()` type utilities, support for reporters and plugins, programmatic usage refinements and performance improvements.
 
 ### Requirements
 
@@ -116,7 +118,7 @@ The minimum required Node.js version is `18.19`. It is recommended to use the la
 
 #### `.toHaveProperty()` [#to-have-property]
 
-The `.toHaveProperty()` matcher now is able to check index signatures:
+The `.toHaveProperty()` matcher is now able to check index signatures:
 
 ```ts
 import { expect } from "tstyche";
@@ -161,13 +163,13 @@ expect<Matchers>().type.toRaiseError(
 
 #### `tsconfig` [#tsconfig]
 
-The look up strategy to be used to find the TSConfig file.
+The strategy used to find the TSConfig file.
 
 The following can be specified:
 
-- `"findup"`, find the nearest `tsconfig.json` that includes a particular test file,
-- `"ignore"`, do not look for any `tsconfig.json` and use the defaults,
-- or, if a path is specified, load `tsconfig.json` from that path.
+- `"findup"`, automatically discovers the nearest `tsconfig.json` file (default)
+- `"ignore"`, does not look for any `tsconfig.json` and uses the defaults
+- a path, like `"./tsconfig.test.json"`, loads a specific `tsconfig.json` file
 
 ```json
 {
@@ -177,7 +179,7 @@ The following can be specified:
 
 <Warning>
 
-If TSConfig is ignored, or does not include a test file in question, [default compiler options](../project/compiler-options.mdx#default-compiler-options) are set.
+If a particular test file is not included in a TSConfig file, TSTyche falls back to [default compiler options](../project/compiler-options.mdx#default-compiler-options).
 
 </Warning>
 
@@ -199,7 +201,7 @@ The base URL of the `npm` [registry](https://docs.npmjs.com/cli/using-npm/regist
 
 ### Type Utilities
 
-TypeScript ships utility types like `Omit` or `Pick` that reshape types. They can also be useful when testing types. If you are testing types of expressions, use the `omit()` or `pick()` type utilities to have same results.
+TypeScript ships utility types like `Omit` or `Pick` that reshape types. They can also be useful when testing types. If you are testing types of expressions, use the `omit()` or `pick()` type utilities to get the same results.
 
 <Note>
 
@@ -263,7 +265,7 @@ expect<Pick<Queue<string>, "size">>().type.toBe<{ readonly size: number }>();
 
 ### Reporters
 
-The reporters allow to customize output of TSTyche. By default, the built-in `list` and `summary` reporters are used.
+Reporters control how TSTyche formats test results. By default, the built-in `list` and `summary` reporters are used.
 
 A custom reporter is a class that implements the `on()` method:
 
@@ -286,7 +288,7 @@ export default class CustomReporter {
 
 ### Plugins
 
-The plugins allow to change behavior of TSTyche.
+The plugins allow changing the behavior of TSTyche.
 
 A plugin is an object with one or more hooks:
 
@@ -307,11 +309,11 @@ export default {
 };
 ```
 
-In this example, the `config` hook disables test file look up and the `select` hook returns a list of test files.
+In this example, the `config` hook disables test file lookup and the `select` hook returns a list of test files.
 
 ### Programmatic Usage
 
-This release also ships with refined programmatic API.
+This release also ships with a refined programmatic API.
 
 ```js
 import { Config, Runner } from "tstyche/tstyche";
