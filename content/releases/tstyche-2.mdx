@@ -3,7 +3,7 @@ import { Note, Tip, Warning } from "@/components/Advice";
 
 # Release Notes
 
-This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from previous version.
+This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from a previous version.
 
 <Note>
 
@@ -13,13 +13,13 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 ## TSTyche 2.1  [#tstyche-2-1]
 
-TSTyche 2.1 ships with the new `.toAcceptProps()` matcher.
+TSTyche 2.1 adds the new `.toAcceptProps()` matcher.
 
 ### Matchers
 
 #### `.toAcceptProps()` [#to-accept-props]
 
-Checks if the JSX component accepts props of the given type.
+Checks if the JSX component accepts the given props.
 
 ```tsx
 import { expect, test } from "tstyche";
@@ -62,7 +62,7 @@ Testing on specific version of TypeScript requires Node.js 18 or later. The glob
 
 #### `testFileMatch` [#test-file-match]
 
-The logic of glob pattern matching is reworked. Current implementation allows selecting all matching paths including `.json` or `.mdx` files.
+The logic of glob pattern matching is reworked. The implementation now allows selecting all matching paths including `.json` or `.mdx` files.
 
 For instance, to avoid selecting the `__tests__/tsconfig.json` as a test file:
 
@@ -89,7 +89,7 @@ A `*.ts` must be added to the pattern:
 
 #### `--watch` [#watch]
 
-Watch mode is added. Current implementation is watching the TSTyche configuration file and the test files for changes.
+Watch mode is added. TSTyche watches the configuration file and the test files for changes.
 
 ```shell
 tstyche --watch
@@ -119,7 +119,7 @@ import { expect } from "tstyche";
 + expect<{ a: string }>().type.not.toBe<{ b: number }>();
 ```
 
-The new name simplifies swapping between primitive type matchers and `.toBe()`. For example, replacing `.toBeString()` with `.toBe<string | undefined>()` looks more clear than before.
+The new name makes it easier to switch between primitive type matchers and `.toBe()`. For example, replacing `.toBeString()` with `.toBe<string | undefined>()` looks more clear than before.
 
 #### `.toBeAssignableTo()` [#to-be-assignable-to]
 
