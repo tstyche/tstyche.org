@@ -19,7 +19,14 @@ TSTyche supports and tests only against the Long Term Support (LTS) releases of 
 
 Use your favorite package manager to add `tstyche` to a project:
 
-<Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
+<Tabs defaultIndex={2} items={["aube", "npm", "pnpm", "yarn"]} storageKey={"preferredPackageManager"}>
+<Tabs.Tab>
+
+```shell
+aube add -D tstyche
+```
+
+</Tabs.Tab>
 <Tabs.Tab>
 
 ```shell
@@ -30,14 +37,14 @@ npm add -D tstyche
 <Tabs.Tab>
 
 ```shell
-yarn add -D tstyche
+pnpm add -D tstyche
 ```
 
 </Tabs.Tab>
 <Tabs.Tab>
 
 ```shell
-pnpm add -D tstyche
+yarn add -D tstyche
 ```
 
 </Tabs.Tab>
@@ -98,7 +105,14 @@ By convention, unit tests are suffixed with `.test.*` and type tests with `.tst.
 
 Run TSTyche from your terminal:
 
-<Tabs items={["npm", "yarn", "pnpm"]} storageKey={"preferredPackageManager"}>
+<Tabs defaultIndex={2} items={["aube", "npm", "pnpm", "yarn"]} storageKey={"preferredPackageManager"}>
+<Tabs.Tab>
+
+```shell
+aubx tstyche
+```
+
+</Tabs.Tab>
 <Tabs.Tab>
 
 ```shell
@@ -109,14 +123,14 @@ npx tstyche
 <Tabs.Tab>
 
 ```shell
-yarn tstyche
+pnpm tstyche
 ```
 
 </Tabs.Tab>
 <Tabs.Tab>
 
 ```shell
-pnpm tstyche
+yarn tstyche
 ```
 
 </Tabs.Tab>
