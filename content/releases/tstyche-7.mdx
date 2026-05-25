@@ -11,6 +11,26 @@ The detailed changelog can be found in [TSTyche repository on GitHub](https://gi
 
 </Note>
 
+## TSTyche 7.2  [#tstyche-7-2]
+
+TSTyche 7.2 ships with reimplemented `.toAcceptProps()` matcher and adds fetch retry logic.
+
+### Matchers
+
+#### `.toAcceptProps()` [#to-accept-props]
+
+The `.toAcceptProps()` matcher logic is reimplemented to use the ability layer. Instead of manually walking type properties, the matcher now transforms `expect(Button).type.toAcceptProps({ text: "Send" })` into a synthetic JSX element `<Button text={"Send"}/>` and lets TypeScript's type checker to produce the diagnostics. The change unblocks generic component support.
+
+### Environment Variables
+
+#### `TSTYCHE_FETCH_RETRIES` [#fetch-retries]
+
+The number of times to retry a failed HTTP request.
+
+#### `TSTYCHE_FETCH_TIMEOUT` [#fetch-timeout]
+
+The maximum number of seconds to wait before an HTTP request times out. The value of `0` disables the timeout.
+
 ## TSTyche 7.0  [#tstyche-7-0]
 
 TSTyche 7.0 ships with the new `.toBeInstantiableWith()` matcher and redesigned `tsconfig` option.

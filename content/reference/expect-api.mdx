@@ -60,33 +60,45 @@ expect<number>().type.not.toBe<string>();
 
 Checks if the JSX component accepts the given props.
 
-<Warning>
-
-This is a **work in progress feature**. Generic components are not yet supported.
-
-</Warning>
-
 ```tsx twoslash
 // @jsx: react-jsx
+import type { ReactNode } from "react";
 import { expect, test } from "tstyche";
 
-interface ButtonProps {
-  text: string;
-  type?: "reset" | "submit";
+interface CardProps {
+  title: string;
+  children: ReactNode;
 }
 
-function Button({ text, type }: ButtonProps) {
-  return <button type={type}>{text}</button>;
+function Card({ title, children }: CardProps) {
+  return (
+    <>
+      <h2>{title}</h2>
+      {children}
+    </>
+  );
 }
 
 test("accepts props?", () => {
-  expect(Button).type.toAcceptProps({ text: "Send" });
-  expect(Button).type.toAcceptProps({ text: "Clear", type: "reset" as const });
+  expect(Card).type.toAcceptProps({ title: "Hello", children: "Click me" });
+  expect(Card).type.toAcceptProps({ title: "Hello", children: <span>Click me</span> });
 
-  expect(Button).type.not.toAcceptProps({ text: "Download", type: "button" as const });
-  expect(Button).type.not.toAcceptProps({});
+  expect(Card).type.not.toAcceptProps({ title: "Hello" });
+  expect(Card).type.not.toAcceptProps({});
 });
 ```
+
+The props object is interpreted as JSX syntax:
+
+- `{ text: "Send", active: false }`, becomes `<Component text={"Send"} active={false} />`
+- `{ "data-testid": "submit-btn" }`, becomes `<Component data-testid={"submit-btn"} />`
+- `{ ...userData }`, becomes `<Component {...userData} />`
+
+<Note>
+
+Spread props do not undergo [excess property checks](../explanations/type-inference.mdx#excess-property-checks).
+
+</Note>
 
 ---
 

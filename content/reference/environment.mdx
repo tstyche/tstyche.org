@@ -24,6 +24,22 @@ Use the [`--showConfig`](./command-line.mdx#show-config) command line option to 
 
 </Tip>
 
+### `TSTYCHE_FETCH_RETRIES` [#fetch-retries]
+
+- Default: `2`
+- Type: number
+
+The number of times to retry a failed HTTP request.
+
+### `TSTYCHE_FETCH_TIMEOUT` [#fetch-timeout]
+
+- Default: `30`
+- Type: number
+
+The maximum number of seconds to wait before an HTTP request times out. The value of `0` disables the timeout.
+
+This timeout applies to requests that fetch metadata and tarballs of `typescript` packages.
+
 ### `TSTYCHE_NO_COLOR` [#no-color]
 
 - Default: `false`; or `true`, if the [`NO_COLOR`](https://no-color.org) environment variable is set and its value is not an empty string.
@@ -51,15 +67,6 @@ The base URL of the `npm` registry to use.
 - Type: string
 
 The directory where the fetched versions of the `typescript` package are stored. A relative path is resolved relative to the current directory.
-
-### `TSTYCHE_TIMEOUT` [#timeout]
-
-- Default: `30`
-- Type: number
-
-The number of seconds before stale operations time out. The value of `0` disables the timeout.
-
-This timeout applies to requests that fetch metadata and tarballs of `typescript` packages.
 
 ### `TSTYCHE_TYPESCRIPT_MODULE` [#typescript-module]
 
