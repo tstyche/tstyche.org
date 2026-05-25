@@ -79,7 +79,7 @@ function Card({ title, children }: CardProps) {
   );
 }
 
-test("accepts props?", () => {
+test("Card", () => {
   expect(Card).type.toAcceptProps({ title: "Hello", children: "Click me" });
   expect(Card).type.toAcceptProps({ title: "Hello", children: <span>Click me</span> });
 
@@ -336,16 +336,18 @@ test("Pair", () => {
 Checks if a generic is instantiable with the given type arguments.
 
 ```ts twoslash
-import { type _, expect } from "tstyche";
+import { type _, expect, test } from "tstyche";
 
 interface Matchers<R, T = unknown> {
   [key: string]: (expected: T) => R;
 }
 
-expect<Matchers<_>>().type.toBeInstantiableWith<[void]>();
-expect<Matchers<_>>().type.toBeInstantiableWith<[void, string]>();
+test("Matchers", () => {
+  expect<Matchers<_>>().type.toBeInstantiableWith<[void]>();
+  expect<Matchers<_>>().type.toBeInstantiableWith<[void, string]>();
 
-expect<Matchers<_>>().type.not.toBeInstantiableWith<[]>();
+  expect<Matchers<_>>().type.not.toBeInstantiableWith<[]>();
+});
 ```
 
 <Tip>
@@ -357,14 +359,16 @@ The `_` type can be used to fill in the required type arguments.
 This matcher works with generic interfaces, type aliases, classes and functions:
 
 ```ts twoslash
-import { expect } from "tstyche";
+import { expect, test } from "tstyche";
 
 function map<T, U>(array: Array<T>, transform: (item: T) => U): Array<U> {
   return array.map(transform);
 }
 
-expect(map).type.toBeInstantiableWith<[string, number]>();
-expect(map).type.not.toBeInstantiableWith<[string]>();
+test("map", () => {
+  expect(map).type.toBeInstantiableWith<[string, number]>();
+  expect(map).type.not.toBeInstantiableWith<[string]>();
+})
 ```
 
 ---
