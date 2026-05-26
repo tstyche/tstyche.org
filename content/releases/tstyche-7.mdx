@@ -19,7 +19,7 @@ TSTyche 7.2 ships with reimplemented `.toAcceptProps()` matcher and adds fetch r
 
 #### `.toAcceptProps()` [#to-accept-props]
 
-The `.toAcceptProps()` matcher logic is reimplemented to use the ability layer. Instead of manually walking type properties, the matcher now transforms `expect(Button).type.toAcceptProps({ text: "Send" })` into a synthetic JSX element `<Button text={"Send"}/>` and lets TypeScript's type checker to produce the diagnostics. The change unblocks generic component support.
+The `.toAcceptProps()` matcher is reimplemented, enabling generic component support.
 
 ### Environment Variables
 
