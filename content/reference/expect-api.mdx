@@ -94,9 +94,11 @@ The props object is interpreted as JSX syntax:
 - `{ "data-testid": "submit-btn" }`, becomes `<Component data-testid={"submit-btn"} />`
 - `{ ...userData }`, becomes `<Component {...userData} />`
 
+Spread props do not undergo [excess property checks](../explanations/type-inference.mdx#excess-property-checks).
+
 <Note>
 
-Spread props do not undergo [excess property checks](../explanations/type-inference.mdx#excess-property-checks).
+The matcher can only be used in `.tsx` files and the [`jsx`](https://www.typescriptlang.org/tsconfig/#jsx) compiler option must be configured.
 
 </Note>
 
