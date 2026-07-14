@@ -31,7 +31,7 @@ The root `tsconfig.json` holds the compiler configuration of the project. Extend
     "strict": true,
     "types": []
   },
-  "include": ["./"],
+  "include": ["**/*"],
   "exclude": []
 }
 ```
@@ -60,7 +60,6 @@ Unit and type test files can also share a single directory:
   </FileTree.Folder>
   <FileTree.File name="package.json" />
   <FileTree.File name="tsconfig.json" />
-  <FileTree.File name="tstyche.json" />
 </FileTree>
 
 Keep the TSConfig as focused as possible to avoid global typings leaking into your type tests:
@@ -71,9 +70,9 @@ Keep the TSConfig as focused as possible to avoid global typings leaking into yo
   "compilerOptions": {
     "noEmit": true,
     "strict": true,
-    "types": [] // prefer explicitly importing testing APIs
+    "types": []
   },
-  "include": ["./"],
+  "include": ["**/*"],
   "exclude": []
 }
 ```
@@ -92,7 +91,6 @@ Isolation of type tests placed next to source files requires a bit more configur
   <FileTree.File name="package.json" />
   <FileTree.File name="tsconfig.json" />
   <FileTree.File name="tsconfig.test.json" />
-  <FileTree.File name="tstyche.json" />
 </FileTree>
 
 The `references` field can be used to define the project in the root `tsconfig.json`:
@@ -101,9 +99,8 @@ The `references` field can be used to define the project in the root `tsconfig.j
 {
   "compilerOptions": {
     // ...
-    "composite": true
   },
-  "include": ["./src"],
+  "include": ["src/**/*"],
   "exclude": ["**/*.test.*", "**/*.tst.*"],
   "references": [{ "path": "./tsconfig.test.json" }]
 }
@@ -115,9 +112,11 @@ The `references` field can be used to define the project in the root `tsconfig.j
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "composite": true,
     "strict": true,
-    "types": [] // prefer explicitly importing testing APIs
+    "types": []
   },
+  "include": ["**/*.test.*", "**/*.tst.*"],
   "exclude": []
 }
 ```
