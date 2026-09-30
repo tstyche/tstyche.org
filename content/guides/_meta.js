@@ -4,4 +4,5 @@ export default {
   "template-test-files": "Template Test Files",
   reporters: "Reporters",
   "programmatic-usage": "Programmatic Usage",
+  "agent-skills": "Agent Skills",
 };
