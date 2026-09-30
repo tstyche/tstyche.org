@@ -15,6 +15,5 @@ export default {
   guides: "Guides",
   reference: "Reference",
   explanations: "Explanations",
-  "agent-skills": "Agent Skills",
   releases: "What’s New",
 };
