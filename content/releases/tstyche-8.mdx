@@ -1,0 +1,83 @@
+import { Tabs } from "nextra/components";
+import { Note, Tip, Warning } from "@/components/Advice";
+
+# Release Notes
+
+This page lists breaking changes and notable new features. Please be sure to read the release notes before upgrading from a previous version.
+
+<Note>
+
+The detailed changelog can be found in [TSTyche repository on GitHub](https://github.com/tstyche/tstyche/blob/main/CHANGELOG.md).
+
+</Note>
+
+## TSTyche 8.0  [#tstyche-8-0]
+
+TSTyche 8.0 ships with support for TypeScript 7.
+
+<Warning>
+
+Keep in mind that TSTyche 8.0 is still in beta. More breaking changes may be introduced before the stable version is released. To install the latest beta version, use the `next` distribution tag:
+
+<Tabs items={["npm", "aube", "pnpm", "yarn"]} storageKey={"packageManager"}>
+<Tabs.Tab>
+
+```shell
+npm add -D tstyche@next
+```
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+```shell
+aube add -D tstyche@next
+```
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+```shell
+pnpm add -D tstyche@next
+```
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+```shell
+yarn add -D tstyche@next
+```
+
+</Tabs.Tab>
+</Tabs>
+
+</Warning>
+
+### Environment Variables
+
+<Warning>
+
+**Breaking!** The `TSTYCHE_TIMEOUT` environment variable is removed. Use [`TSTYCHE_FETCH_TIMEOUT`](#fetch-timeout) instead.
+
+</Warning>
+
+<Warning>
+
+**Breaking!** The `TSTYCHE_TYPESCRIPT_MODULE` environment variable is removed. Use [`TSTYCHE_TYPESCRIPT_SPECIFIER`](#typescript-specifier) instead.
+
+</Warning>
+
+#### `TSTYCHE_FETCH_TIMEOUT` [#fetch-timeout]
+
+`TSTYCHE_FETCH_TIMEOUT` is the new name of `TSTYCHE_TIMEOUT`. The default value is increased from 30 to 60 seconds, and to 180 seconds in continuous integration environments.
+
+#### `TSTYCHE_TYPESCRIPT_SPECIFIER` [#typescript-specifier]
+
+`TSTYCHE_TYPESCRIPT_SPECIFIER` is the new name of `TSTYCHE_TYPESCRIPT_MODULE`.
+
+### Programmatic Usage
+
+<Warning>
+
+**Breaking!** The `tstyche/api` entry point requires the `typescript` and `@typescript/typescript6` packages to be installed as development dependencies.
+
+</Warning>

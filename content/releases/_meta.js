@@ -1,4 +1,5 @@
 export default {
+  "tstyche-8": "TSTyche 8",
   "tstyche-7": "TSTyche 7",
   "tstyche-6": "TSTyche 6",
   "tstyche-5": "TSTyche 5",
